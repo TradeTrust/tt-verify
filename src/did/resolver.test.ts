@@ -1,4 +1,4 @@
-import { v3 } from "@govtechsg/open-attestation";
+import { v3 } from "@tradetrust/open-attestation";
 import { ethers } from "ethers";
 import { INFURA_API_KEY } from "../config";
 import { openAttestationDidIdentityProof } from "../verifiers/issuerIdentity/did/didIdentityProof";
@@ -131,7 +131,7 @@ describe("getProviderConfig", () => {
     process.env.PROVIDER_NETWORK = "goerli";
 
     expect(getProviderConfig()).toEqual({
-      networks: [{ name: "goerli", rpcUrl: "https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }],
+      networks: [{ name: "goerli", rpcUrl: "https://eth-goerli.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }],
     });
   });
 

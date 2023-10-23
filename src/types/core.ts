@@ -1,4 +1,4 @@
-import { WrappedDocument, SignedWrappedDocument, v2, v3, v4 } from "@govtechsg/open-attestation";
+import { WrappedDocument, SignedWrappedDocument, v2, v3, v4 } from "@tradetrust/open-attestation";
 import { Resolver } from "did-resolver";
 import { providers } from "ethers";
 import { Reason } from "./error";
@@ -106,10 +106,10 @@ export type Hash = string;
 export type DocumentsToVerify =
   | WrappedDocument<v2.OpenAttestationDocument>
   | WrappedDocument<v3.OpenAttestationDocument>
-  | WrappedDocument<v4.OpenAttestationDocument>
+  | WrappedDocument<v4.TradeTrustDocument>
   | SignedWrappedDocument<v2.OpenAttestationDocument>
   | SignedWrappedDocument<v3.OpenAttestationDocument>
-  | SignedWrappedDocument<v4.OpenAttestationDocument>;
+  | SignedWrappedDocument<v4.TradeTrustDocument>;
 
 export type providerType = "alchemy" | "infura" | "jsonrpc";
 

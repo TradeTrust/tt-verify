@@ -1,4 +1,4 @@
-import { getData, SignedWrappedDocument, utils, v2, v3, v4 } from "@govtechsg/open-attestation";
+import { getData, SignedWrappedDocument, utils, v2, v3, v4 } from "@tradetrust/open-attestation";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationDidSignedDocumentStatusCode, Reason } from "../../../types/error";
 import { DidVerificationStatus, ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
@@ -41,7 +41,7 @@ const test: VerifierType["test"] = (document) => {
   } else if (utils.isSignedWrappedV3Document(document)) {
     return document.proof.type === "OpenAttestationMerkleProofSignature2018";
   } else if (utils.isSignedWrappedV4Document(document)) {
-    return document.proof.type === "OpenAttestationMerkleProofSignature2018";
+    return document.proof.type === "TradeTrustMerkleProofSignature2018";
   }
   return false;
 };
@@ -341,7 +341,7 @@ const verifyV3 = async (
 };
 
 const verifyV4 = async (
-  document: SignedWrappedDocument<v4.OpenAttestationDocument>,
+  document: SignedWrappedDocument<v4.TradeTrustDocument>,
   options: VerifierOptions
 ): Promise<
   OpenAttestationDidSignedDocumentStatusValidFragmentV4 | OpenAttestationDidSignedDocumentStatusInvalidFragmentV4

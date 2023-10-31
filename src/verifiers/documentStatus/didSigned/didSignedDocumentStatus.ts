@@ -1,6 +1,9 @@
-import { getData, SignedWrappedDocument, utils, v2, v3, v4 } from "@tradetrust/open-attestation";
+import { getData, SignedWrappedDocument, utils, v2, v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
-import { OpenAttestationDidSignedDocumentStatusCode, Reason } from "../../../types/error";
+import {
+  OpenAttestationDidSignedDocumentStatusCode,
+  Reason,
+} from "../../../types/error";
 import { DidVerificationStatus, ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
 import { CodedError } from "../../../common/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
@@ -40,7 +43,9 @@ const test: VerifierType["test"] = (document) => {
     return document.proof.some((proof) => proof.type === "OpenAttestationSignature2018");
   } else if (utils.isSignedWrappedV3Document(document)) {
     return document.proof.type === "OpenAttestationMerkleProofSignature2018";
-  } else if (utils.isSignedWrappedV4Document(document)) {
+  } else if (utils.isSignedWrappedOAV4Document(document)) {
+    return document.proof.type === "OpenAttestationMerkleProofSignature2018";
+  } else if (utils.isSignedWrappedTTV4Document(document)) {
     return document.proof.type === "TradeTrustMerkleProofSignature2018";
   }
   return false;
@@ -341,7 +346,7 @@ const verifyV3 = async (
 };
 
 const verifyV4 = async (
-  document: SignedWrappedDocument<v4.TradeTrustDocument>,
+  document: SignedWrappedDocument<OAv4.OpenAttestationDocument> | SignedWrappedDocument<TTv4.TradeTrustDocument>,
   options: VerifierOptions
 ): Promise<
   OpenAttestationDidSignedDocumentStatusValidFragmentV4 | OpenAttestationDidSignedDocumentStatusInvalidFragmentV4
@@ -370,11 +375,11 @@ const verifyV4 = async (
   const issuedOnAll = verificationResult.issued;
 
   const getRevocationStatus = async (
-    docType: v4.CredentialStatusType,
+    docType: OAv4.CredentialStatusType,
     location: string | undefined
   ): Promise<RevocationStatus> => {
     switch (docType) {
-      case v4.CredentialStatusType.RevocationStore:
+      case OAv4.CredentialStatusType.RevocationStore:
         if (typeof location === "string") {
           return isRevokedOnDocumentStore({
             documentStore: location,
@@ -389,7 +394,7 @@ const verifyV4 = async (
           OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
           "REVOCATION_LOCATION_MISSING"
         );
-      case v4.CredentialStatusType.OcspResponder:
+      case OAv4.CredentialStatusType.OcspResponder:
         if (typeof location === "string") {
           return isRevokedByOcspResponder({
             merkleRoot,
@@ -403,7 +408,7 @@ const verifyV4 = async (
           OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
           "REVOCATION_LOCATION_MISSING"
         );
-      case v4.CredentialStatusType.None:
+      case OAv4.CredentialStatusType.None:
         return { revoked: false };
       default:
         throw new CodedError(
@@ -471,7 +476,7 @@ const verify: VerifierType["verify"] = async (document, options) => {
     return verifyV2(document, options);
   } else if (utils.isSignedWrappedV3Document(document)) {
     return verifyV3(document, options);
-  } else if (utils.isSignedWrappedV4Document(document)) {
+  } else if (utils.isSignedWrappedOAV4Document(document) || utils.isSignedWrappedTTV4Document(document)) {
     return verifyV4(document, options);
   }
 

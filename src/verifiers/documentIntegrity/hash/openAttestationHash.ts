@@ -24,7 +24,10 @@ const skip: VerifierType["skip"] = () => {
 
 const test: VerifierType["test"] = (document) => {
   return (
-    utils.isWrappedV4Document(document) || utils.isWrappedV3Document(document) || utils.isWrappedV2Document(document)
+    utils.isWrappedTTV4Document(document) ||
+    utils.isWrappedOAV4Document(document) ||
+    utils.isWrappedV3Document(document) ||
+    utils.isWrappedV2Document(document)
   );
 };
 

@@ -1,9 +1,6 @@
 import { getData, SignedWrappedDocument, utils, v2, v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
-import {
-  OpenAttestationDidSignedDocumentStatusCode,
-  Reason,
-} from "../../../types/error";
+import { OpenAttestationDidSignedDocumentStatusCode, Reason } from "../../../types/error";
 import { DidVerificationStatus, ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
 import { CodedError } from "../../../common/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";

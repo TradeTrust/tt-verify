@@ -1,1 +1,1 @@
-declare module 'myinfo-vc-verifier'
+declare module "myinfo-vc-verifier";

@@ -80,7 +80,7 @@ describe("test", () => {
     it("should return false for tt document using `IDVC` top level identity proof", () => {
       expect(openAttestationDnsDidIdentityProof.test(dnsDidIDVCSignedTTV4, options)).toBe(false);
     });
-  })
+  });
 });
 
 describe("verify", () => {

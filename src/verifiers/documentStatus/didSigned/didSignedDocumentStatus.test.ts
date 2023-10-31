@@ -32,22 +32,32 @@ import sampleOADnsDidSignedV4 from "../../../../test/fixtures/v4/oa/did-signed-w
 import sampleTTDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
 import sampleTTIDVCDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed.json";
 
-const didSignedRevocationStoreNotRevokedV2 = sampleDidSignedRevocationStoreNotRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
-const didSignedRevocationStoreButRevokedV2 = sampleDidSignedRevocationStoreButRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
-const didSignedRevocationStoreButNoLocationV2 = sampleDidSignedRevocationStoreButNoLocationV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
-const dnsDidSignedRevocationStoreNotRevokedV2 = sampleDnsDidSignedRevocationStoreNotRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
-const dnsDidSignedRevocationStoreButRevokedV2 = sampleDnsDidSignedRevocationStoreButRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
+const didSignedRevocationStoreNotRevokedV2 =
+  sampleDidSignedRevocationStoreNotRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
+const didSignedRevocationStoreButRevokedV2 =
+  sampleDidSignedRevocationStoreButRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
+const didSignedRevocationStoreButNoLocationV2 =
+  sampleDidSignedRevocationStoreButNoLocationV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
+const dnsDidSignedRevocationStoreNotRevokedV2 =
+  sampleDnsDidSignedRevocationStoreNotRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
+const dnsDidSignedRevocationStoreButRevokedV2 =
+  sampleDnsDidSignedRevocationStoreButRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
 const didSignedOcspResponderV2 = sampleDidSignedOcspResponderV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
 
 const documentStoreWrapV3 = sampleDocumentStoreWrappedV3 as WrappedDocument<v3.OpenAttestationDocument>;
 const tokenRegistryWrapV3 = sampleTokenRegistryWrappedV3 as WrappedDocument<v3.OpenAttestationDocument>;
 const didSignedV3 = sampleDidSignedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
-const didSignedRevocationStoreNotRevokedV3 = sampleDidSignedRevocationStoreNotRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
-const didSignedRevocationStoreButRevokedV3 = sampleDidSignedRevocationStoreButRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
-const didSignedRevocationStoreButNoLocationV3 = sampleDidSignedRevocationStoreButNoLocationV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+const didSignedRevocationStoreNotRevokedV3 =
+  sampleDidSignedRevocationStoreNotRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+const didSignedRevocationStoreButRevokedV3 =
+  sampleDidSignedRevocationStoreButRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+const didSignedRevocationStoreButNoLocationV3 =
+  sampleDidSignedRevocationStoreButNoLocationV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
 const dnsDidSignedV3 = sampleDNSDidSignedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
-const dnsDidSignedRevocationStoreNotRevokedV3 = sampleDnsDidSignedRevocationStoreNotRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
-const dnsDidSignedRevocationStoreButRevokedV3 = sampleDnsDidSignedRevocationStoreButRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+const dnsDidSignedRevocationStoreNotRevokedV3 =
+  sampleDnsDidSignedRevocationStoreNotRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+const dnsDidSignedRevocationStoreButRevokedV3 =
+  sampleDnsDidSignedRevocationStoreButRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
 const didSignedOcspResponderV3 = sampleDidSignedOcspResponderV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
 
 const dnsDidSignedOAV4 = sampleOADnsDidSignedV4 as SignedWrappedDocument<OAv4.OpenAttestationDocument>;
@@ -1070,7 +1080,7 @@ describe("verify", () => {
     /**
      * unimplemented
      * 1. revoked doc via doc store
-     * 3. revoked doc via ocsp responder 
+     * 3. revoked doc via ocsp responder
      */
   });
 });

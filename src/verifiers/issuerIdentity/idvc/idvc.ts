@@ -3,10 +3,7 @@ import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../ty
 import { TradeTrustIDVCCode } from "../../../types/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
 import { CodedError } from "../../../common/error";
-import {
-  TradeTrustIDVCIdentityProofVerificationFragment,
-  ValidIDVCVerificationStatus,
-} from "./idvc.type";
+import { TradeTrustIDVCIdentityProofVerificationFragment, ValidIDVCVerificationStatus } from "./idvc.type";
 import MyInfoVcVerifier from "myinfo-vc-verifier";
 import { ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
 

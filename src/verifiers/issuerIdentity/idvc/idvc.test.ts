@@ -3,6 +3,7 @@ import sampleTTWrappedSignedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-
 import sampleTTWrappedSignedTamperedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-tampered-signature.json";
 import sampleTTWrappedSignedRevokedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-revoked.json";
 import sampleTTWrappedSignedWrongBindIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-wrong-binding.json";
+import sampleTTWrappedSignedInvalidIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-invalid.json";
 import sampleTTWrappedSigned from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
 import sampleOAWrappedSigned from "../../../../test/fixtures/v4/oa/did-signed-wrapped.json";
 
@@ -12,6 +13,7 @@ import { tradeTrustIDVCIdentityProof } from "./idvc";
 const v4TTSignedWrappedIDVC = sampleTTWrappedSignedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedTamperedIDVC = sampleTTWrappedSignedTamperedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedRevokedIDVC = sampleTTWrappedSignedRevokedIDVC as TTv4.SignedWrappedDocument;
+const v4TTSignedWrappedInvalidIDVC = sampleTTWrappedSignedInvalidIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedWrongBindIDVC = sampleTTWrappedSignedWrongBindIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrapped = sampleTTWrappedSigned as TTv4.SignedWrappedDocument;
 const v4OASignedWrapped = sampleOAWrappedSigned as OAv4.SignedWrappedDocument;
@@ -134,6 +136,22 @@ describe("verify", () => {
             "code": 11,
             "codeString": "WRONG_BINDING",
             "message": "bound issuer id and idvc credential subject id are different",
+          },
+          "status": "ERROR",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+    it("should return invalid fragment for document with identity proof method IDVC, but the verification of the IDVC is invalid", async () => {
+      const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedInvalidIDVC, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": [Error: the idvc in the document is invalid],
+          "name": "TradeTrustIDVCIdentityProof",
+          "reason": Object {
+            "code": 9,
+            "codeString": "INVALID_IDVC",
+            "message": "the idvc in the document is invalid",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",

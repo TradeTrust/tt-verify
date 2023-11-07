@@ -2,6 +2,7 @@ import { TTv4, OAv4 } from "@tradetrust/open-attestation";
 import sampleTTWrappedSignedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed.json";
 import sampleTTWrappedSignedTamperedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-tampered-signature.json";
 import sampleTTWrappedSignedRevokedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-revoked.json";
+import sampleTTWrappedSignedMissingIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-missing-idvc.json";
 import sampleTTWrappedSignedWrongBindIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-wrong-binding.json";
 import sampleTTWrappedSignedInvalidIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-invalid.json";
 import sampleTTWrappedSigned from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
@@ -13,6 +14,7 @@ import { tradeTrustIDVCIdentityProof } from "./idvc";
 const v4TTSignedWrappedIDVC = sampleTTWrappedSignedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedTamperedIDVC = sampleTTWrappedSignedTamperedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedRevokedIDVC = sampleTTWrappedSignedRevokedIDVC as TTv4.SignedWrappedDocument;
+const v4TTSignedWrappedMissingIDVC = sampleTTWrappedSignedMissingIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedInvalidIDVC = sampleTTWrappedSignedInvalidIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedWrongBindIDVC = sampleTTWrappedSignedWrongBindIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrapped = sampleTTWrappedSigned as TTv4.SignedWrappedDocument;
@@ -136,6 +138,22 @@ describe("verify", () => {
             "code": 11,
             "codeString": "WRONG_BINDING",
             "message": "bound issuer id and idvc credential subject id are different",
+          },
+          "status": "ERROR",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+    it("should return invalid fragment for document with identity proof method IDVC, when there is no idvc within the document, even though the identityProofType is IDVC", async () => {
+      const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedMissingIDVC, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": [Error: document does not have a identity vc],
+          "name": "TradeTrustIDVCIdentityProof",
+          "reason": Object {
+            "code": 7,
+            "codeString": "MISSING_IDVC",
+            "message": "document does not have a identity vc",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",

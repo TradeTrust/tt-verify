@@ -46,7 +46,7 @@ const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]
       TradeTrustIDVCCode[TradeTrustIDVCCode.REVOKED_IDVC]
     );
   }
-  const {verified: verificationResult} = await MyInfoVcVerifier.verify(idvc);
+  const { verified: verificationResult } = await MyInfoVcVerifier.verify(idvc);
   if (!verificationResult) {
     throw new CodedError(
       "the idvc in the document is invalid",

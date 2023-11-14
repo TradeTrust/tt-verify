@@ -1,4 +1,4 @@
-import { v3 } from "@govtechsg/open-attestation";
+import { v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
 import { documentDidSigned } from "../../../../test/fixtures/v2/documentDidSigned";
 import { documentDnsDidMixedTokenRegistryValid } from "../../../../test/fixtures/v2/documentDnsDidMixedTokenRegistry";
 import { documentDnsDidNoDnsTxt } from "../../../../test/fixtures/v2/documentDnsDidNoDnsTxt";
@@ -13,11 +13,19 @@ import v3DnsDidWrappedRaw from "../../../../test/fixtures/v3/dnsdid-wrapped.json
 import v3DocumentStoreIssuedRaw from "../../../../test/fixtures/v3/documentStore-issued.json";
 import v3TokenRegistryIssuedRaw from "../../../../test/fixtures/v3/tokenRegistry-issued.json";
 
+import sampleOADnsDidSignedV4 from "../../../../test/fixtures/v4/oa/did-signed-wrapped.json";
+import sampleTTDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
+import sampleTTIDVCDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed.json";
+
 const v3DidSigned = v3DidSignedRaw as v3.SignedWrappedDocument;
 const v3DnsDidWrapped = v3DnsDidWrappedRaw as v3.WrappedDocument;
 const v3DnsDidSigned = v3DnsDidSignedRaw as v3.SignedWrappedDocument;
 const v3DocumentStoreIssued = v3DocumentStoreIssuedRaw as v3.WrappedDocument;
 const v3TokenRegistryIssued = v3TokenRegistryIssuedRaw as v3.WrappedDocument;
+
+const dnsDidSignedOAV4 = sampleOADnsDidSignedV4 as OAv4.SignedWrappedDocument<OAv4.OpenAttestationDocument>;
+const dnsDidSignedTTV4 = sampleTTDnsDidSignedV4 as TTv4.SignedWrappedDocument<TTv4.TradeTrustDocument>;
+const dnsDidIDVCSignedTTV4 = sampleTTIDVCDnsDidSignedV4 as TTv4.SignedWrappedDocument<TTv4.TradeTrustDocument>;
 
 const options = {
   provider: getProvider({ network: "goerli" }),
@@ -66,6 +74,11 @@ describe("test", () => {
     it("should return false for document using `DNS-TXT` top level identity proof", () => {
       expect(openAttestationDnsDidIdentityProof.test(v3DocumentStoreIssued, options)).toBe(false);
       expect(openAttestationDnsDidIdentityProof.test(v3TokenRegistryIssued, options)).toBe(false);
+    });
+  });
+  describe("v4", () => {
+    it("should return false for tt document using `IDVC` top level identity proof", () => {
+      expect(openAttestationDnsDidIdentityProof.test(dnsDidIDVCSignedTTV4, options)).toBe(false);
     });
   });
 });
@@ -160,6 +173,98 @@ describe("verify", () => {
         Object {
           "data": Object {
             "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
+            "location": "example.com",
+            "status": "INVALID",
+          },
+          "name": "OpenAttestationDnsDidIdentityProof",
+          "reason": Object {
+            "code": 6,
+            "codeString": "INVALID_IDENTITY",
+            "message": "Could not find identity at location",
+          },
+          "status": "INVALID",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+  });
+  describe("v4", () => {
+    it("should return valid fragment for oa document with dns binding to did", async () => {
+      const fragment = await openAttestationDnsDidIdentityProof.verify(dnsDidSignedOAV4, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": Object {
+            "key": "did:ethr:0xB26B4941941C51a4885E5B7D3A1B861E54405f90#controller",
+            "location": "example.openattestation.com",
+            "status": "VALID",
+          },
+          "name": "OpenAttestationDnsDidIdentityProof",
+          "status": "VALID",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+    it("should return invalid fragment for oa document without dns binding to did", async () => {
+      const documentWithoutDnsBinding = {
+        ...dnsDidSignedOAV4,
+        issuer: {
+          ...dnsDidSignedOAV4.issuer,
+          identityProof: {
+            ...dnsDidSignedOAV4.issuer.identityProof,
+            identifier: "example.com",
+          },
+        },
+      };
+      const fragment = await openAttestationDnsDidIdentityProof.verify(documentWithoutDnsBinding, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": Object {
+            "key": "did:ethr:0xB26B4941941C51a4885E5B7D3A1B861E54405f90#controller",
+            "location": "example.com",
+            "status": "INVALID",
+          },
+          "name": "OpenAttestationDnsDidIdentityProof",
+          "reason": Object {
+            "code": 6,
+            "codeString": "INVALID_IDENTITY",
+            "message": "Could not find identity at location",
+          },
+          "status": "INVALID",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+    it("should return valid fragment for tt document with dns binding to did", async () => {
+      const fragment = await openAttestationDnsDidIdentityProof.verify(dnsDidSignedTTV4, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": Object {
+            "key": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C#controller",
+            "location": "example.tradetrust.io",
+            "status": "VALID",
+          },
+          "name": "OpenAttestationDnsDidIdentityProof",
+          "status": "VALID",
+          "type": "ISSUER_IDENTITY",
+        }
+      `);
+    });
+    it("should return invalid fragment for tt document without dns binding to did", async () => {
+      const documentWithoutDnsBinding = {
+        ...dnsDidSignedTTV4,
+        issuer: {
+          ...dnsDidSignedTTV4.issuer,
+          identityProof: {
+            ...dnsDidSignedTTV4.issuer.identityProof,
+            identifier: "example.com",
+          },
+        },
+      };
+      const fragment = await openAttestationDnsDidIdentityProof.verify(documentWithoutDnsBinding, options);
+      expect(fragment).toMatchInlineSnapshot(`
+        Object {
+          "data": Object {
+            "key": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C#controller",
             "location": "example.com",
             "status": "INVALID",
           },

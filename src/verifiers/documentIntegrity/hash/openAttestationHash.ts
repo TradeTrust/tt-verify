@@ -1,4 +1,4 @@
-import { utils, verifySignature } from "@govtechsg/open-attestation";
+import { utils, verifySignature } from "@tradetrust/open-attestation";
 import { VerificationFragmentType, Verifier } from "../../../types/core";
 import { OpenAttestationHashCode } from "../../../types/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
@@ -24,7 +24,10 @@ const skip: VerifierType["skip"] = () => {
 
 const test: VerifierType["test"] = (document) => {
   return (
-    utils.isWrappedV4Document(document) || utils.isWrappedV3Document(document) || utils.isWrappedV2Document(document)
+    utils.isWrappedTTV4Document(document) ||
+    utils.isWrappedOAV4Document(document) ||
+    utils.isWrappedV3Document(document) ||
+    utils.isWrappedV2Document(document)
   );
 };
 

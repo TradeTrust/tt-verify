@@ -1,4 +1,4 @@
-import { v2, v3 } from "@govtechsg/open-attestation";
+import { v2, v3 } from "@tradetrust/open-attestation";
 
 import { documentGoerliValidWithDocumentStore } from "../../../../test/fixtures/v2/documentGoerliValidWithDocumentStore";
 import { documentGoerliValidWithToken } from "../../../../test/fixtures/v2/documentGoerliValidWithToken";
@@ -69,7 +69,6 @@ describe("test", () => {
             {
               name: "2433e228-5bee-4863-9b98-2337f4f90306:string:DEMO STORE",
               tokenRegistry: "1d337929-6770-4a05-ace0-1f07c25c7615:string:0xe59877ac86c0310e9ddaeb627f42fdee5f793fbe",
-              identityProof: undefined,
             },
           ],
         },
@@ -100,7 +99,7 @@ describe("test", () => {
     });
 
     it("should return false when no issuers is not using DNS-TXT as identity proof", async () => {
-      const documentWithMultipleIssuersWithoutDnsTxt = {
+      const documentWithMultipleIssuersWithoutDnsTxt: v2.WrappedDocument<v2.OpenAttestationDocument> = {
         ...documentGoerliValidWithToken,
         data: {
           ...documentGoerliValidWithToken.data,
@@ -226,7 +225,7 @@ describe("verify", () => {
       `);
     });
     it("should return an invalid fragment when document has one issuer with document store/valid identity and a second issuer without identity", async () => {
-      const document = {
+      const document: v2.WrappedDocument<v2.OpenAttestationDocument> = {
         ...documentGoerliValidWithToken,
         data: {
           ...documentGoerliValidWithToken.data,
@@ -318,7 +317,7 @@ describe("verify", () => {
     });
 
     it("should return an invalid fragment when document has one issuer with token registry/valid identity and a second issuer without identity", async () => {
-      const document = {
+      const document: v2.WrappedDocument<v2.OpenAttestationDocument> = {
         ...documentGoerliValidWithToken,
         data: {
           ...documentGoerliValidWithToken.data,
@@ -326,7 +325,7 @@ describe("verify", () => {
             documentGoerliValidWithToken.data.issuers[0],
             {
               ...documentGoerliValidWithToken.data.issuers[0],
-              identityProof: undefined,
+              identityProof: {} as v2.IdentityProof,
             },
           ],
         },

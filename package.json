@@ -27,13 +27,14 @@
   "dependencies": {
     "@govtechsg/dnsprove": "^2.6.1",
     "@govtechsg/document-store": "^2.2.3",
-    "@govtechsg/open-attestation": "6.8.0-alpha.1",
     "@govtechsg/token-registry": "^4.1.7",
+    "@tradetrust/open-attestation": "^6.8.0-alpha.2",
     "axios": "^0.21.4",
     "debug": "^4.3.1",
     "did-resolver": "^3.1.0",
     "ethers": "^5.1.4",
     "ethr-did-resolver": "^4.3.3",
+    "myinfo-vc-verifier": "0.0.3",
     "node-cache": "^5.1.2",
     "runtypes": "^6.3.0",
     "web-did-resolver": "^2.0.4"

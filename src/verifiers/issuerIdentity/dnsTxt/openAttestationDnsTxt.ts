@@ -1,4 +1,4 @@
-import { getData, utils, v2, v3 } from "@govtechsg/open-attestation";
+import { getData, utils, v2, v3 } from "@tradetrust/open-attestation";
 import { getDocumentStoreRecords } from "@govtechsg/dnsprove";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationDnsTxtCode } from "../../../types/error";

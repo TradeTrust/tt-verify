@@ -1,4 +1,4 @@
-import { SignedWrappedDocument, v2, v3, WrappedDocument } from "@govtechsg/open-attestation";
+import { OAv4, SignedWrappedDocument, TTv4, v2, v3, WrappedDocument } from "@tradetrust/open-attestation";
 import { rest } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
 import { documentDidCustomRevocation } from "../../../../test/fixtures/v2/documentDidCustomRevocation";
@@ -28,6 +28,10 @@ import sampleDnsDidSignedRevocationStoreNotRevokedV2 from "../../../../test/fixt
 import sampleDnsDidSignedRevocationStoreButRevokedV2 from "../../../../test/fixtures/v2/dnsdid-revocation-store-signed-revoked.json";
 import sampleDidSignedOcspResponderV2 from "../../../../test/fixtures/v2/did-ocsp-revocation-signed.json";
 
+import sampleOADnsDidSignedV4 from "../../../../test/fixtures/v4/oa/did-signed-wrapped.json";
+import sampleTTDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
+import sampleTTIDVCDnsDidSignedV4 from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed.json";
+
 const didSignedRevocationStoreNotRevokedV2 =
   sampleDidSignedRevocationStoreNotRevokedV2 as SignedWrappedDocument<v2.OpenAttestationDocument>;
 const didSignedRevocationStoreButRevokedV2 =
@@ -55,6 +59,10 @@ const dnsDidSignedRevocationStoreNotRevokedV3 =
 const dnsDidSignedRevocationStoreButRevokedV3 =
   sampleDnsDidSignedRevocationStoreButRevokedV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
 const didSignedOcspResponderV3 = sampleDidSignedOcspResponderV3 as SignedWrappedDocument<v3.OpenAttestationDocument>;
+
+const dnsDidSignedOAV4 = sampleOADnsDidSignedV4 as SignedWrappedDocument<OAv4.OpenAttestationDocument>;
+const dnsDidSignedTTV4 = sampleTTDnsDidSignedV4 as SignedWrappedDocument<TTv4.TradeTrustDocument>;
+const dnsDidIDVCSignedTTV4 = sampleTTIDVCDnsDidSignedV4 as SignedWrappedDocument<TTv4.TradeTrustDocument>;
 
 jest.mock("../../../did/resolver");
 
@@ -992,5 +1000,87 @@ describe("verify", () => {
 
       server.close();
     });
+  });
+
+  describe("v4", () => {
+    describe("should pass for documents using `DID` and is correctly signed", () => {
+      it("should be valid for vanilla oa v4 alpha docs", async () => {
+        whenPublicKeyResolvesSuccessfully("0xB26B4941941C51a4885E5B7D3A1B861E54405f90");
+        const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedOAV4, options);
+        expect(res).toMatchInlineSnapshot(`
+          Object {
+            "data": Object {
+              "details": Object {
+                "issuance": Object {
+                  "did": "did:ethr:0xB26B4941941C51a4885E5B7D3A1B861E54405f90",
+                  "issued": true,
+                },
+                "revocation": Object {
+                  "revoked": false,
+                },
+              },
+              "issuedOnAll": true,
+              "revokedOnAny": false,
+            },
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "status": "VALID",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
+      });
+      it("should be valid for vanilla tt v4 alpha docs", async () => {
+        whenPublicKeyResolvesSuccessfully("0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C");
+        const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedTTV4, options);
+        expect(res).toMatchInlineSnapshot(`
+          Object {
+            "data": Object {
+              "details": Object {
+                "issuance": Object {
+                  "did": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+                  "issued": true,
+                },
+                "revocation": Object {
+                  "revoked": false,
+                },
+              },
+              "issuedOnAll": true,
+              "revokedOnAny": false,
+            },
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "status": "VALID",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
+      });
+      it("should be valid for tt v4 alpha with idvc docs, this test is a little redundant", async () => {
+        whenPublicKeyResolvesSuccessfully("0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C");
+        const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidIDVCSignedTTV4, options);
+        expect(res).toMatchInlineSnapshot(`
+          Object {
+            "data": Object {
+              "details": Object {
+                "issuance": Object {
+                  "did": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+                  "issued": true,
+                },
+                "revocation": Object {
+                  "revoked": false,
+                },
+              },
+              "issuedOnAll": true,
+              "revokedOnAny": false,
+            },
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "status": "VALID",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
+      });
+    });
+    /**
+     * unimplemented
+     * 1. revoked doc via doc store
+     * 3. revoked doc via ocsp responder
+     */
   });
 });

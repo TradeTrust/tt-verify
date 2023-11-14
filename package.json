@@ -25,7 +25,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@govtechsg/dnsprove": "^2.6.1",
+    "@tradetrust/dnsprove": "^2.7.0",
     "@govtechsg/document-store": "^2.2.3",
     "@govtechsg/token-registry": "^4.1.7",
     "@tradetrust/open-attestation": "^6.8.0-alpha.2",

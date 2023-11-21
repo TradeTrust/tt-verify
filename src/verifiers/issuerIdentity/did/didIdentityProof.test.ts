@@ -1,4 +1,4 @@
-import { v3 } from "@tradetrust/open-attestation";
+import { v3 } from "@tradetrust-tt/tradetrust";
 import { documentDidMixedTokenRegistry } from "../../../../test/fixtures/v2/documentDidMixedTokenRegistry";
 import { documentDidSigned } from "../../../../test/fixtures/v2/documentDidSigned";
 import { documentDidWrongSignature } from "../../../../test/fixtures/v2/documentDidWrongSignature";

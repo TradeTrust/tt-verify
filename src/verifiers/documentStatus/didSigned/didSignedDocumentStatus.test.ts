@@ -1,4 +1,4 @@
-import { OAv4, SignedWrappedDocument, TTv4, v2, v3, WrappedDocument } from "@tradetrust/open-attestation";
+import { OAv4, SignedWrappedDocument, TTv4, v2, v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
 import { rest } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
 import { documentDidCustomRevocation } from "../../../../test/fixtures/v2/documentDidCustomRevocation";

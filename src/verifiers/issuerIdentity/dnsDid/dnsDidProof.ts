@@ -1,5 +1,5 @@
-import { getData, utils, v2, v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
-import { getDnsDidRecords } from "@tradetrust/dnsprove";
+import { getData, utils, v2, v3, OAv4, TTv4 } from "@tradetrust-tt/tradetrust";
+import { getDnsDidRecords } from "@tradetrust-tt/dnsprove";
 import { VerificationFragmentType, Verifier } from "../../../types/core";
 import { OpenAttestationDnsDidCode } from "../../../types/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";

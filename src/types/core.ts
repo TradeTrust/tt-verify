@@ -1,4 +1,4 @@
-import { WrappedDocument, SignedWrappedDocument, v2, v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
+import { WrappedDocument, SignedWrappedDocument, v2, v3, OAv4, TTv4 } from "@tradetrust-tt/tradetrust";
 import { Resolver } from "did-resolver";
 import { providers } from "ethers";
 import { Reason } from "./error";

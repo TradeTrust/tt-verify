@@ -1,4 +1,4 @@
-import { v3, OAv4, TTv4 } from "@tradetrust/open-attestation";
+import { v3, OAv4, TTv4 } from "@tradetrust-tt/tradetrust";
 import { documentDidSigned } from "../../../../test/fixtures/v2/documentDidSigned";
 import { documentDnsDidMixedTokenRegistryValid } from "../../../../test/fixtures/v2/documentDnsDidMixedTokenRegistry";
 import { documentDnsDidNoDnsTxt } from "../../../../test/fixtures/v2/documentDnsDidNoDnsTxt";

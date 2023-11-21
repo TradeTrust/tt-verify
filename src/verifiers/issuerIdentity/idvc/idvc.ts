@@ -1,4 +1,4 @@
-import { utils, TTv4 } from "@tradetrust/open-attestation";
+import { utils, TTv4 } from "@tradetrust-tt/tradetrust";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { TradeTrustIDVCCode } from "../../../types/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";

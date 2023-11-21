@@ -1,5 +1,5 @@
 {
-  "name": "@tradetrust/oa-verify",
+  "name": "@tradetrust-tt/tt-verify",
   "version": "0.0.0-development",
   "description": "",
   "main": "dist/cjs/index.js",
@@ -25,10 +25,10 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@tradetrust/dnsprove": "^2.7.0",
+    "@tradetrust-tt/dnsprove": "^2.8.1",
+    "@tradetrust-tt/tradetrust": "6.8.0-alpha.3",
     "@govtechsg/document-store": "^2.2.3",
     "@govtechsg/token-registry": "^4.1.7",
-    "@tradetrust/open-attestation": "^6.8.0-alpha.2",
     "axios": "^0.21.4",
     "debug": "^4.3.1",
     "did-resolver": "^3.1.0",
@@ -68,7 +68,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TradeTrust/oa-verify.git"
+    "url": "https://github.com/TradeTrust/tt-verify.git"
   },
   "config": {
     "commitizen": {

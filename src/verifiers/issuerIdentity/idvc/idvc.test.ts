@@ -1,4 +1,4 @@
-import { TTv4, OAv4 } from "@tradetrust/open-attestation";
+import { TTv4, OAv4 } from "@tradetrust-tt/tradetrust";
 import sampleTTWrappedSignedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed.json";
 import sampleTTWrappedSignedTamperedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-tampered-signature.json";
 import sampleTTWrappedSignedRevokedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-revoked.json";

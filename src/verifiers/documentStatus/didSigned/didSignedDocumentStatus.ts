@@ -537,6 +537,8 @@ const verifyTTV4 = async (
         );
       case TTv4.CredentialStatusType.None:
         return { revoked: false };
+      case TTv4.CredentialStatusType.TokenRegistry:
+        return { revoked: false };
       default:
         throw new CodedError(
           "revocation type not found for an issuer",

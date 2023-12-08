@@ -4,7 +4,7 @@ import { TradeTrustIDVCCode } from "../../../types/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
 import { CodedError } from "../../../common/error";
 import { TradeTrustIDVCIdentityProofVerificationFragment, ValidIDVCVerificationStatus } from "./idvc.type";
-import MyInfoVcVerifier from "myinfo-vc-verifier";
+import { verifyCredential, getRevokeStatus } from "./idvc-verifier";
 import { ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
 
 const name = "TradeTrustIDVCIdentityProof";
@@ -38,7 +38,7 @@ const test: VerifierType["test"] = (document) => {
  * with the generic way of verifying a w3c vc.
  *  */
 const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]> => {
-  const revokedStatus = await MyInfoVcVerifier.getRevokeStatus(idvc);
+  const revokedStatus = await getRevokeStatus(idvc);
   if (revokedStatus) {
     throw new CodedError(
       "the idvc in the document has been revoked",
@@ -46,7 +46,7 @@ const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]
       TradeTrustIDVCCode[TradeTrustIDVCCode.REVOKED_IDVC]
     );
   }
-  const { verified: verificationResult } = await MyInfoVcVerifier.verify(idvc);
+  const { verified: verificationResult } = await verifyCredential(idvc);
   if (!verificationResult) {
     throw new CodedError(
       "the idvc in the document is invalid",
@@ -125,7 +125,7 @@ const verifyV4 = async (
     );
   }
   const idvc = document.issuer.identityProof.identityVC.data;
-  const [revokedStatus, verificationResult] = await verifyIDVC(idvc);
+  const [revokedStatus, verificationResult] = await verifyCredential(idvc);
 
   if (!idvc.credentialSubject.id) {
     throw new CodedError(

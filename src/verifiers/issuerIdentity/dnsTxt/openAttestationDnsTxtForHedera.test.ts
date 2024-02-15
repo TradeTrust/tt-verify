@@ -57,8 +57,6 @@ describe("verify", () => {
     describe("v2", () => {
       it("should return a valid fragment when document has valid identity and uses document store", async () => {
         const fragment = await openAttestationDnsTxtIdentityProof.verify(documentHederaValidWithDocumentStore, options);
-        console.log("Output")
-        console.error(JSON.stringify(fragment))
         expect(fragment).toMatchInlineSnapshot(`
           Object {
             "data": Array [

@@ -63,5 +63,3 @@ export const documentGoerliValidWithDocumentStore: WrappedDocument<CustomDocumen
     merkleRoot: "9ece474bfd087cf3fc2e7fcf62f82af22cd8ae6a68ff40d7992b6335399309b4",
   },
 };
-
-

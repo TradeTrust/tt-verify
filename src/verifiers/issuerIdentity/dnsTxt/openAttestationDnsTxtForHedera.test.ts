@@ -1,7 +1,5 @@
-import { v2, v3 } from "@tradetrust-tt/tradetrust";
 import { providers } from "ethers";
 import { documentHederaValidWithDocumentStore } from "../../../../test/fixtures/v2/documentHederaValidWithDocumentStore";
-import { getProvider } from "../../../common/utils";
 import { openAttestationDnsTxtIdentityProof } from "./openAttestationDnsTxt";
 
 class CustomJsonRpcProvider extends providers.JsonRpcProvider {

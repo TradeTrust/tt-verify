@@ -36,12 +36,8 @@ export const documentHederaValidWithDocumentStore: WrappedDocument<CustomDocumen
         },
       },
     ],
-    consignment: {
-
-    },
-    declaration: {
-
-    },
+    consignment: {},
+    declaration: {},
   },
   signature: {
     type: "SHA3MerkleProof",
@@ -50,4 +46,3 @@ export const documentHederaValidWithDocumentStore: WrappedDocument<CustomDocumen
     merkleRoot: "1fdea9b542ec22f7d87f23d86f1cf3e526e2edec1b9baaa9aedff904efea78a9",
   },
 };
-

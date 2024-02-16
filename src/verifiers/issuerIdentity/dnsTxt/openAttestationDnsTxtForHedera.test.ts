@@ -4,49 +4,46 @@ import { documentHederaValidWithDocumentStore } from "../../../../test/fixtures/
 import { getProvider } from "../../../common/utils";
 import { openAttestationDnsTxtIdentityProof } from "./openAttestationDnsTxt";
 
-
 class CustomJsonRpcProvider extends providers.JsonRpcProvider {
   async detectNetwork() {
-      return {
-          name: "hedera",
-          chainId: 296, 
-      };
+    return {
+      name: "hedera",
+      chainId: 296,
+    };
   }
 }
 
 const provider = new CustomJsonRpcProvider("https://testnet-public.mirrornode.hedera.com");
 
-
 // Construct the options object with the provider
 const options = {
-  network: "hedera", 
+  network: "hedera",
   provider: provider,
 };
-  
-jest.mock('ethers', () => {
-  const originalModule = jest.requireActual('ethers');
+
+jest.mock("ethers", () => {
+  const originalModule = jest.requireActual("ethers");
   return {
-      ...originalModule,
-      providers: {
-          ...originalModule.providers,
-          JsonRpcProvider: class extends originalModule.providers.JsonRpcProvider {
-              async detectNetwork() {
-                  return {
-                      name: "hedera",
-                      chainId: 296,
-                  };
-              }
-          }
-      }
+    ...originalModule,
+    providers: {
+      ...originalModule.providers,
+      JsonRpcProvider: class extends originalModule.providers.JsonRpcProvider {
+        async detectNetwork() {
+          return {
+            name: "hedera",
+            chainId: 296,
+          };
+        }
+      },
+    },
   };
 });
 
-
 describe("verify", () => {
-    describe("v2", () => {
-      it("should return a valid fragment when document has valid identity and uses document store", async () => {
-        const fragment = await openAttestationDnsTxtIdentityProof.verify(documentHederaValidWithDocumentStore, options);
-        expect(fragment).toMatchInlineSnapshot(`
+  describe("v2", () => {
+    it("should return a valid fragment when document has valid identity and uses document store", async () => {
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(documentHederaValidWithDocumentStore, options);
+      expect(fragment).toMatchInlineSnapshot(`
           Object {
             "data": Array [
               Object {
@@ -60,6 +57,6 @@ describe("verify", () => {
             "type": "ISSUER_IDENTITY",
           }
         `);
-      });
     });
   });
+});

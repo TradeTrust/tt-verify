@@ -20,7 +20,7 @@ export const documentHederaRevokedWithDocumentStore: WrappedDocument<CustomDocum
       url: "4d38de69-0622-4012-9316-38167b88f608:string:https://demo-cnm.openattestation.com",
     },
     billTo: {
-      name: "2fdf99b6-06f0-4d3c-87f5-8f8dde803b96:string:XYZ"
+      name: "2fdf99b6-06f0-4d3c-87f5-8f8dde803b96:string:XYZ",
     },
     issuers: [
       {

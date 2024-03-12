@@ -12,6 +12,7 @@ import v3DocumentStoreIssuedRaw from "../../../../test/fixtures/v3/documentStore
 import v3DocumentStoreRevokedRaw from "../../../../test/fixtures/v3/documentStore-revoked.json";
 import v3DocumentStoreWrappedRaw from "../../../../test/fixtures/v3/documentStore-wrapped.json";
 import v3TokenRegistryIssuedRaw from "../../../../test/fixtures/v3/tokenRegistry-issued.json";
+import { VerifierOptions } from "../../../types/core";
 
 const v3DocumentStoreWrapped = v3DocumentStoreWrappedRaw as WrappedDocument<v3.OpenAttestationDocument>;
 const v3DocumentStoreIssued = v3DocumentStoreIssuedRaw as WrappedDocument<v3.OpenAttestationDocument>;
@@ -19,7 +20,7 @@ const v3DidSigned = v3DidSignedRaw as WrappedDocument<v3.OpenAttestationDocument
 const v3TokenRegistryIssued = v3TokenRegistryIssuedRaw as WrappedDocument<v3.OpenAttestationDocument>;
 const v3DocumentStoreRevoked = v3DocumentStoreRevokedRaw as WrappedDocument<v3.OpenAttestationDocument>;
 
-const options = { provider: getProvider({ network: "hederatestnet" }) };
+const options = {} as VerifierOptions;
 
 describe("test", () => {
   describe("v2", () => {

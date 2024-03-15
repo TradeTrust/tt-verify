@@ -16,7 +16,7 @@ const v3DocumentStoreIssued = v3DocumentStoreIssuedRaw as WrappedDocument<v3.Ope
 const v3TokenRegistryIssued = v3TokenRegistryIssuedRaw as WrappedDocument<v3.OpenAttestationDocument>;
 
 const options = {} as VerifierOptions;
-
+//hederatestnet
 describe("test", () => {
   describe("v2", () => {
     it("should return false when document does not have data", async () => {

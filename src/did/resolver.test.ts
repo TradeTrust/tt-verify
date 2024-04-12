@@ -1,6 +1,5 @@
 import { v3 } from "@tradetrust-tt/tradetrust";
 import { ethers } from "ethers";
-import { INFURA_API_KEY } from "../config";
 import { openAttestationDidIdentityProof } from "../verifiers/issuerIdentity/did/didIdentityProof";
 import { verificationBuilder } from "../verifiers/verificationBuilder";
 import { createResolver, EthrResolverConfig, getProviderConfig, resolve } from "./resolver";

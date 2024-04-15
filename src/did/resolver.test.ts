@@ -1,9 +1,9 @@
 import { v3 } from "@tradetrust-tt/tradetrust";
 import { ethers } from "ethers";
+import { INFURA_API_KEY } from "../config";
 import { openAttestationDidIdentityProof } from "../verifiers/issuerIdentity/did/didIdentityProof";
 import { verificationBuilder } from "../verifiers/verificationBuilder";
 import { createResolver, EthrResolverConfig, getProviderConfig, resolve } from "./resolver";
-import { INFURA_API_KEY } from "../../src/config";
 
 const didDoc = {
   "@context": [
@@ -136,7 +136,7 @@ describe("getProviderConfig", () => {
 
   it("should set default when provider type is jsonrpc", () => {
     process.env.PROVIDER_ENDPOINT_TYPE = "jsonrpc";
-    process.env.PROVIDER_NETWORK = "goerli";
+    process.env.PROVIDER_NETWORK = "mainnet";
 
     expect(getProviderConfig()).toEqual({
       networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/${INFURA_API_KEY}` }],

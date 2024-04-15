@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { openAttestationDidIdentityProof } from "../verifiers/issuerIdentity/did/didIdentityProof";
 import { verificationBuilder } from "../verifiers/verificationBuilder";
 import { createResolver, EthrResolverConfig, getProviderConfig, resolve } from "./resolver";
+import { INFURA_API_KEY } from "../../src/config";
 
 const didDoc = {
   "@context": [
@@ -76,7 +77,7 @@ const v3DidSigned = {
 } as v3.SignedWrappedDocument;
 
 const customConfig: EthrResolverConfig = {
-  networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18` }],
+  networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/${INFURA_API_KEY}` }],
 };
 
 describe("custom resolver", () => {
@@ -138,7 +139,7 @@ describe("getProviderConfig", () => {
     process.env.PROVIDER_NETWORK = "goerli";
 
     expect(getProviderConfig()).toEqual({
-      networks: [{ name: "mainnet", rpcUrl: "https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18" }],
+      networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/${INFURA_API_KEY}` }],
     });
   });
 

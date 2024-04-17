@@ -70,7 +70,7 @@ async function getDocumentLoader() {
         url = url.slice(0, url.indexOf("#"));
       }
       const id = url.split(":");
-      let path = id.map(decodeURIComponent).join("/") + "/did.json";
+      let path = id.map(decodeURIComponent).join("/") + "/.well-known/did.json";
       url = path.replace("did/web/", "https://");
     }
     try {

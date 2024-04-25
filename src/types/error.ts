@@ -94,6 +94,7 @@ export enum TradeTrustIDVCCode {
   INVALID_IDVC = 9,
   TAMPERED = 10,
   WRONG_BINDING = 11,
+  EXPIRED_IDVC = 12
 }
 export enum OpenAttestationSignatureCode {
   UNEXPECTED_ERROR = 0,

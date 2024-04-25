@@ -19,6 +19,7 @@ import { OpenAttestationEthereumTokenRegistryStatusFragment } from "../verifiers
 import { OpenAttestationDidIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/did/didIdentityProof.type";
 import { OpenAttestationDnsDidIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/dnsDid/dnsDidProof.type";
 import { OpenAttestationDnsTxtIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/dnsTxt/openAttestationDnsTxt.type";
+import { TradeTrustIDVCIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/idvc/idvc.type";
 
 export const getDefaultProvider = (options: VerificationBuilderOptionsWithNetwork): providers.Provider => {
   const network = options.network || process.env.PROVIDER_NETWORK || "homestead";
@@ -109,6 +110,8 @@ export const getOpenAttestationDnsDidIdentityProofFragment =
   getFragmentByName<OpenAttestationDnsDidIdentityProofVerificationFragment>("OpenAttestationDnsDidIdentityProof");
 export const getOpenAttestationDnsTxtIdentityProofFragment =
   getFragmentByName<OpenAttestationDnsTxtIdentityProofVerificationFragment>("OpenAttestationDnsTxtIdentityProof");
+export const getTradeTrustIDVCIdentityProofFragment =
+  getFragmentByName<TradeTrustIDVCIdentityProofVerificationFragment>("TradeTrustIDVCIdentityProof");
 
 /**
  * Simple typed utility to return fragments depending on the type

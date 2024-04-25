@@ -41,7 +41,7 @@ const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]
   const revokedStatus = await getRevokeStatus(idvc);
   if (revokedStatus) {
     throw new CodedError(
-      "the idvc in the document has been revoked",
+      "The Identity VC in the document has been revoked",
       TradeTrustIDVCCode.REVOKED_IDVC,
       TradeTrustIDVCCode[TradeTrustIDVCCode.REVOKED_IDVC]
     );
@@ -125,8 +125,7 @@ const verifyV4 = async (
     );
   }
   const idvc = document.issuer.identityProof.identityVC.data;
-  const [revokedStatus, verificationResult] = await verifyCredential(idvc);
-
+  
   if (!idvc.credentialSubject.id) {
     throw new CodedError(
       "document does not have a bound issuer id in the idvc",
@@ -142,6 +141,16 @@ const verifyV4 = async (
       TradeTrustIDVCCode[TradeTrustIDVCCode.WRONG_BINDING]
     );
   }
+
+  const [revokedStatus, verificationResult] = await verifyIDVC(idvc);
+  if (!idvc.expirationDate || Date.parse(idvc.expirationDate) < new Date().getTime()) {
+    throw new CodedError(
+      "The Identity VC in the document has expired",
+      TradeTrustIDVCCode.EXPIRED_IDVC,
+      TradeTrustIDVCCode[TradeTrustIDVCCode.EXPIRED_IDVC]
+    );
+  }
+
 
   const verificationStatus = {
     status:

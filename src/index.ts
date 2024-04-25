@@ -1,7 +1,7 @@
 import { verificationBuilder } from "./verifiers/verificationBuilder";
 import { Verifier } from "./types/core";
 import { openAttestationHash } from "./verifiers/documentIntegrity/hash/openAttestationHash";
-import { isValid } from "./validator";
+import { isValid, isRendered, renderedErrorMessageForIDVC } from "./validator";
 import { openAttestationEthereumTokenRegistryStatus } from "./verifiers/documentStatus/tokenRegistry";
 import { openAttestationEthereumDocumentStoreStatus } from "./verifiers/documentStatus/documentStore";
 import { openAttestationDidSignedDocumentStatus } from "./verifiers/documentStatus/didSigned";
@@ -47,6 +47,8 @@ export {
   verificationBuilder,
   openAttestationVerifiers,
   isValid,
+  isRendered,
+  renderedErrorMessageForIDVC,
   verify,
   Verifier,
   openAttestationHash,

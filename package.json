@@ -25,20 +25,20 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@govtechsg/document-store": "^2.2.3",
-    "@govtechsg/token-registry": "^4.1.7",
     "@mattrglobal/jsonld-signatures-bbs": "^1.1.0",
     "jsonld-signatures": "^7.0.0",
-    "@tradetrust-tt/dnsprove": "^2.8.1",
-    "@tradetrust-tt/tradetrust": "6.8.0-alpha.5",
     "@transmute/compressable-bitstring": "^0.7.0-unstable.81",
-    "axios": "^0.21.4",
     "cross-fetch": "^4.0.0",
+    "@govtechsg/oa-did-sign": "^2.2.0",
+    "@tradetrust-tt/dnsprove": "^2.12.3",
+    "@tradetrust-tt/document-store": "^2.7.0",
+    "@tradetrust-tt/token-registry": "^4.9.0",
+    "@tradetrust-tt/tradetrust": "6.8.0-alpha.5",
+    "axios": "^1.6.2",
     "debug": "^4.3.1",
     "did-resolver": "^3.1.0",
-    "ethers": "^5.1.4",
+    "ethers": "^5.4.0",
     "ethr-did-resolver": "^4.3.3",
-    "myinfo-vc-verifier": "0.0.3",
     "node-cache": "^5.1.2",
     "runtypes": "^6.3.0",
     "web-did-resolver": "^2.0.4"
@@ -51,13 +51,13 @@
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
-    "commitizen": "^4.2.4",
+    "commitizen": "^4.3.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
-    "git-cz": "^4.7.6",
+    "git-cz": "^4.9.0",
     "jest": "^26.6.3",
     "jest-watch-typeahead": "^0.6.3",
     "msw": "^0.28.2",
@@ -82,5 +82,8 @@
   "prettier": {
     "printWidth": 120
   },
-  "snyk": true
+  "snyk": true,
+  "engines": {
+    "node": "18.x"
+  }
 }

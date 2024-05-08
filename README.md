@@ -1,8 +1,6 @@
-![Release](https://github.com/TradeTrust/oa-verify/actions/workflows/release.yml/badge.svg)
+# TradeTrust (Verify)
 
-# Open Attestation (Verify)
-
-The [Open Attestation (Verify)](https://github.com/TradeTrust/oa-verify) repository is the codebase for the npm module that allows you to verify a wrapped document programmatically. This is useful if you are building your own API or web components. Some common use cases where you will need this module:
+The [TradeTrust (Verify)](https://github.com/TradeTrust/tt-verify) repository is the codebase for the npm module that allows you to verify TradeTrust issued document programmatically. This is useful if you are building your own API or web components. Some common use cases where you will need this module:
 
 - [Verifying a document](#verifying-a-document)
 - [Building custom verifier](#custom-verification)
@@ -10,14 +8,14 @@ The [Open Attestation (Verify)](https://github.com/TradeTrust/oa-verify) reposit
 
 This module does not provide the following functionality:
 
-- Programmatic wrapping of OA documents
-- Encryption or decryption of OA documents
+- Programmatic [wrapping of TradeTrust documents](https://docs.tradetrust.io/docs/tutorial/verifiable-documents/wrapping-document/wrapping-document-cli)
+- Encryption or decryption of TradeTrust documents (refer to [Open Attestation (Encryption)](https://www.openattestation.com/docs/developer-section/libraries/remote-files/open-attestation-encryption))
 - Programmatic issuance/revocation of document on the Ethereum blockchain
 
 ## Installation
 
 ```bash
-npm i @tradetrust/oa-verify
+npm i @tradetrust-tt/tt-verify
 ```
 
 ---
@@ -30,9 +28,9 @@ A verification happens on a wrapped document, and it consists of answering to so
 
 - Has the document been tampered with ?
 - Is the issuance state of the document valid ?
-- Is the document issuer identity valid ? (see [identity proof](https://www.openattestation.com/docs/docs-section/how-does-it-work/issuance-identity))
+- Is the document issuer identity valid ? (see [identity proof](https://docs.tradetrust.io/docs/topics/verifying-documents/issuer-identity))
 
-A wrapped document (shown below) created using Open Attestation would be required.
+An issued TradeTrust document (shown below) would be required.
 
 > **NOTE:** The document shown below is valid and has been issued on the goerli network
 
@@ -83,7 +81,7 @@ To perform verification check on the document:
 
 ```ts
 // index.ts
-import { isValid, verify } from "@tradetrust/oa-verify";
+import { isValid, verify } from "@tradetrust-tt/tt-verify";
 import * as document from "./document.json";
 
 const fragments = await verify(document as any);
@@ -105,7 +103,7 @@ You can build your own verify method or your own verifiers:
 
 ```ts
 // creating your own verify using default exported verifiers
-import { verificationBuilder, openAttestationVerifiers } from "@tradetrust/oa-verify";
+import { verificationBuilder, openAttestationVerifiers } from "@tradetrust-tt/tt-verify";
 
 const verify1 = verificationBuilder(openAttestationVerifiers, { network: "goerli" }); // this verify is equivalent to the one exported by the library
 // this verify is equivalent to the one exported by the library
@@ -116,7 +114,7 @@ const verify2 = verificationBuilder([openAttestationVerifiers[0], openAttestatio
 
 ```ts
 // creating your own verify using custom verifier
-import { verificationBuilder, openAttestationVerifiers, Verifier } from "@tradetrust/oa-verify";
+import { verificationBuilder, openAttestationVerifiers, Verifier } from "@tradetrust-tt/tt-verify";
 const customVerifier: Verifier<any> = {
   skip: () => {
     // return a SkippedVerificationFragment if the verifier should be skipped or throw an error if it should always run
@@ -150,7 +148,7 @@ The function also allows a list of types to check for as a second parameter.
 
 ```ts
 // index.ts
-import { isValid, openAttestationVerifiers, verificationBuilder } from "@tradetrust/oa-verify";
+import { isValid, openAttestationVerifiers, verificationBuilder } from "@tradetrust-tt/tt-verify";
 import * as document from "./document.json";
 
 const verify = verificationBuilder(openAttestationVerifiers, {
@@ -167,7 +165,7 @@ console.log(isValid(fragments)); // output false
 
 - `isValid(fragments, ["DOCUMENT_INTEGRITY"])` returns true because the integrity of the document is not dependent on the network it has been published to.
 - `isValid(fragments, ["DOCUMENT_STATUS"])` returns false because the document has not been published on Ethereum main network.
-- `isValid(fragments, ["ISSUER_IDENTITY"])` returns false because there is no [DNS-TXT record](https://www.openattestation.com/docs/integrator-section/verifiable-document/ethereum/dns-proof) associated with the Ethereum main network's document store.
+- `isValid(fragments, ["ISSUER_IDENTITY"])` returns false because there is no [DNS-TXT record](https://docs.tradetrust.io/docs/tutorial/verifiable-documents/advanced/document-store/configuring-dns) associated with the Ethereum main network's document store.
 - `isValid(fragments)` returns false because at least one of the above returns false.
 
 ### Listening to individual verification method
@@ -176,7 +174,7 @@ The `verify` function provides an option to listen to individual verification me
 
 ```ts
 // index.ts
-import { isValid, openAttestationVerifiers, verificationBuilder } from "@tradetrust/oa-verify";
+import { isValid, openAttestationVerifiers, verificationBuilder } from "@tradetrust-tt/tt-verify";
 import * as document from "./document.json";
 
 const verify = verificationBuilder(openAttestationVerifiers, {
@@ -217,7 +215,7 @@ This is where `skip` and `test` methods come into play. We will use the `test` m
 
 ```ts
 // index.ts
-import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust/oa-verify";
+import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust-tt/tt-verify";
 import { getData } from "@tradetrust-tt/tradetrust";
 import * as document from "./document.json";
 
@@ -242,11 +240,11 @@ const customVerifier: Verifier<any> = {
 
 **Document holds correct `name` property**
 
-Once we have decided `when` the verification method run, it's time to write the logic of the verifier in the `verify` method. We will use [getData](https://www.openattestation.com/docs/developer-section/libraries/remote-files/open-attestation#retrieving-document-data) utility to access the data of the document and return the appropriate fragment depending on the content:
+Once we have decided `when` the verification method run, it's time to write the logic of the verifier in the `verify` method. We will use [getData](https://docs.tradetrust.io/docs/reference/libraries/open-attestation/#retrieving-document-data) utility to access the data of the document and return the appropriate fragment depending on the content:
 
 ```ts
 // index.ts
-import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust/oa-verify";
+import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust-tt/tt-verify";
 import { getData } from "@tradetrust-tt/tradetrust";
 import * as document from "./document.json";
 
@@ -290,7 +288,7 @@ Extending from what have been mentioned in [Custom Verification](#custom-verific
 
 ```ts
 // index.ts
-import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust/oa-verify";
+import { verificationBuilder, openAttestationVerifiers, Verifier, isValid } from "@tradetrust-tt/tt-verify";
 import { getData } from "@tradetrust-tt/tradetrust";
 import document from "./document.json";
 
@@ -403,7 +401,7 @@ const verify = verificationBuilder(openAttestationVerifiers, { network: "goerli"
 `oa-verify` exposes a method, called `createResolver` that allows you to easily create custom resolvers, to resolve DIDs:
 
 ```ts
-import { createResolver, verificationBuilder, openAttestationVerifiers } from "@tradetrust/oa-verify";
+import { createResolver, verificationBuilder, openAttestationVerifiers } from "@tradetrust-tt/tt-verify";
 
 const resolver = createResolver({
   networks: [{ name: "my-network", rpcUrl: "https://my-private-chain/besu", registry: "0xaE5a9b9..." }],
@@ -435,7 +433,7 @@ It requires a set of options:
 The most basic way to use:
 
 ```ts
-import { utils } from "@tradetrust/oa-verify";
+import { utils } from "@tradetrust-tt/tt-verify";
 const provider = utils.generateProvider();
 // This will generate an infura provider using the default values.
 ```
@@ -450,7 +448,7 @@ PROVIDER_ENDPOINT_URL = "http://jsonrpc.com";
 PROVIDER_API_KEY = "ajdh1j23";
 
 // provider file
-import { utils } from "@tradetrust/oa-verify";
+import { utils } from "@tradetrust-tt/tt-verify";
 const provider = utils.generateProvider();
 // This will use the environment variables declared in the files automatically.
 ```
@@ -458,7 +456,7 @@ const provider = utils.generateProvider();
 Alternate way 2 (passing values in as parameters):
 
 ```ts
-import { utils } from "@tradetrust/oa-verify";
+import { utils } from "@tradetrust-tt/tt-verify";
 const providerOptions = {
   network: "goerli",
   providerType: "infura",
@@ -491,7 +489,7 @@ Let's see how to use it
 ### Example
 
 ```ts
-import { utils } from "@tradetrust/oa-verify";
+import { utils } from "@tradetrust-tt/tt-verify";
 const fragments = verify(documentValidWithCertificateStore, { network: "goerli" });
 // return the correct fragment, correctly typed
 const fragment = utils.getOpenAttestationEthereumTokenRegistryStatusFragment(fragments);
@@ -556,4 +554,4 @@ npm run test
 ## Additional information
 
 - For Verification SDK implementation follow our [Verifier ADR](https://github.com/Open-Attestation/adr/blob/master/verifier.md).
-- Found a bug ? Having a question ? Want to share an idea ? Reach us out on the [Github repository](https://github.com/TradeTrust/oa-verify).`
+- Found a bug ? Having a question ? Want to share an idea ? Reach us out on the [Github repository](https://github.com/TradeTrust/tt-verify).

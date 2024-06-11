@@ -81,6 +81,21 @@ export enum OpenAttestationDnsDidCode {
   UNRECOGNIZED_DOCUMENT = 5,
   INVALID_IDENTITY = 6,
 }
+export enum TradeTrustIDVCCode {
+  SKIPPED = 0,
+  UNEXPECTED_ERROR = 1,
+  MALFORMED_IDENTITY_PROOF = 2,
+  DID_MISSING = 3,
+  UNSIGNED = 4,
+  UNRECOGNIZED_DOCUMENT = 5,
+  INVALID_IDENTITY = 6,
+  MISSING_IDVC = 7,
+  REVOKED_IDVC = 8,
+  INVALID_IDVC = 9,
+  TAMPERED = 10,
+  WRONG_BINDING = 11,
+  EXPIRED_IDVC = 12,
+}
 export enum OpenAttestationSignatureCode {
   UNEXPECTED_ERROR = 0,
   KEY_MISSING = 1,

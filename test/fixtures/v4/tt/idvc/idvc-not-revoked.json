@@ -1,0 +1,36 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://didrp-test.esatus.com/schemas/basic-did-lei-mapping/v1",
+    "https://w3id.org/security/bbs/v1",
+    "https://w3id.org/vc/status-list/2021/v1"
+  ],
+  "credentialStatus": {
+    "id": "https://didrp-test.esatus.com/credentials/statuslist/1#27934",
+    "statusListCredential": "https://didrp-test.esatus.com/credentials/statuslist/1",
+    "statusListIndex": 27934,
+    "statusPurpose": "revocation",
+    "type": "StatusList2021Entry"
+  },
+  "credentialSubject": {
+    "entityName": "IMDA_active",
+    "id": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638",
+    "lei": "391200WCZAYD47QIKX37",
+    "type": [
+      "BasicDIDLEIMapping"
+    ]
+  },
+  "issuanceDate": "2024-04-01T12:19:52Z",
+  "expirationDate": "2029-12-03T12:19:52Z",
+  "issuer": "did:web:didrp-test.esatus.com",
+  "type": [
+    "VerifiableCredential"
+  ],
+  "proof": {
+    "type": "BbsBlsSignature2020",
+    "created": "2024-04-11T10:51:46Z",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "uDqETewb6fwNzGgihIxUSdvTyncfEeIjowsj91O4qT2HsTLk4OUmkdreSY55d+SzYUHlKfzccE4m7waZyoLEkBLFiK2g54Q2i+CdtYBgDdkUDsoULSBMcH1MwGHwdjfXpldFNFrHFx/IAvLVniyeMQ==",
+    "verificationMethod": "did:web:didrp-test.esatus.com#keys-1"
+  }
+}

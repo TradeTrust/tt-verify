@@ -535,6 +535,7 @@ Note that in the example above, using `utils.isValidFragment` might be unnecessa
 | OpenAttestationDidIdentityProof            | ISSUER_IDENTITY    | Verify identity of DID (similar to OpenAttestationDidSignedDocumentStatus)   | No                           |
 | OpenAttestationDnsDidIdentityProof         | ISSUER_IDENTITY    | Verify identify of DID certificate using DNS-TXT                             | Yes                          |
 | OpenAttestationDnsTxtIdentityProof         | ISSUER_IDENTITY    | Verify identify of document store certificate using DNS-TXT                  | Yes                          |
+| TradeTrustIDVCIdentityProof                | ISSUER_IDENTITY    | Verify identify of document store certificate using IDVC                     | Yes                          |
 
 ---
 
@@ -544,12 +545,6 @@ To run tests
 
 ```
 npm run test
-```
-
-To generate test documents (for v3), you may use the script at `scripts/generate.v3.ts` and run the command
-
-```
-npm run generate:v3
 ```
 
 ## License

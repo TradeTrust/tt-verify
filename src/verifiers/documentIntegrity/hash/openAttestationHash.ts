@@ -23,7 +23,12 @@ const skip: VerifierType["skip"] = () => {
 };
 
 const test: VerifierType["test"] = (document) => {
-  return utils.isWrappedV3Document(document) || utils.isWrappedV2Document(document);
+  return (
+    utils.isWrappedTTV4Document(document) ||
+    utils.isWrappedOAV4Document(document) ||
+    utils.isWrappedV3Document(document) ||
+    utils.isWrappedV2Document(document)
+  );
 };
 
 const verify: VerifierType["verify"] = async (document) => {

@@ -1,4 +1,4 @@
-import { getData, SignedWrappedDocument, utils, v2, v3 } from "@tradetrust-tt/tradetrust";
+import { getData, SignedWrappedDocument, utils, v2, v3, OAv4, TTv4 } from "@tradetrust-tt/tradetrust";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationDidSignedDocumentStatusCode, Reason } from "../../../types/error";
 import { DidVerificationStatus, ValidDidVerificationStatus, verifySignature } from "../../../did/verifier";
@@ -11,6 +11,8 @@ import {
   InvalidDidSignedIssuanceStatus,
   OpenAttestationDidSignedDocumentStatusInvalidFragmentV3,
   OpenAttestationDidSignedDocumentStatusValidFragmentV3,
+  OpenAttestationDidSignedDocumentStatusInvalidFragmentV4,
+  OpenAttestationDidSignedDocumentStatusValidFragmentV4,
   OpenAttestationDidSignedDocumentStatusVerificationFragment,
   ValidDidSignedDataV2,
   ValidDidSignedIssuanceStatus,
@@ -38,6 +40,10 @@ const test: VerifierType["test"] = (document) => {
     return document.proof.some((proof) => proof.type === "OpenAttestationSignature2018");
   } else if (utils.isSignedWrappedV3Document(document)) {
     return document.proof.type === "OpenAttestationMerkleProofSignature2018";
+  } else if (utils.isSignedWrappedOAV4Document(document)) {
+    return document.proof.type === "OpenAttestationMerkleProofSignature2018";
+  } else if (utils.isSignedWrappedTTV4Document(document)) {
+    return document.proof.type === "TradeTrustMerkleProofSignature2018";
   }
   return false;
 };
@@ -336,15 +342,277 @@ const verifyV3 = async (
   };
 };
 
+const verifyOAV4 = async (
+  document: SignedWrappedDocument<OAv4.OpenAttestationDocument>,
+  options: VerifierOptions
+): Promise<
+  OpenAttestationDidSignedDocumentStatusValidFragmentV4 | OpenAttestationDidSignedDocumentStatusInvalidFragmentV4
+> => {
+  const { merkleRoot: merkleRootRaw, targetHash, proofs } = document.proof;
+  const merkleRoot = `0x${merkleRootRaw}`;
+
+  const verificationResult = transformToDidSignedIssuanceStatus(
+    await verifySignature({
+      key: document.proof.key,
+      did: document.issuer.id,
+      merkleRoot,
+      signature: document.proof.signature,
+      resolver: options.resolver,
+    })
+  );
+
+  if (!document.credentialStatus?.credentialStatusType) {
+    throw new CodedError(
+      "credentialStatus (revocation) block not found for an issuer",
+      OpenAttestationDidSignedDocumentStatusCode.MISSING_REVOCATION,
+      "MISSING_REVOCATION"
+    );
+  }
+
+  const issuedOnAll = verificationResult.issued;
+
+  const getRevocationStatus = async (
+    docType: OAv4.CredentialStatusType,
+    location: string | undefined
+  ): Promise<RevocationStatus> => {
+    switch (docType) {
+      case OAv4.CredentialStatusType.RevocationStore:
+        if (typeof location === "string") {
+          return isRevokedOnDocumentStore({
+            documentStore: location,
+            merkleRoot,
+            targetHash,
+            proofs,
+            provider: options.provider,
+          });
+        }
+        throw new CodedError(
+          "missing revocation location for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
+          "REVOCATION_LOCATION_MISSING"
+        );
+      case OAv4.CredentialStatusType.OcspResponder:
+        if (typeof location === "string") {
+          return isRevokedByOcspResponder({
+            merkleRoot,
+            targetHash,
+            proofs,
+            location,
+          });
+        }
+        throw new CodedError(
+          "missing revocation location for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
+          "REVOCATION_LOCATION_MISSING"
+        );
+      case OAv4.CredentialStatusType.None:
+        return { revoked: false };
+      default:
+        throw new CodedError(
+          "revocation type not found for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.UNRECOGNIZED_REVOCATION_TYPE,
+          "UNRECOGNIZED_REVOCATION_TYPE"
+        );
+    }
+  };
+
+  const revocationStatus = await getRevocationStatus(
+    document.credentialStatus.credentialStatusType,
+    document.credentialStatus.location
+  );
+
+  const revokedOnAny = revocationStatus.revoked;
+
+  if (ValidDidSignedIssuanceStatus.guard(verificationResult) && ValidRevocationStatus.guard(revocationStatus)) {
+    return {
+      name,
+      type,
+      data: {
+        issuedOnAll: true,
+        revokedOnAny: false,
+        details: {
+          issuance: verificationResult,
+          revocation: revocationStatus,
+        },
+      },
+      status: "VALID",
+    };
+  }
+
+  // eslint-disable-next-line no-nested-ternary
+  const reason = InvalidDidSignedIssuanceStatus.guard(verificationResult)
+    ? verificationResult.reason
+    : InvalidRevocationStatus.guard(revocationStatus)
+    ? revocationStatus.reason
+    : undefined;
+  if (!reason) {
+    throw new CodedError(
+      "Unable to retrieve the reason of the failure",
+      OpenAttestationDidSignedDocumentStatusCode.UNEXPECTED_ERROR,
+      "UNEXPECTED_ERROR"
+    );
+  }
+  return {
+    name,
+    type,
+    data: {
+      issuedOnAll,
+      revokedOnAny,
+      details: {
+        issuance: verificationResult,
+        revocation: revocationStatus,
+      },
+    },
+    status: "INVALID",
+    reason,
+  };
+};
+
+// This essentially duplicates the above OAv4 function, just
+// that it is scoped to a TradeTrust wrapped signed
+// document.
+// In the future, the maintainers can fork off behavior from here.
+const verifyTTV4 = async (
+  document: SignedWrappedDocument<TTv4.TradeTrustDocument>,
+  options: VerifierOptions
+): Promise<
+  OpenAttestationDidSignedDocumentStatusValidFragmentV4 | OpenAttestationDidSignedDocumentStatusInvalidFragmentV4
+> => {
+  const { merkleRoot: merkleRootRaw, targetHash, proofs } = document.proof;
+  const merkleRoot = `0x${merkleRootRaw}`;
+
+  const verificationResult = transformToDidSignedIssuanceStatus(
+    await verifySignature({
+      key: document.proof.key,
+      did: document.issuer.id,
+      merkleRoot,
+      signature: document.proof.signature,
+      resolver: options.resolver,
+    })
+  );
+
+  if (!document.credentialStatus?.credentialStatusType) {
+    throw new CodedError(
+      "credentialStatus (revocation) block not found for an issuer",
+      OpenAttestationDidSignedDocumentStatusCode.MISSING_REVOCATION,
+      "MISSING_REVOCATION"
+    );
+  }
+
+  const issuedOnAll = verificationResult.issued;
+
+  const getRevocationStatus = async (
+    docType: TTv4.CredentialStatusType,
+    location: string | undefined
+  ): Promise<RevocationStatus> => {
+    switch (docType) {
+      case TTv4.CredentialStatusType.RevocationStore:
+        if (typeof location === "string") {
+          return isRevokedOnDocumentStore({
+            documentStore: location,
+            merkleRoot,
+            targetHash,
+            proofs,
+            provider: options.provider,
+          });
+        }
+        throw new CodedError(
+          "missing revocation location for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
+          "REVOCATION_LOCATION_MISSING"
+        );
+      case TTv4.CredentialStatusType.OcspResponder:
+        if (typeof location === "string") {
+          return isRevokedByOcspResponder({
+            merkleRoot,
+            targetHash,
+            proofs,
+            location,
+          });
+        }
+        throw new CodedError(
+          "missing revocation location for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.REVOCATION_LOCATION_MISSING,
+          "REVOCATION_LOCATION_MISSING"
+        );
+      case TTv4.CredentialStatusType.None:
+        return { revoked: false };
+      case TTv4.CredentialStatusType.TokenRegistry:
+        return { revoked: false };
+      default:
+        throw new CodedError(
+          "revocation type not found for an issuer",
+          OpenAttestationDidSignedDocumentStatusCode.UNRECOGNIZED_REVOCATION_TYPE,
+          "UNRECOGNIZED_REVOCATION_TYPE"
+        );
+    }
+  };
+
+  const revocationStatus = await getRevocationStatus(
+    document.credentialStatus.credentialStatusType,
+    document.credentialStatus.location
+  );
+
+  const revokedOnAny = revocationStatus.revoked;
+
+  if (ValidDidSignedIssuanceStatus.guard(verificationResult) && ValidRevocationStatus.guard(revocationStatus)) {
+    return {
+      name,
+      type,
+      data: {
+        issuedOnAll: true,
+        revokedOnAny: false,
+        details: {
+          issuance: verificationResult,
+          revocation: revocationStatus,
+        },
+      },
+      status: "VALID",
+    };
+  }
+
+  // eslint-disable-next-line no-nested-ternary
+  const reason = InvalidDidSignedIssuanceStatus.guard(verificationResult)
+    ? verificationResult.reason
+    : InvalidRevocationStatus.guard(revocationStatus)
+    ? revocationStatus.reason
+    : undefined;
+  if (!reason) {
+    throw new CodedError(
+      "Unable to retrieve the reason of the failure",
+      OpenAttestationDidSignedDocumentStatusCode.UNEXPECTED_ERROR,
+      "UNEXPECTED_ERROR"
+    );
+  }
+  return {
+    name,
+    type,
+    data: {
+      issuedOnAll,
+      revokedOnAny,
+      details: {
+        issuance: verificationResult,
+        revocation: revocationStatus,
+      },
+    },
+    status: "INVALID",
+    reason,
+  };
+};
+
 const verify: VerifierType["verify"] = async (document, options) => {
   if (utils.isSignedWrappedV2Document(document)) {
     return verifyV2(document, options);
   } else if (utils.isSignedWrappedV3Document(document)) {
     return verifyV3(document, options);
+  } else if (utils.isSignedWrappedOAV4Document(document)) {
+    return verifyOAV4(document, options);
+  } else if (utils.isSignedWrappedTTV4Document(document)) {
+    return verifyTTV4(document, options);
   }
 
   throw new CodedError(
-    `Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
+    `Document does not match either v2, v3 or v4 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
     OpenAttestationDidSignedDocumentStatusCode.UNRECOGNIZED_DOCUMENT,
     OpenAttestationDidSignedDocumentStatusCode[OpenAttestationDidSignedDocumentStatusCode.UNRECOGNIZED_DOCUMENT]
   );

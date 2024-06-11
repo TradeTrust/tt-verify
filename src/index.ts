@@ -1,13 +1,14 @@
 import { verificationBuilder } from "./verifiers/verificationBuilder";
 import { Verifier } from "./types/core";
 import { openAttestationHash } from "./verifiers/documentIntegrity/hash/openAttestationHash";
-import { isValid } from "./validator";
+import { isValid, isRendered, renderedErrorMessageForIDVC } from "./validator";
 import { openAttestationEthereumTokenRegistryStatus } from "./verifiers/documentStatus/tokenRegistry";
 import { openAttestationEthereumDocumentStoreStatus } from "./verifiers/documentStatus/documentStore";
 import { openAttestationDidSignedDocumentStatus } from "./verifiers/documentStatus/didSigned";
 import { openAttestationDnsTxtIdentityProof } from "./verifiers/issuerIdentity/dnsTxt";
 import { openAttestationDidIdentityProof } from "./verifiers/issuerIdentity/did";
 import { openAttestationDnsDidIdentityProof } from "./verifiers/issuerIdentity/dnsDid";
+import { tradeTrustIDVCIdentityProof, verifyIDVC } from "./verifiers/issuerIdentity/idvc";
 import { createResolver } from "./did/resolver";
 import { verifySignature } from "./did/verifier";
 import { getIdentifier } from "./getIdentifier";
@@ -46,6 +47,8 @@ export {
   verificationBuilder,
   openAttestationVerifiers,
   isValid,
+  isRendered,
+  renderedErrorMessageForIDVC,
   verify,
   Verifier,
   openAttestationHash,
@@ -55,6 +58,8 @@ export {
   openAttestationDnsTxtIdentityProof,
   openAttestationDnsDidIdentityProof,
   openAttestationDidIdentityProof,
+  tradeTrustIDVCIdentityProof,
+  verifyIDVC,
   createResolver,
   getIdentifier,
   utils,

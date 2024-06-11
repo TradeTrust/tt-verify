@@ -69,7 +69,6 @@ describe("test", () => {
             {
               name: "2433e228-5bee-4863-9b98-2337f4f90306:string:DEMO STORE",
               tokenRegistry: "1d337929-6770-4a05-ace0-1f07c25c7615:string:0xe59877ac86c0310e9ddaeb627f42fdee5f793fbe",
-              identityProof: undefined,
             },
           ],
         },
@@ -116,7 +115,10 @@ describe("test", () => {
           ],
         },
       };
-      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithMultipleIssuersWithoutDnsTxt, options);
+      const toVerify = await openAttestationDnsTxtIdentityProof.test(
+        documentWithMultipleIssuersWithoutDnsTxt as any,
+        options
+      );
       expect(toVerify).toBe(false);
     });
   });
@@ -213,12 +215,12 @@ describe("verify", () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentWithoutIdentityLocation, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: Document does not match either v2 or v3 formats],
+          "data": [Error: Document does not match either v2, v3 or v4 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
           "reason": Object {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
-            "message": "Document does not match either v2 or v3 formats",
+            "message": "Document does not match either v2, v3 or v4 formats",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -245,15 +247,15 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: Document does not match either v2 or v3 formats],
+          "data": [Error: Document does not match either v2, v3 or v4 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
           "reason": Object {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
-            "message": "Document does not match either v2 or v3 formats",
+            "message": "Document does not match either v2, v3 or v4 formats",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -331,15 +333,15 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: Document does not match either v2 or v3 formats],
+          "data": [Error: Document does not match either v2, v3 or v4 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
           "reason": Object {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
-            "message": "Document does not match either v2 or v3 formats",
+            "message": "Document does not match either v2, v3 or v4 formats",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",

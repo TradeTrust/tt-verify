@@ -1,4 +1,4 @@
-import { getData, utils, v2, v3 } from "@tradetrust-tt/tradetrust";
+import { TTv4, getData, utils, v2, v3 } from "@tradetrust-tt/tradetrust";
 import { getDocumentStoreRecords } from "@tradetrust-tt/dnsprove";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationDnsTxtCode } from "../../../types/error";
@@ -79,6 +79,8 @@ const test: VerifierType["test"] = (document) => {
     });
   } else if (utils.isWrappedV3Document(document)) {
     return document.openAttestationMetadata.identityProof.type === v3.IdentityProofType.DNSTxt;
+  } else if (utils.isWrappedTTV4Document(document)) {
+    return document.issuer.identityProof.identityProofType === TTv4.IdentityProofType.DNSTxt;
   }
   return false;
 };
@@ -187,6 +189,46 @@ const verifyV3 = async (
   };
 };
 
+const verifyV4 = async (
+  document: TTv4.WrappedDocument,
+  options: VerifierOptions
+): Promise<OpenAttestationDnsTxtIdentityProofValidFragmentV3 | OpenAttestationDnsTxtIdentityProofInvalidFragmentV3> => {
+  if (
+    document.credentialStatus.credentialStatusType !== TTv4.CredentialStatusType.RevocationStore &&
+    document.credentialStatus.credentialStatusType !== TTv4.CredentialStatusType.TokenRegistry
+  )
+    throw new CodedError(
+      "DNS-TXT is only supported with documents issued using document store or token registry",
+      OpenAttestationDnsTxtCode.UNSUPPORTED,
+      OpenAttestationDnsTxtCode[OpenAttestationDnsTxtCode.UNSUPPORTED]
+    );
+  const smartContractAddress = document.credentialStatus.location ?? "";
+  const { identifier } = document.issuer.identityProof;
+  const issuerIdentity = await resolveIssuerIdentity(identifier, smartContractAddress, options);
+
+  if (ValidDnsTxtVerificationStatus.guard(issuerIdentity)) {
+    return {
+      name,
+      type,
+      data: {
+        identifier: issuerIdentity.location,
+        value: issuerIdentity.value,
+      },
+      status: "VALID",
+    };
+  }
+  return {
+    name,
+    type,
+    data: {
+      identifier: issuerIdentity.location,
+      value: issuerIdentity.value,
+    },
+    reason: issuerIdentity.reason,
+    status: "INVALID",
+  };
+};
+
 export const openAttestationDnsTxtIdentityProof: Verifier<OpenAttestationDnsTxtIdentityProofVerificationFragment> = {
   skip,
   test,
@@ -194,9 +236,10 @@ export const openAttestationDnsTxtIdentityProof: Verifier<OpenAttestationDnsTxtI
     async (document, options) => {
       if (utils.isWrappedV2Document(document)) return verifyV2(document, options);
       else if (utils.isWrappedV3Document(document)) return verifyV3(document, options);
+      else if (utils.isWrappedTTV4Document(document)) return verifyV4(document, options);
       // this code is actually unreachable because of the test function
       throw new CodedError(
-        "Document does not match either v2 or v3 formats",
+        "Document does not match either v2, v3 or v4 formats",
         OpenAttestationDnsTxtCode.UNRECOGNIZED_DOCUMENT,
         OpenAttestationDnsTxtCode[OpenAttestationDnsTxtCode.UNRECOGNIZED_DOCUMENT]
       );

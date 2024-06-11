@@ -10,6 +10,7 @@ import {
   OpenAttestationEthereumTokenRegistryStatusFragment,
   ValidTokenRegistryStatus,
 } from "./ethereumTokenRegistryStatus.type";
+import { TradeTrustDocument } from "@tradetrust-tt/tradetrust/dist/types/__generated__/tt-schema.4.0";
 
 type VerifierType = Verifier<OpenAttestationEthereumTokenRegistryStatusFragment>;
 
@@ -17,7 +18,10 @@ const name = "OpenAttestationEthereumTokenRegistryStatus";
 const type: VerificationFragmentType = "DOCUMENT_STATUS";
 
 export const getTokenRegistry = (
-  document: WrappedDocument<v2.OpenAttestationDocument> | WrappedDocument<v3.OpenAttestationDocument>
+  document:
+    | WrappedDocument<v2.OpenAttestationDocument>
+    | WrappedDocument<v3.OpenAttestationDocument>
+    | WrappedDocument<TradeTrustDocument>
 ): string => {
   if (utils.isWrappedV2Document(document)) {
     const { issuers } = getData(document);
@@ -50,6 +54,19 @@ export const getTokenRegistry = (
     return document.openAttestationMetadata.proof.value;
   }
 
+  if (utils.isWrappedTTV4Document(document)) {
+    if (!document?.credentialStatus.location) {
+      throw new CodedError(
+        "Token registry is undefined",
+        OpenAttestationEthereumTokenRegistryStatusCode.UNDEFINED_TOKEN_REGISTRY,
+        OpenAttestationEthereumTokenRegistryStatusCode[
+          OpenAttestationEthereumTokenRegistryStatusCode.UNDEFINED_TOKEN_REGISTRY
+        ]
+      );
+    }
+    return utils.getIssuerAddress(document);
+  }
+
   throw new CodedError(
     `Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
     OpenAttestationEthereumTokenRegistryStatusCode.UNRECOGNIZED_DOCUMENT,
@@ -58,10 +75,14 @@ export const getTokenRegistry = (
 };
 
 const getMerkleRoot = (
-  document: WrappedDocument<v2.OpenAttestationDocument> | WrappedDocument<v3.OpenAttestationDocument>
+  document:
+    | WrappedDocument<v2.OpenAttestationDocument>
+    | WrappedDocument<v3.OpenAttestationDocument>
+    | WrappedDocument<TradeTrustDocument>
 ): string => {
   if (utils.isWrappedV2Document(document)) return `0x${document.signature.merkleRoot}`;
   else if (utils.isWrappedV3Document(document)) return `0x${document.proof.merkleRoot}`;
+  else if (utils.isWrappedTTV4Document(document)) return `0x${document.proof.merkleRoot}`;
   throw new CodedError(
     `Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
     OpenAttestationEthereumTokenRegistryStatusCode.UNRECOGNIZED_DOCUMENT,
@@ -168,15 +189,21 @@ const test: VerifierType["test"] = (document) => {
     return documentData.issuers.some((issuer) => "tokenRegistry" in issuer);
   } else if (utils.isWrappedV3Document(document)) {
     return document.openAttestationMetadata.proof.method === v3.Method.TokenRegistry;
+  } else if (utils.isWrappedTTV4Document(document)) {
+    return document.credentialStatus.credentialStatusType === "TOKEN_REGISTRY";
   }
   return false;
 };
 
 // TODO split
 const verify: VerifierType["verify"] = async (document, options) => {
-  if (!utils.isWrappedV3Document(document) && !utils.isWrappedV2Document(document))
+  if (
+    !utils.isWrappedV3Document(document) &&
+    !utils.isWrappedV2Document(document) &&
+    !utils.isWrappedTTV4Document(document)
+  )
     throw new CodedError(
-      `Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
+      `Document does not match either v2 or v3 or v4 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
       OpenAttestationEthereumTokenRegistryStatusCode.UNRECOGNIZED_DOCUMENT,
       OpenAttestationEthereumTokenRegistryStatusCode[
         OpenAttestationEthereumTokenRegistryStatusCode.UNRECOGNIZED_DOCUMENT

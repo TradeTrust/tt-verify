@@ -1029,14 +1029,14 @@ describe("verify", () => {
         `);
       });
       it("should be valid for vanilla tt v4 alpha docs", async () => {
-        whenPublicKeyResolvesSuccessfully("0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C");
+        whenPublicKeyResolvesSuccessfully("0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89");
         const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedTTV4, options);
         expect(res).toMatchInlineSnapshot(`
           Object {
             "data": Object {
               "details": Object {
                 "issuance": Object {
-                  "did": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+                  "did": "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89",
                   "issued": true,
                 },
                 "revocation": Object {
@@ -1053,14 +1053,14 @@ describe("verify", () => {
         `);
       });
       it("should be valid for tt v4 alpha with idvc docs, this test is a little redundant", async () => {
-        whenPublicKeyResolvesSuccessfully("0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C");
+        whenPublicKeyResolvesSuccessfully("0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638");
         const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidIDVCSignedTTV4, options);
         expect(res).toMatchInlineSnapshot(`
           Object {
             "data": Object {
               "details": Object {
                 "issuance": Object {
-                  "did": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+                  "did": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638",
                   "issued": true,
                 },
                 "revocation": Object {

@@ -1,4 +1,4 @@
-import { getData, utils, v2, v3 } from "@tradetrust-tt/tradetrust";
+import { getData, utils, v2, v3, TTv4 } from "@tradetrust-tt/tradetrust";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationDidCode } from "../../../types/error";
 import {
@@ -36,6 +36,8 @@ const test: VerifierType["test"] = (document) => {
     return issuers.some((issuer) => issuer.identityProof?.type === v2.IdentityProofType.Did);
   } else if (utils.isWrappedV3Document(document)) {
     return document.openAttestationMetadata.identityProof.type === v3.IdentityProofType.Did;
+  } else if (utils.isWrappedTTV4Document(document)) {
+    return document.issuer.identityProof.identityProofType === TTv4.IdentityProofType.Did;
   }
   return false;
 };
@@ -145,11 +147,48 @@ const verifyV3 = async (
   };
 };
 
+const verifyV4 = async (
+  document: TTv4.WrappedDocument,
+  options: VerifierOptions
+): Promise<OpenAttestationDidIdentityProofVerificationFragment> => {
+  if (!utils.isSignedWrappedTTV4Document(document))
+    throw new CodedError("Document is not signed", OpenAttestationDidCode.UNSIGNED, "UNSIGNED");
+
+  const merkleRoot = `0x${document.proof.merkleRoot}`;
+  const { key, signature } = document.proof;
+  const did = document.issuer.identityProof.identifier;
+
+  const verificationStatus = await verifySignature({
+    did,
+    merkleRoot,
+    key,
+    signature,
+    resolver: options.resolver,
+  });
+
+  if (ValidDidVerificationStatus.guard(verificationStatus)) {
+    return {
+      name,
+      type,
+      data: verificationStatus,
+      status: "VALID",
+    };
+  }
+  return {
+    name,
+    type,
+    data: verificationStatus,
+    reason: verificationStatus.reason,
+    status: "INVALID",
+  };
+};
+
 const verify: VerifierType["verify"] = async (document, options) => {
   if (utils.isWrappedV2Document(document)) return verifyV2(document, options);
   else if (utils.isWrappedV3Document(document)) return verifyV3(document, options);
+  else if (utils.isWrappedTTV4Document(document)) return verifyV4(document, options);
   throw new CodedError(
-    "Document does not match either v2 or v3 formats. Consider using `utils.diagnose` from open-attestation to find out more.",
+    "Document does not match either v2, v3 or v4 formats. Consider using `utils.diagnose` from open-attestation to find out more.",
     OpenAttestationDidCode.UNRECOGNIZED_DOCUMENT,
     OpenAttestationDidCode[OpenAttestationDidCode.UNRECOGNIZED_DOCUMENT]
   );

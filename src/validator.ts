@@ -23,7 +23,7 @@ export const isValid = (
 };
 
 export const isRendered = (
-  verificationFragments:  VerificationFragment[],
+  verificationFragments: VerificationFragment[],
   types: VerificationFragmentType[] = ["DOCUMENT_STATUS", "DOCUMENT_INTEGRITY", "ISSUER_IDENTITY"]
 ) => {
   if (verificationFragments.length < 1) {
@@ -39,8 +39,11 @@ export const isRendered = (
 
   if (hashValid && issuedValid) {
     if (!identityValid) {
-      const TradeTrustIDVCIdentityProofFragment = utils.getTradeTrustIDVCIdentityProofFragment(verificationFragments); 
-      if (TradeTrustIDVCIdentityProofFragment?.reason?.codeString === "REVOKED_IDVC" || TradeTrustIDVCIdentityProofFragment?.reason?.codeString === "EXPIRED_IDVC")
+      const TradeTrustIDVCIdentityProofFragment = utils.getTradeTrustIDVCIdentityProofFragment(verificationFragments);
+      if (
+        TradeTrustIDVCIdentityProofFragment?.reason?.codeString === "REVOKED_IDVC" ||
+        TradeTrustIDVCIdentityProofFragment?.reason?.codeString === "EXPIRED_IDVC"
+      )
         // issuer identity is not valid, reason being revoked idvc or expired idvc
         return true;
       // issuer identity is not valid, reason being different from above
@@ -53,9 +56,7 @@ export const isRendered = (
   return false;
 };
 
-export const renderedErrorMessageForIDVC = (
-  verificationFragments:  VerificationFragment[]
-) => {
-    const TradeTrustIDVCIdentityProofFragment = utils.getTradeTrustIDVCIdentityProofFragment(verificationFragments); 
-    return TradeTrustIDVCIdentityProofFragment?.reason?.message;
+export const renderedErrorMessageForIDVC = (verificationFragments: VerificationFragment[]) => {
+  const TradeTrustIDVCIdentityProofFragment = utils.getTradeTrustIDVCIdentityProofFragment(verificationFragments);
+  return TradeTrustIDVCIdentityProofFragment?.reason?.message;
 };

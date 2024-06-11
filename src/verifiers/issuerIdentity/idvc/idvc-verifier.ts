@@ -1,9 +1,9 @@
-import { verify as jsonldSignatureVerify, purposes, extendContextLoader } from "jsonld-Signatures";
 import { BbsBlsSignature2020 } from "@mattrglobal/jsonld-signatures-bbs";
 import { TTv4 } from "@tradetrust-tt/tradetrust";
 import { Bitstring } from "@transmute/compressable-bitstring";
 import fetch from "cross-fetch";
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jsonldSignatures = require("jsonld-signatures");
 export type IdentityVCData = TTv4.IdentityVCData;
 
 export const getRevokeStatus = async (signedVC: IdentityVCData) => {
@@ -20,7 +20,7 @@ const getEncodedList = async (signedVC: IdentityVCData): Promise<string> => {
     const results = await fetch(url, { redirect: "follow" });
     const cs = await results.json();
 
-    let verifiedCS = await verify(cs);
+    const verifiedCS = await verify(cs);
     if (verifiedCS.verified) {
       return cs.credentialSubject.encodedList;
     } else {
@@ -32,9 +32,9 @@ const getEncodedList = async (signedVC: IdentityVCData): Promise<string> => {
 };
 
 async function checkRevokeStatus(encoded: string, listIndex: number) {
-  let decodedList = await Bitstring.decodeBits({ encoded });
+  const decodedList = await Bitstring.decodeBits({ encoded });
   const bitstring = new Bitstring({ buffer: decodedList });
-  let result = bitstring.get(listIndex);
+  const result = bitstring.get(listIndex);
   return result;
 }
 
@@ -48,12 +48,13 @@ export const verify = async (signedDocument: IdentityVCData) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const verifyCredential = async (credential: IdentityVCData, customDocuments: any = []) => {
-  let documentLoader = await getDocumentLoader();
+  const documentLoader = await getDocumentLoader();
 
-  return await jsonldSignatureVerify(credential, {
+  return await jsonldSignatures.verify(credential, {
     suite: new BbsBlsSignature2020(),
-    purpose: new purposes.AssertionProofPurpose(),
+    purpose: new jsonldSignatures.purposes.AssertionProofPurpose(),
     documentLoader,
   });
 };
@@ -70,7 +71,7 @@ async function getDocumentLoader() {
         url = url.slice(0, url.indexOf("#"));
       }
       const id = url.split(":");
-      let path = id.map(decodeURIComponent).join("/") + "/.well-known/did.json";
+      const path = id.map(decodeURIComponent).join("/") + "/.well-known/did.json";
       url = path.replace("did/web/", "https://");
     }
     try {
@@ -87,5 +88,5 @@ async function getDocumentLoader() {
       throw new Error(e);
     }
   };
-  return extendContextLoader(customDocLoader);
+  return jsonldSignatures.extendContextLoader(customDocLoader);
 }

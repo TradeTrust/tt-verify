@@ -4,7 +4,6 @@ import sampleTTWrappedSignedTamperedIDVC from "../../../../test/fixtures/v4/tt/d
 import sampleTTWrappedSignedRevokedIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-revoked.json";
 import sampleTTWrappedSignedMissingIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-missing-idvc.json";
 import sampleTTWrappedSignedWrongBindIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-wrong-binding.json";
-import sampleTTWrappedSignedInvalidIDVC from "../../../../test/fixtures/v4/tt/did-idvc-wrapped-signed-idvc-invalid.json";
 import sampleTTWrappedSigned from "../../../../test/fixtures/v4/tt/did-wrapped-signed.json";
 import sampleOAWrappedSigned from "../../../../test/fixtures/v4/oa/did-signed-wrapped.json";
 
@@ -15,13 +14,12 @@ const v4TTSignedWrappedIDVC = sampleTTWrappedSignedIDVC as TTv4.SignedWrappedDoc
 const v4TTSignedWrappedTamperedIDVC = sampleTTWrappedSignedTamperedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedRevokedIDVC = sampleTTWrappedSignedRevokedIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedMissingIDVC = sampleTTWrappedSignedMissingIDVC as TTv4.SignedWrappedDocument;
-const v4TTSignedWrappedInvalidIDVC = sampleTTWrappedSignedInvalidIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrappedWrongBindIDVC = sampleTTWrappedSignedWrongBindIDVC as TTv4.SignedWrappedDocument;
 const v4TTSignedWrapped = sampleTTWrappedSigned as TTv4.SignedWrappedDocument;
 const v4OASignedWrapped = sampleOAWrappedSigned as OAv4.SignedWrappedDocument;
 
 const options = {
-  provider: getProvider({ network: "goerli" }),
+  provider: getProvider({ network: "sepolia" }),
 };
 
 describe("skip", () => {
@@ -64,14 +62,14 @@ describe("verify", () => {
         Object {
           "data": Object {
             "didVerificationResult": Object {
-              "did": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+              "did": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638",
               "verified": true,
             },
-            "idvcBoundId": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+            "idvcBoundId": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638",
             "idvcRevokedStatus": false,
             "idvcVerificationResult": true,
-            "issuerId": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
-            "key": "did:ethr:0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C#controller",
+            "issuerId": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638",
+            "key": "did:ethr:0x433097a1C1b8a3e9188d8C54eCC057B1D69f1638#controller",
             "status": "VALID",
           },
           "name": "TradeTrustIDVCIdentityProof",
@@ -84,28 +82,12 @@ describe("verify", () => {
       const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrapped, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: document does not have a identity vc],
+          "data": [Error: The Identity VC in the document is missing],
           "name": "TradeTrustIDVCIdentityProof",
           "reason": Object {
             "code": 7,
             "codeString": "MISSING_IDVC",
-            "message": "document does not have a identity vc",
-          },
-          "status": "ERROR",
-          "type": "ISSUER_IDENTITY",
-        }
-      `);
-    });
-    it("should return invalid fragment for document with identity proof method IDVC, but tampered signature", async () => {
-      const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedTamperedIDVC, options);
-      expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": [Error: merkle root is not signed correctly by 0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C],
-          "name": "TradeTrustIDVCIdentityProof",
-          "reason": Object {
-            "code": 10,
-            "codeString": "TAMPERED",
-            "message": "merkle root is not signed correctly by 0xE94E4f16ad40ADc90C29Dc85b42F1213E034947C",
+            "message": "The Identity VC in the document is missing",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -116,12 +98,12 @@ describe("verify", () => {
       const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedRevokedIDVC, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: the idvc in the document has been revoked],
+          "data": [Error: The Identity VC in the document has been revoked],
           "name": "TradeTrustIDVCIdentityProof",
           "reason": Object {
             "code": 8,
             "codeString": "REVOKED_IDVC",
-            "message": "the idvc in the document has been revoked",
+            "message": "The Identity VC in the document has been revoked",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -132,12 +114,12 @@ describe("verify", () => {
       const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedWrongBindIDVC, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: bound issuer id and idvc credential subject id are different],
+          "data": [Error: The Identity VC issuer in the document is invalid],
           "name": "TradeTrustIDVCIdentityProof",
           "reason": Object {
             "code": 11,
             "codeString": "WRONG_BINDING",
-            "message": "bound issuer id and idvc credential subject id are different",
+            "message": "The Identity VC issuer in the document is invalid",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -148,12 +130,12 @@ describe("verify", () => {
       const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedMissingIDVC, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: document does not have a identity vc],
+          "data": [Error: The Identity VC in the document is missing],
           "name": "TradeTrustIDVCIdentityProof",
           "reason": Object {
             "code": 7,
             "codeString": "MISSING_IDVC",
-            "message": "document does not have a identity vc",
+            "message": "The Identity VC in the document is missing",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",
@@ -161,15 +143,15 @@ describe("verify", () => {
       `);
     });
     it("should return invalid fragment for document with identity proof method IDVC, but the verification of the IDVC is invalid", async () => {
-      const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedInvalidIDVC, options);
+      const fragment = await tradeTrustIDVCIdentityProof.verify(v4TTSignedWrappedTamperedIDVC, options);
       expect(fragment).toMatchInlineSnapshot(`
         Object {
-          "data": [Error: the idvc in the document is invalid],
+          "data": [Error: The Identity VC in the document is invalid],
           "name": "TradeTrustIDVCIdentityProof",
           "reason": Object {
             "code": 9,
             "codeString": "INVALID_IDVC",
-            "message": "the idvc in the document is invalid",
+            "message": "The Identity VC in the document is invalid",
           },
           "status": "ERROR",
           "type": "ISSUER_IDENTITY",

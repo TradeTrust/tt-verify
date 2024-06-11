@@ -36,7 +36,7 @@ const test: VerifierType["test"] = (document) => {
     return document.openAttestationMetadata.identityProof.type === v3.IdentityProofType.DNSDid;
   } else if (utils.isWrappedOAV4Document(document)) {
     return document.issuer.identityProof.identityProofType === OAv4.IdentityProofType.DNSDid;
-  } else if (utils.isWrappedTTV4Document(document)) {
+  } else if (utils.isSignedWrappedTTV4Document(document)) {
     return document.issuer.identityProof.identityProofType === TTv4.IdentityProofType.DNSDid;
   }
   return false;

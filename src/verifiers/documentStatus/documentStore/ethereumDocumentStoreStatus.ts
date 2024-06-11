@@ -1,4 +1,4 @@
-import { getData, utils, v2, v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
+import { getData, utils, v2, v3, WrappedDocument, TTv4 } from "@tradetrust-tt/tradetrust";
 import { providers } from "ethers";
 import { DocumentStoreFactory } from "@tradetrust-tt/document-store";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
@@ -101,6 +101,8 @@ const test: VerifierType["test"] = (document) => {
     return documentData.issuers.some((issuer) => "documentStore" in issuer || "certificateStore" in issuer);
   } else if (utils.isWrappedV3Document(document)) {
     return document.openAttestationMetadata.proof.method === v3.Method.DocumentStore;
+  } else if (utils.isWrappedTTV4Document(document)) {
+    return document.credentialStatus.credentialStatusType === TTv4.CredentialStatusType.RevocationStore;
   }
   return false;
 };
@@ -237,11 +239,69 @@ const verifyV3 = async (
   };
 };
 
+const verifyV4 = async (
+  document: WrappedDocument<TTv4.TradeTrustDocument>,
+  options: VerifierOptions
+): Promise<OpenAttestationEthereumDocumentStoreStatusFragment> => {
+  const { merkleRoot: merkleRootRaw, targetHash, proofs } = document.proof;
+  const merkleRoot = `0x${merkleRootRaw}`;
+  const documentStore = document.credentialStatus.location ?? "";
+
+  const issuance = await isIssuedOnDocumentStore({ documentStore, merkleRoot, provider: options.provider });
+  const revocation = await isRevokedOnDocumentStore({
+    documentStore,
+    merkleRoot,
+    targetHash,
+    proofs,
+    provider: options.provider,
+  });
+
+  const data = {
+    issuedOnAll: issuance.issued,
+    revokedOnAny: revocation.revoked,
+    details: {
+      issuance,
+      revocation,
+    },
+  };
+
+  if (ValidDocumentStoreDataV3.guard(data)) {
+    return {
+      name,
+      type,
+      data,
+      status: "VALID",
+    };
+  }
+
+  let reason: Reason | undefined;
+  if (InvalidRevocationStatus.guard(revocation)) {
+    reason = revocation.reason;
+  } else if (InvalidDocumentStoreIssuanceStatus.guard(issuance)) {
+    reason = issuance.reason;
+  }
+  if (!reason) {
+    throw new CodedError(
+      "Unable to retrieve the reason of the failure",
+      OpenAttestationEthereumDocumentStoreStatusCode.UNEXPECTED_ERROR,
+      "UNEXPECTED_ERROR"
+    );
+  }
+  return {
+    name,
+    type,
+    data,
+    status: "INVALID",
+    reason,
+  };
+};
+
 const verify: VerifierType["verify"] = async (document, options) => {
   if (utils.isWrappedV2Document(document)) return verifyV2(document, options);
   else if (utils.isWrappedV3Document(document)) return verifyV3(document, options);
+  else if (utils.isWrappedTTV4Document(document)) return verifyV4(document, options);
   throw new CodedError(
-    `Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
+    `Document does not match either v2, v3 or v4 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.`,
     OpenAttestationEthereumDocumentStoreStatusCode.UNRECOGNIZED_DOCUMENT,
     OpenAttestationEthereumDocumentStoreStatusCode[OpenAttestationEthereumDocumentStoreStatusCode.UNRECOGNIZED_DOCUMENT]
   );

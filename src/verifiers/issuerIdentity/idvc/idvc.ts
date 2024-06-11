@@ -37,7 +37,16 @@ const test: VerifierType["test"] = (document) => {
  * Instead of relying on the NDI module, you can replace this
  * with the generic way of verifying a w3c vc.
  *  */
-const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]> => {
+export const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]> => {
+  const { verified: verificationResult } = await verifyCredential(idvc);
+  if (!verificationResult) {
+    throw new CodedError(
+      "The Identity VC in the document is invalid",
+      TradeTrustIDVCCode.INVALID_IDVC,
+      TradeTrustIDVCCode[TradeTrustIDVCCode.INVALID_IDVC]
+    );
+  }
+
   const revokedStatus = await getRevokeStatus(idvc);
   if (revokedStatus) {
     throw new CodedError(
@@ -46,14 +55,7 @@ const verifyIDVC = async (idvc: TTv4.IdentityVCData): Promise<[boolean, boolean]
       TradeTrustIDVCCode[TradeTrustIDVCCode.REVOKED_IDVC]
     );
   }
-  const { verified: verificationResult } = await verifyCredential(idvc);
-  if (!verificationResult) {
-    throw new CodedError(
-      "the idvc in the document is invalid",
-      TradeTrustIDVCCode.INVALID_IDVC,
-      TradeTrustIDVCCode[TradeTrustIDVCCode.INVALID_IDVC]
-    );
-  }
+
   return [revokedStatus, verificationResult];
 };
 
@@ -78,7 +80,7 @@ const verifyV4 = async (
 ): Promise<TradeTrustIDVCIdentityProofVerificationFragment> => {
   if (!utils.isSignedWrappedTTV4Document(document))
     throw new CodedError(
-      "document is not signed",
+      "The Identity VC in the document is invalid",
       TradeTrustIDVCCode.UNSIGNED,
       TradeTrustIDVCCode[TradeTrustIDVCCode.UNSIGNED]
     );
@@ -88,13 +90,13 @@ const verifyV4 = async (
   const did = document.issuer.id;
   if (!did)
     throw new CodedError(
-      "id is missing in issuer",
+      "The Identity VC in the document is invalid",
       TradeTrustIDVCCode.DID_MISSING,
       TradeTrustIDVCCode[TradeTrustIDVCCode.DID_MISSING]
     );
   if (!key) {
     throw new CodedError(
-      "Key is not present",
+      "The Identity VC in the document is invalid",
       TradeTrustIDVCCode.MALFORMED_IDENTITY_PROOF,
       TradeTrustIDVCCode[TradeTrustIDVCCode.MALFORMED_IDENTITY_PROOF]
     );
@@ -111,7 +113,8 @@ const verifyV4 = async (
   });
   if (!ValidDidVerificationStatus.guard(verifySignatureStatus)) {
     throw new CodedError(
-      verifySignatureStatus.reason.message,
+      // verifySignatureStatus.reason.message,
+      "The Identity VC in the document is invalid",
       TradeTrustIDVCCode.TAMPERED,
       TradeTrustIDVCCode[TradeTrustIDVCCode.TAMPERED]
     );
@@ -119,16 +122,16 @@ const verifyV4 = async (
 
   if (!document.issuer.identityProof.identityVC) {
     throw new CodedError(
-      "document does not have a identity vc",
+      "The Identity VC in the document is missing",
       TradeTrustIDVCCode.MISSING_IDVC,
       TradeTrustIDVCCode[TradeTrustIDVCCode.MISSING_IDVC]
     );
   }
   const idvc = document.issuer.identityProof.identityVC.data;
-  
+
   if (!idvc.credentialSubject.id) {
     throw new CodedError(
-      "document does not have a bound issuer id in the idvc",
+      "The Identity VC in the document is invalid",
       TradeTrustIDVCCode.DID_MISSING,
       TradeTrustIDVCCode[TradeTrustIDVCCode.DID_MISSING]
     );
@@ -136,7 +139,7 @@ const verifyV4 = async (
   const doBindingsMatch = did === idvc.credentialSubject.id;
   if (!doBindingsMatch) {
     throw new CodedError(
-      "bound issuer id and idvc credential subject id are different",
+      "The Identity VC issuer in the document is invalid",
       TradeTrustIDVCCode.WRONG_BINDING,
       TradeTrustIDVCCode[TradeTrustIDVCCode.WRONG_BINDING]
     );
@@ -150,7 +153,6 @@ const verifyV4 = async (
       TradeTrustIDVCCode[TradeTrustIDVCCode.EXPIRED_IDVC]
     );
   }
-
 
   const verificationStatus = {
     status:
@@ -180,7 +182,7 @@ const verifyV4 = async (
     data: verificationStatus,
     status: "INVALID",
     reason: {
-      message: "Verification failed, look at data to diagnose.",
+      message: "The Identity VC in the document is invalid",
       code: TradeTrustIDVCCode.INVALID_IDENTITY,
       codeString: "INVALID_IDENTITY",
     },
@@ -190,7 +192,7 @@ const verifyV4 = async (
 const verify: VerifierType["verify"] = async (document, options) => {
   if (utils.isSignedWrappedTTV4Document(document)) return verifyV4(document, options);
   throw new CodedError(
-    "Document does not match tt v4 format. Consider using `utils.diagnose` from open-attestation to find out more.",
+    "The Identity VC in the document is invalid",
     TradeTrustIDVCCode.UNRECOGNIZED_DOCUMENT,
     TradeTrustIDVCCode[TradeTrustIDVCCode.UNRECOGNIZED_DOCUMENT]
   );

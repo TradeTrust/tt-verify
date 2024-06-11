@@ -8,7 +8,7 @@ import { openAttestationDidSignedDocumentStatus } from "./verifiers/documentStat
 import { openAttestationDnsTxtIdentityProof } from "./verifiers/issuerIdentity/dnsTxt";
 import { openAttestationDidIdentityProof } from "./verifiers/issuerIdentity/did";
 import { openAttestationDnsDidIdentityProof } from "./verifiers/issuerIdentity/dnsDid";
-import { tradeTrustIDVCIdentityProof } from "./verifiers/issuerIdentity/idvc";
+import { tradeTrustIDVCIdentityProof, verifyIDVC } from "./verifiers/issuerIdentity/idvc";
 import { createResolver } from "./did/resolver";
 import { verifySignature } from "./did/verifier";
 import { getIdentifier } from "./getIdentifier";
@@ -59,6 +59,7 @@ export {
   openAttestationDnsDidIdentityProof,
   openAttestationDidIdentityProof,
   tradeTrustIDVCIdentityProof,
+  verifyIDVC,
   createResolver,
   getIdentifier,
   utils,

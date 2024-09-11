@@ -61,10 +61,10 @@ describe("verify(integration)", () => {
   it("should skip all verifiers when the document is an empty object", async () => {
     const fragments = await verifySepolia({} as any);
     expect(fragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "name": "OpenAttestationHash",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
             "message": "Document does not have merkle root, target hash or data.",
@@ -72,29 +72,29 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -102,19 +102,19 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -133,11 +133,11 @@ describe("verify(integration)", () => {
   it("should fail for everything when document's hash is invalid and certificate store is invalid", async () => {
     const results = await verifyHomestead(tamperedDocument);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": false,
           "name": "OpenAttestationHash",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "DOCUMENT_TAMPERED",
             "message": "Document has been tampered with",
@@ -145,24 +145,24 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0x20bc9C354A18C8178A713B9BcCFFaC2152b53990",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Contract is not found",
@@ -173,7 +173,7 @@ describe("verify(integration)", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Contract is not found",
@@ -181,9 +181,9 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -191,19 +191,19 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -220,11 +220,11 @@ describe("verify(integration)", () => {
   it("should fail for OpenAttestationHash and OpenAttestationEthereumDocumentStoreStatus when document's hash is invalid and was not issued", async () => {
     const results = await verifySepolia(tamperedDocumentInvalid);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": false,
           "name": "OpenAttestationHash",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "DOCUMENT_TAMPERED",
             "message": "Document has been tampered with",
@@ -232,24 +232,24 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0x20bc9C354A18C8178A713B9BcCFFaC2152b53991",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Bad document store address checksum",
@@ -260,7 +260,7 @@ describe("verify(integration)", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Bad document store address checksum",
@@ -268,9 +268,9 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -278,19 +278,19 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -307,34 +307,34 @@ describe("verify(integration)", () => {
   it("should be valid for all checks for a document with obfuscated fields", async () => {
     const fragments = await verifySepolia(documentSepoliaObfuscated as any);
     expect(fragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "revoked": false,
                 },
@@ -347,9 +347,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -357,9 +357,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.openattestation.com",
               "status": "VALID",
               "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -369,9 +369,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -390,17 +390,17 @@ describe("verify(integration)", () => {
   it("should be valid for all checks when document with token registry is valid on sepolia", async () => {
     const results = await verifySepolia(documentSepoliaValidWithToken);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
                 "minted": true,
               },
@@ -411,19 +411,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -431,9 +431,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.tradetrust.io",
               "status": "VALID",
               "value": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
@@ -443,9 +443,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -461,11 +461,11 @@ describe("verify(integration)", () => {
   it("should be invalid with a merkle root that is odd-length", async () => {
     const results = await verifyHomestead(documentMainnetInvalidWithOddLengthMerkleRoot);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": false,
           "name": "OpenAttestationHash",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "DOCUMENT_TAMPERED",
             "message": "Document has been tampered with",
@@ -473,24 +473,24 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0x6d71da10Ae0e5B73d0565E2De46741231Eb247C7",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Invalid call arguments",
@@ -501,7 +501,7 @@ describe("verify(integration)", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Invalid call arguments",
@@ -509,9 +509,9 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -519,9 +519,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "demo.tradetrust.io",
               "status": "VALID",
               "value": "0x6d71da10Ae0e5B73d0565E2De46741231Eb247C7",
@@ -531,9 +531,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -554,11 +554,11 @@ describe("verify(integration)", () => {
     // incorrect length means even-length, but not 64 characters as required of merkleRoots
     const results = await verifyHomestead(documentMainnetInvalidWithIncorrectMerkleRoot);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": false,
           "name": "OpenAttestationHash",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "DOCUMENT_TAMPERED",
             "message": "Document has been tampered with",
@@ -566,24 +566,24 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0x6d71da10Ae0e5B73d0565E2De46741231Eb247C7",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Invalid call arguments",
@@ -594,7 +594,7 @@ describe("verify(integration)", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Invalid call arguments",
@@ -602,9 +602,9 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -612,9 +612,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "demo.tradetrust.io",
               "status": "VALID",
               "value": "0x6d71da10Ae0e5B73d0565E2De46741231Eb247C7",
@@ -624,9 +624,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -646,20 +646,20 @@ describe("verify(integration)", () => {
   it("should fail for OpenAttestationEthereumTokenRegistryStatus when document with token registry was not issued", async () => {
     const results = await verifySepolia(documentSepoliaNotIssuedTokenRegistry);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
                 "minted": false,
-                "reason": Object {
+                "reason": {
                   "code": 1,
                   "codeString": "DOCUMENT_NOT_MINTED",
                   "message": "Document has not been issued under token registry",
@@ -669,7 +669,7 @@ describe("verify(integration)", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Document has not been issued under token registry",
@@ -677,19 +677,19 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -697,9 +697,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.tradetrust.io",
               "status": "VALID",
               "value": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
@@ -709,9 +709,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -728,36 +728,36 @@ describe("verify(integration)", () => {
   it("should fail for OpenAttestationEthereumDocumentStoreStatus when document was issued then subsequently revoked", async () => {
     const results = await verifySepolia(documentSepoliaRevokedWithDocumentStore);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0xae0d37f3bbdda18b9c5ab98b4e18536901e14de9a0f92c36347a0abe6afdc4df has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -770,7 +770,7 @@ describe("verify(integration)", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0xae0d37f3bbdda18b9c5ab98b4e18536901e14de9a0f92c36347a0abe6afdc4df has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -778,9 +778,9 @@ describe("verify(integration)", () => {
           "status": "INVALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -788,9 +788,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.openattestation.com",
               "status": "VALID",
               "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -800,9 +800,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -822,44 +822,44 @@ describe("verify(integration)", () => {
     });
     const results = await customVerify(documentDidSigned);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -872,19 +872,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -892,9 +892,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
               "verified": true,
             },
@@ -917,44 +917,44 @@ describe("verify(integration)", () => {
     });
     const fragments = await customVerify(v2DidSignedRevocationStoreNotRevoked);
     expect(fragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -967,19 +967,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -987,9 +987,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
               "verified": true,
             },
@@ -1009,44 +1009,44 @@ describe("verify(integration)", () => {
   it("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof, but not revoked on a document store", async () => {
     const fragments = await verifySepolia(v2DnsDidSignedRevocationStoreNotRevoked);
     expect(fragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -1059,19 +1059,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
               "location": "demo-tradetrust.openattestation.com",
               "status": "VALID",
@@ -1098,20 +1098,20 @@ describe("verify(integration)", () => {
     expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
     expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
     expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+      [
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0xe62bfe652b62efc1918662c284a4cc531e665c7e73ee32304469723ca11698ab has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -1124,7 +1124,7 @@ describe("verify(integration)", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0xe62bfe652b62efc1918662c284a4cc531e665c7e73ee32304469723ca11698ab has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -1142,20 +1142,20 @@ describe("verify(integration)", () => {
     expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
     expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
     expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+      [
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0x03c52b529aef3c2a90f497050ea4b72b9e6d8f09a82d295745921a647fc66a1d has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -1168,7 +1168,7 @@ describe("verify(integration)", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0x03c52b529aef3c2a90f497050ea4b72b9e6d8f09a82d295745921a647fc66a1d has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -1190,34 +1190,34 @@ describe("verify(integration)", () => {
     const verification = verificationBuilder(openAttestationVerifiers, defaultBuilderOption);
     const fragments = await verification(documentSepoliaValidWithDocumentStore);
     expect(fragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "revoked": false,
                 },
@@ -1230,9 +1230,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -1240,9 +1240,9 @@ describe("verify(integration)", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.openattestation.com",
               "status": "VALID",
               "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -1252,9 +1252,9 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -1277,44 +1277,44 @@ describe("verify(integration)", () => {
     const didFragments = await verification(documentDidSigned);
     const dnsDidFragments = await verification(documentDnsDidSigned);
     expect(didFragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -1327,19 +1327,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -1350,44 +1350,44 @@ describe("verify(integration)", () => {
       ]
     `);
     expect(dnsDidFragments).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+            "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -1400,19 +1400,19 @@ describe("verify(integration)", () => {
           "status": "VALID",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
               "location": "demo-tradetrust.openattestation.com",
               "status": "VALID",

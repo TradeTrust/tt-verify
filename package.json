@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:type",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs --project ./tsconfig.prod.json",
-    "build:esm": "tsc --module es2015 --outDir dist/esm --project ./tsconfig.prod.json",
+    "build:esm": "tsc --module es2022 --outDir dist/esm --project ./tsconfig.prod.json",
     "build:type": "tsc -d --emitDeclarationOnly --outDir dist/types",
     "clean": "rm -rf dist/",
     "commit": "git-cz",
@@ -29,7 +29,6 @@
     "@tradetrust-tt/document-store": "^2.7.0",
     "@tradetrust-tt/token-registry": "^4.9.0",
     "@tradetrust-tt/tradetrust": "^6.9.0",
-    "axios": "^1.7.2",
     "debug": "^4.3.1",
     "did-resolver": "^3.1.0",
     "ethers": "^5.4.0",

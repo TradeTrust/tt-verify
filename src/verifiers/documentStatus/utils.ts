@@ -134,7 +134,6 @@ export const isRevokedByOcspResponder = async ({
 
   for (const hash of intermediateHashes) {
     const res = await fetch(`${location}/${hash}`).catch((e) => {
-      console.log(e)
       throw new CodedError(
         `Invalid or unexpected response from OCSP Responder - ${e}`,
         OpenAttestationDidSignedDocumentStatusCode.OCSP_RESPONSE_INVALID,

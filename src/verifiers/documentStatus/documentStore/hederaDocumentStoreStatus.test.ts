@@ -73,10 +73,10 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumDocumentStoreStatus.verify(documentMixedIssuance, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document store address not found in issuer DEMO STORE],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "INVALID_ISSUERS",
             "message": "Document store address not found in issuer DEMO STORE",

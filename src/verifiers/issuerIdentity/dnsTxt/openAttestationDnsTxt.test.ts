@@ -24,12 +24,12 @@ describe("skip", () => {
   it("should return skip fragment", async () => {
     const fragment = await openAttestationDnsTxtIdentityProof.skip(documentSepoliaValidWithToken, options);
     expect(fragment).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDnsTxtIdentityProof",
-        "reason": Object {
+        "reason": {
           "code": 2,
           "codeString": "SKIPPED",
-          "message": "Document issuers doesn't have \\"documentStore\\" / \\"tokenRegistry\\" property or doesn't use DNS-TXT type",
+          "message": "Document issuers doesn't have "documentStore" / "tokenRegistry" property or doesn't use DNS-TXT type",
         },
         "status": "SKIPPED",
         "type": "ISSUER_IDENTITY",
@@ -74,7 +74,7 @@ describe("test", () => {
           ],
         },
       };
-      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithoutIdentityProof, options);
+      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithoutIdentityProof as any, options);
       expect(toVerify).toBe(false);
     });
 
@@ -116,7 +116,10 @@ describe("test", () => {
           ],
         },
       };
-      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithMultipleIssuersWithoutDnsTxt, options);
+      const toVerify = await openAttestationDnsTxtIdentityProof.test(
+        documentWithMultipleIssuersWithoutDnsTxt as any,
+        options
+      );
       expect(toVerify).toBe(false);
     });
   });
@@ -141,9 +144,9 @@ describe("verify", () => {
     it("should return a valid fragment when document has valid identity and uses document store", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentSepoliaValidWithDocumentStore, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.openattestation.com",
               "status": "VALID",
               "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -170,11 +173,11 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentWithMismatchedTokenRegistry, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.tradetrust.io",
-              "reason": Object {
+              "reason": {
                 "code": 4,
                 "codeString": "MATCHING_RECORD_NOT_FOUND",
                 "message": "Matching DNS record not found for 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -184,7 +187,7 @@ describe("verify", () => {
             },
           ],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "MATCHING_RECORD_NOT_FOUND",
             "message": "Matching DNS record not found for 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -212,10 +215,10 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentWithoutIdentityLocation, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document does not match either v2 or v3 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
             "message": "Document does not match either v2 or v3 formats",
@@ -245,12 +248,12 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document does not match either v2 or v3 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
             "message": "Document does not match either v2 or v3 formats",
@@ -287,11 +290,11 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.tradetrust.io",
-              "reason": Object {
+              "reason": {
                 "code": 4,
                 "codeString": "MATCHING_RECORD_NOT_FOUND",
                 "message": "Matching DNS record not found for 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -299,14 +302,14 @@ describe("verify", () => {
               "status": "INVALID",
               "value": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             },
-            Object {
+            {
               "location": "example.tradetrust.io",
               "status": "VALID",
               "value": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
             },
           ],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "MATCHING_RECORD_NOT_FOUND",
             "message": "Matching DNS record not found for 0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -331,12 +334,12 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document does not match either v2 or v3 formats],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "UNRECOGNIZED_DOCUMENT",
             "message": "Document does not match either v2 or v3 formats",
@@ -349,11 +352,11 @@ describe("verify", () => {
     it("should return an invalid fragment when used with other issuance methods", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentMixedIssuance, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "location": "example.tradetrust.io",
-              "reason": Object {
+              "reason": {
                 "code": 4,
                 "codeString": "MATCHING_RECORD_NOT_FOUND",
                 "message": "Matching DNS record not found for 0x257DFD21f991DA9BD420882365020991eec0494E",
@@ -361,9 +364,9 @@ describe("verify", () => {
               "status": "INVALID",
               "value": "0x257DFD21f991DA9BD420882365020991eec0494E",
             },
-            Object {
+            {
               "location": "example.tradetrust.io",
-              "reason": Object {
+              "reason": {
                 "code": 4,
                 "codeString": "MATCHING_RECORD_NOT_FOUND",
                 "message": "Matching DNS record not found for 0xEE1772da1Fe18a4506de2AA0567637E9b7aD27Bf",
@@ -371,16 +374,16 @@ describe("verify", () => {
               "status": "INVALID",
               "value": "0xEE1772da1Fe18a4506de2AA0567637E9b7aD27Bf",
             },
-            Object {
-              "reason": Object {
+            {
+              "reason": {
                 "code": 3,
                 "codeString": "INVALID_ISSUERS",
                 "message": "Issuer is not using DNS-TXT identityProof type",
               },
               "status": "INVALID",
             },
-            Object {
-              "reason": Object {
+            {
+              "reason": {
                 "code": 3,
                 "codeString": "INVALID_ISSUERS",
                 "message": "Issuer is not using DNS-TXT identityProof type",
@@ -389,7 +392,7 @@ describe("verify", () => {
             },
           ],
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "MATCHING_RECORD_NOT_FOUND",
             "message": "Matching DNS record not found for 0x257DFD21f991DA9BD420882365020991eec0494E",
@@ -404,8 +407,8 @@ describe("verify", () => {
     it("should return valid fragment for valid document using document store with corresponding DNS-TXT", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(v3DocumentStoreIssued, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "identifier": "example.openattestation.com",
             "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
           },
@@ -418,8 +421,8 @@ describe("verify", () => {
     it("should return valid fragment for valid document using token registry with corresponding DNS-TXT", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(v3TokenRegistryIssued, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "identifier": "example.tradetrust.io",
             "value": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
           },
@@ -442,13 +445,13 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentWithoutDnsTxt, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "identifier": "nonexistent.example.com",
             "value": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
           },
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "MATCHING_RECORD_NOT_FOUND",
             "message": "Matching DNS record not found for 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -471,13 +474,13 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentWithoutDnsTxt, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "identifier": "nonexistent.example.com",
             "value": "0x142Ca30e3b78A840a82192529cA047ED759a6F7e",
           },
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "MATCHING_RECORD_NOT_FOUND",
             "message": "Matching DNS record not found for 0x142Ca30e3b78A840a82192529cA047ED759a6F7e",

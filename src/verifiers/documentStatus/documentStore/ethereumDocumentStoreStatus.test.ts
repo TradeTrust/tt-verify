@@ -94,14 +94,14 @@ describe("verify", () => {
         options
       );
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Contract is not found",
@@ -112,7 +112,7 @@ describe("verify", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Contract is not found",
@@ -139,14 +139,14 @@ describe("verify", () => {
         options
       );
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0x0000000000000000000000000000000000000000",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 1,
                     "codeString": "DOCUMENT_NOT_ISSUED",
                     "message": "Contract is not found",
@@ -157,7 +157,7 @@ describe("verify", () => {
             "issuedOnAll": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Contract is not found",
@@ -174,19 +174,19 @@ describe("verify", () => {
         options
       );
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0xae0d37f3bbdda18b9c5ab98b4e18536901e14de9a0f92c36347a0abe6afdc4df has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -199,7 +199,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0xae0d37f3bbdda18b9c5ab98b4e18536901e14de9a0f92c36347a0abe6afdc4df has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -217,17 +217,17 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                   "revoked": false,
                 },
@@ -247,10 +247,10 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumDocumentStoreStatus.verify(documentMixedIssuance, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document store address not found in issuer DEMO STORE],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "INVALID_ISSUERS",
             "message": "Document store address not found in issuer DEMO STORE",
@@ -265,14 +265,14 @@ describe("verify", () => {
     it("should return valid fragment for document issued correctly on a document store", async () => {
       const fragment = await openAttestationEthereumDocumentStoreStatus.verify(v3DocumentStoreIssued, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 "revoked": false,
               },
@@ -289,19 +289,19 @@ describe("verify", () => {
     it("should return an invalid fragment for document not issued on a document store", async () => {
       const fragment = await openAttestationEthereumDocumentStoreStatus.verify(v3DocumentStoreWrapped, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 "issued": false,
-                "reason": Object {
+                "reason": {
                   "code": 1,
                   "codeString": "DOCUMENT_NOT_ISSUED",
                   "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 },
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 "revoked": false,
               },
@@ -310,7 +310,7 @@ describe("verify", () => {
             "revokedOnAny": false,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_ISSUED",
             "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -323,16 +323,16 @@ describe("verify", () => {
     it("should return an invalid fragment for document issued but revoked on a document store", async () => {
       const fragment = await openAttestationEthereumDocumentStoreStatus.verify(v3DocumentStoreRevoked, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                "reason": Object {
+                "reason": {
                   "code": 5,
                   "codeString": "DOCUMENT_REVOKED",
                   "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -344,7 +344,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -364,12 +364,12 @@ describe("skip", () => {
       options
     );
     expect(skipFragment).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationEthereumDocumentStoreStatus",
-        "reason": Object {
+        "reason": {
           "code": 4,
           "codeString": "SKIPPED",
-          "message": "Document issuers doesn't have \\"documentStore\\" or \\"certificateStore\\" property or DOCUMENT_STORE method",
+          "message": "Document issuers doesn't have "documentStore" or "certificateStore" property or DOCUMENT_STORE method",
         },
         "status": "SKIPPED",
         "type": "DOCUMENT_STATUS",

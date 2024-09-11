@@ -116,7 +116,7 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationHash fragment", () => {
     expect(getOpenAttestationHashFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
+      {
         "data": true,
         "name": "OpenAttestationHash",
         "status": "VALID",
@@ -126,9 +126,9 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationDnsTxtIdentityProof fragment", () => {
     expect(getOpenAttestationDnsTxtIdentityProofFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
-        "data": Array [
-          Object {
+      {
+        "data": [
+          {
             "location": "example.openattestation.com",
             "status": "VALID",
             "value": "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
@@ -142,9 +142,9 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationDnsDidIdentityProof fragment", () => {
     expect(getOpenAttestationDnsDidIdentityProofFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDnsDidIdentityProof",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "SKIPPED",
           "message": "Document was not issued using DNS-DID",
@@ -156,13 +156,13 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationDidIdentityProof fragment", () => {
     expect(getOpenAttestationDidIdentityProofFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
-        "data": Object {
+      {
+        "data": {
           "did": "did:ethr:sepolia:0x0cE1854a3836daF9130028Cf90D6d35B1Ae46457",
           "verified": true,
         },
         "name": "OpenAttestationDidIdentityProof",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "OOPS",
           "message": "Document was oopsed",
@@ -174,9 +174,9 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationDidSignedDocumentStatus fragment", () => {
     expect(getOpenAttestationDidSignedDocumentStatusFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDidSignedDocumentStatus",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "SKIPPED",
           "message": "Document was not signed by DID directly",
@@ -188,17 +188,17 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationEthereumDocumentStoreStatus fragment", () => {
     expect(getOpenAttestationEthereumDocumentStoreStatusFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
-        "data": Object {
-          "details": Object {
-            "issuance": Array [
-              Object {
+      {
+        "data": {
+          "details": {
+            "issuance": [
+              {
                 "address": "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
                 "issued": true,
               },
             ],
-            "revocation": Array [
-              Object {
+            "revocation": [
+              {
                 "address": "0x532C9Ff853CA54370D7492cD84040F9f8099f11B",
                 "revoked": false,
               },
@@ -215,12 +215,12 @@ describe("getFragmentByName", () => {
   });
   it("should return OpenAttestationEthereumTokenRegistryStatus fragment", () => {
     expect(getOpenAttestationEthereumTokenRegistryStatusFragment(fragments)).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationEthereumTokenRegistryStatus",
-        "reason": Object {
+        "reason": {
           "code": 4,
           "codeString": "SKIPPED",
-          "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+          "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
         },
         "status": "SKIPPED",
         "type": "DOCUMENT_STATUS",
@@ -233,7 +233,7 @@ describe("getFragmentsByType", () => {
   it("should return DOCUMENT_INTEGRITY fragments", () => {
     const documentIntegrityFragments = getDocumentIntegrityFragments(fragments);
     expect(documentIntegrityFragments.map((fragment) => fragment.name)).toMatchInlineSnapshot(`
-      Array [
+      [
         "OpenAttestationHash",
       ]
     `);
@@ -241,7 +241,7 @@ describe("getFragmentsByType", () => {
   it("should return DOCUMENT_STATUS fragments", () => {
     const documentStatusFragments = getDocumentStatusFragments(fragments);
     expect(documentStatusFragments.map((fragment) => fragment.name)).toMatchInlineSnapshot(`
-      Array [
+      [
         "OpenAttestationEthereumTokenRegistryStatus",
         "OpenAttestationEthereumDocumentStoreStatus",
         "OpenAttestationDidSignedDocumentStatus",
@@ -251,7 +251,7 @@ describe("getFragmentsByType", () => {
   it("should return ISSUER_IDENTITY fragments", () => {
     const issuerIdentityFragments = getIssuerIdentityFragments(fragments);
     expect(issuerIdentityFragments.map((fragment) => fragment.name)).toMatchInlineSnapshot(`
-      Array [
+      [
         "OpenAttestationDnsTxtIdentityProof",
         "OpenAttestationDnsDidIdentityProof",
         "OpenAttestationDidIdentityProof",

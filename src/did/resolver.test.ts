@@ -95,8 +95,8 @@ describe("custom resolver", () => {
     const fragment = await verify(v3DidSigned);
     expect(fragment[0].status).toBe("VALID");
     expect(fragment[0]).toMatchInlineSnapshot(`
-      Object {
-        "data": Object {
+      {
+        "data": {
           "did": "did:ethr:0x7020be74e640afa14430f2c807f511b1559c5f60",
           "verified": true,
         },

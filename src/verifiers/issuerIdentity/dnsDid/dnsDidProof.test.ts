@@ -27,9 +27,9 @@ describe("skip", () => {
   it("should return skip message", async () => {
     const message = await openAttestationDnsDidIdentityProof.skip(undefined as any, undefined as any);
     expect(message).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDnsDidIdentityProof",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "SKIPPED",
           "message": "Document was not issued using DNS-DID",
@@ -75,9 +75,9 @@ describe("verify", () => {
     it("should verify a document with dns binding to did", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(documentDnsDidSigned, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
               "location": "demo-tradetrust.openattestation.com",
               "status": "VALID",
@@ -92,16 +92,16 @@ describe("verify", () => {
     it("should verify a document without dns binding to did", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(documentDnsDidNoDnsTxt, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "key": "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89#controller",
               "location": "example.com",
               "status": "INVALID",
             },
           ],
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 6,
             "codeString": "INVALID_IDENTITY",
             "message": "Could not find identity at location",
@@ -114,10 +114,10 @@ describe("verify", () => {
     it("should error if document has issuers not using DNS-DID", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(documentDnsDidMixedTokenRegistryValid, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Issuer is not using DID-DNS identityProof type],
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 3,
             "codeString": "INVALID_ISSUERS",
             "message": "Issuer is not using DID-DNS identityProof type",
@@ -132,8 +132,8 @@ describe("verify", () => {
     it("should return valid fragment for document with dns binding to did", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(v3DnsDidSigned, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
             "location": "demo-tradetrust.openattestation.com",
             "status": "VALID",
@@ -157,14 +157,14 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDnsDidIdentityProof.verify(documentWithoutDnsBinding, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "key": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
             "location": "example.com",
             "status": "INVALID",
           },
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 6,
             "codeString": "INVALID_IDENTITY",
             "message": "Could not find identity at location",

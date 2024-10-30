@@ -25,9 +25,9 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@tradetrust-tt/dnsprove": "^2.13.2",
+    "@tradetrust-tt/dnsprove": "^2.14.0",
     "@tradetrust-tt/document-store": "^2.7.0",
-    "@tradetrust-tt/token-registry": "^4.9.0",
+    "@tradetrust-tt/token-registry": "^4.12.0",
     "@tradetrust-tt/tradetrust": "^6.9.0",
     "axios": "^1.7.2",
     "debug": "^4.3.1",

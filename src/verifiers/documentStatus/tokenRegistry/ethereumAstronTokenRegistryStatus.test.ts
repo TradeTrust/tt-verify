@@ -24,6 +24,11 @@ const options = {
 
 describe("test", () => {
   describe("v2", () => {
+    it("should return true for documents using token registry", async () => {
+      const shouldVerify = openAttestationEthereumTokenRegistryStatus.test(documentAstronValidWithToken, options);
+
+      expect(shouldVerify).toBe(true);
+    });
     it("should return false when document does not have data", async () => {
       const documentWithoutData: any = { ...documentAstronValidWithToken, data: null };
       const shouldVerify = openAttestationEthereumTokenRegistryStatus.test(documentWithoutData, options);

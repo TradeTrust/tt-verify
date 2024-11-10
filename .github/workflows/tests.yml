@@ -8,23 +8,29 @@ name: "Tests"
 
 jobs:
   run-tests:
-    name: Run Tests
+    name: Run Tests Node ${{ matrix.node }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm run test:ci
 
   test-build:
-    name: Test Build
+    name: Test Build Node ${{ matrix.node }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm run build

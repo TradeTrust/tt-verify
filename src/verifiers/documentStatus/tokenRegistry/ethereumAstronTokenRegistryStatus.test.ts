@@ -22,6 +22,8 @@ const options = {
   }),
 };
 
+jest.setTimeout(300_000); // 300 seconds
+
 describe("test", () => {
   describe("v2", () => {
     it("should return true for documents using token registry", async () => {

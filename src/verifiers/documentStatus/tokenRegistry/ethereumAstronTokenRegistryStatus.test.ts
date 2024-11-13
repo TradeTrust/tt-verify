@@ -18,7 +18,7 @@ const options = {
   provider: generateProvider({
     network: "astron",
     providerType: "jsonrpc",
-    url: "http://astronlayer2.bitfactory.cn:8545",
+    url: "https://astronlayer2.bitfactory.cn/rpc/",
   }),
 };
 

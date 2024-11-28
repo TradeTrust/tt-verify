@@ -61,7 +61,7 @@ describe("test", () => {
     });
 
     it("should return false when document is missing identityProof", async () => {
-      const documentWithoutIdentityProof = {
+      const documentWithoutIdentityProof: any = {
         ...documentSepoliaValidWithToken,
         data: {
           ...documentSepoliaValidWithToken.data,
@@ -100,7 +100,7 @@ describe("test", () => {
     });
 
     it("should return false when no issuers is not using DNS-TXT as identity proof", async () => {
-      const documentWithMultipleIssuersWithoutDnsTxt = {
+      const documentWithMultipleIssuersWithoutDnsTxt: any = {
         ...documentSepoliaValidWithToken,
         data: {
           ...documentSepoliaValidWithToken.data,
@@ -226,7 +226,7 @@ describe("verify", () => {
       `);
     });
     it("should return an invalid fragment when document has one issuer with document store/valid identity and a second issuer without identity", async () => {
-      const document = {
+      const document: any = {
         ...documentSepoliaValidWithToken,
         data: {
           ...documentSepoliaValidWithToken.data,
@@ -318,7 +318,7 @@ describe("verify", () => {
     });
 
     it("should return an invalid fragment when document has one issuer with token registry/valid identity and a second issuer without identity", async () => {
-      const document = {
+      const document: any = {
         ...documentSepoliaValidWithToken,
         data: {
           ...documentSepoliaValidWithToken.data,

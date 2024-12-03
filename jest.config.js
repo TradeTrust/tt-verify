@@ -6,5 +6,5 @@ module.exports = {
   moduleNameMapper: {
     axios: "axios/dist/node/axios.cjs", // Temporary workaround: Force Jest to import the CommonJS Axios build
   },
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.js'],
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.js"],
 };

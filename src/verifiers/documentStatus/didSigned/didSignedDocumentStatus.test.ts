@@ -82,9 +82,9 @@ describe("skip", () => {
   it("should return skip message", async () => {
     const message = await openAttestationDidSignedDocumentStatus.skip(undefined as any, undefined as any);
     expect(message).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDidSignedDocumentStatus",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "SKIPPED",
           "message": "Document was not signed by DID directly",
@@ -135,17 +135,17 @@ describe("verify", () => {
       const res = await openAttestationDidSignedDocumentStatus.verify(documentDidSigned, options);
 
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -164,17 +164,17 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreNotRevokedV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -193,17 +193,17 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(documentDnsDidSigned, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -222,17 +222,17 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedRevocationStoreNotRevokedV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -251,10 +251,10 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully();
       const res = await openAttestationDidSignedDocumentStatus.verify(documentDidObfuscatedRevocation, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.],
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 8,
             "codeString": "UNRECOGNIZED_DOCUMENT",
             "message": "Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.",
@@ -268,10 +268,10 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully();
       const res = await openAttestationDidSignedDocumentStatus.verify(documentDidCustomRevocation, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.],
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 8,
             "codeString": "UNRECOGNIZED_DOCUMENT",
             "message": "Document does not match either v2 or v3 formats. Consider using \`utils.diagnose\` from open-attestation to find out more.",
@@ -285,10 +285,10 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully();
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreButNoLocationV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: missing revocation location for an issuer],
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 10,
             "codeString": "REVOCATION_LOCATION_MISSING",
             "message": "missing revocation location for an issuer",
@@ -302,10 +302,10 @@ describe("verify", () => {
       mockGetPublicKey.mockRejectedValue(new Error("Error from DID resolver"));
       const res = await openAttestationDidSignedDocumentStatus.verify(documentDidSigned, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Error from DID resolver],
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "UNEXPECTED_ERROR",
             "message": "Error from DID resolver",
@@ -333,10 +333,10 @@ describe("verify", () => {
         options
       );
       expect(res).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Proof not found for did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller],
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 6,
             "codeString": "CORRESPONDING_PROOF_MISSING",
             "message": "Proof not found for did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733#controller",
@@ -351,22 +351,22 @@ describe("verify", () => {
       const incorrectSignatureDocument = { ...documentDnsDidSigned, proof: documentDidSigned.proof };
       const res = await openAttestationDidSignedDocumentStatus.verify(incorrectSignatureDocument, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": false,
-                  "reason": Object {
+                  "reason": {
                     "code": 7,
                     "codeString": "WRONG_SIGNATURE",
                     "message": "merkle root is not signed correctly by 0xe712878f6e8d5d4f9e87e10da604f9cb564c9a89",
                   },
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                   "revoked": false,
                 },
@@ -376,7 +376,7 @@ describe("verify", () => {
             "revokedOnAny": false,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "WRONG_SIGNATURE",
             "message": "merkle root is not signed correctly by 0xe712878f6e8d5d4f9e87e10da604f9cb564c9a89",
@@ -390,19 +390,19 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreButRevokedV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0xe62bfe652b62efc1918662c284a4cc531e665c7e73ee32304469723ca11698ab has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -415,7 +415,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0xe62bfe652b62efc1918662c284a4cc531e665c7e73ee32304469723ca11698ab has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -429,19 +429,19 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedRevocationStoreButRevokedV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                  "reason": Object {
+                  "reason": {
                     "code": 5,
                     "codeString": "DOCUMENT_REVOKED",
                     "message": "Document 0x03c52b529aef3c2a90f497050ea4b72b9e6d8f09a82d295745921a647fc66a1d has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -454,7 +454,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0x03c52b529aef3c2a90f497050ea4b72b9e6d8f09a82d295745921a647fc66a1d has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -497,17 +497,17 @@ describe("verify", () => {
 
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedOcspResponderV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0xB26B4941941C51a4885E5B7D3A1B861E54405f90",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "https://ocsp.example.com",
                   "revoked": false,
                 },
@@ -558,19 +558,19 @@ describe("verify", () => {
 
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedOcspResponderV2, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Array [
-                Object {
+        {
+          "data": {
+            "details": {
+              "issuance": [
+                {
                   "did": "did:ethr:0xB26B4941941C51a4885E5B7D3A1B861E54405f90",
                   "issued": true,
                 },
               ],
-              "revocation": Array [
-                Object {
+              "revocation": [
+                {
                   "address": "https://ocsp.example.com",
-                  "reason": Object {
+                  "reason": {
                     "code": 4,
                     "codeString": "SUPERSEDED",
                     "message": "Document 0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c has been revoked under OCSP Responder: https://ocsp.example.com",
@@ -583,7 +583,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SUPERSEDED",
             "message": "Document 0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c has been revoked under OCSP Responder: https://ocsp.example.com",
@@ -602,14 +602,14 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "revoked": false,
               },
             },
@@ -626,10 +626,10 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreButNoLocationV3, options);
       expect(res).toMatchInlineSnapshot(`
-          Object {
+          {
             "data": [Error: missing revocation location for an issuer],
             "name": "OpenAttestationDidSignedDocumentStatus",
-            "reason": Object {
+            "reason": {
               "code": 10,
               "codeString": "REVOCATION_LOCATION_MISSING",
               "message": "missing revocation location for an issuer",
@@ -643,14 +643,14 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreNotRevokedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                 "revoked": false,
               },
@@ -668,14 +668,14 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "revoked": false,
               },
             },
@@ -692,14 +692,14 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedRevocationStoreNotRevokedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0x49b2969bF0E4aa822023a9eA2293b24E4518C1DD",
                 "revoked": false,
               },
@@ -736,10 +736,10 @@ describe("verify", () => {
       };
       const res = await openAttestationDidSignedDocumentStatus.verify(docWithoutRevocationBlock as any, options);
       expect(res).toMatchInlineSnapshot(`
-          Object {
+          {
             "data": [Error: revocation block not found for an issuer],
             "name": "OpenAttestationDidSignedDocumentStatus",
-            "reason": Object {
+            "reason": {
               "code": 2,
               "codeString": "MISSING_REVOCATION",
               "message": "revocation block not found for an issuer",
@@ -767,10 +767,10 @@ describe("verify", () => {
       };
       const res = await openAttestationDidSignedDocumentStatus.verify(docWithIncorrectRevocation as any, options);
       expect(res).toMatchInlineSnapshot(`
-          Object {
+          {
             "data": [Error: revocation type not found for an issuer],
             "name": "OpenAttestationDidSignedDocumentStatus",
-            "reason": Object {
+            "reason": {
               "code": 9,
               "codeString": "UNRECOGNIZED_REVOCATION_TYPE",
               "message": "revocation type not found for an issuer",
@@ -784,16 +784,16 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreButRevokedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                "reason": Object {
+                "reason": {
                   "code": 5,
                   "codeString": "DOCUMENT_REVOKED",
                   "message": "Document 0x3ad46614034b8d9d00b81d09612344f44c88f28901ca575c655c957cf038f7d4 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -805,7 +805,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0x3ad46614034b8d9d00b81d09612344f44c88f28901ca575c655c957cf038f7d4 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -819,16 +819,16 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(dnsDidSignedRevocationStoreButRevokedV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                "reason": Object {
+                "reason": {
                   "code": 5,
                   "codeString": "DOCUMENT_REVOKED",
                   "message": "Document 0xa05efdb7d3bca55c7d36946837f2b3b6ac6e5c9ed178645f98f296e4f06657ea has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -840,7 +840,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "DOCUMENT_REVOKED",
             "message": "Document 0xa05efdb7d3bca55c7d36946837f2b3b6ac6e5c9ed178645f98f296e4f06657ea has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
@@ -861,19 +861,19 @@ describe("verify", () => {
       };
       const res = await openAttestationDidSignedDocumentStatus.verify(documentWithWrongSig, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": false,
-                "reason": Object {
+                "reason": {
                   "code": 7,
                   "codeString": "WRONG_SIGNATURE",
                   "message": "merkle root is not signed correctly by 0x1245e5b64d785b25057f7438f715f4aa5d965733",
                 },
               },
-              "revocation": Object {
+              "revocation": {
                 "revoked": false,
               },
             },
@@ -881,7 +881,7 @@ describe("verify", () => {
             "revokedOnAny": false,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "WRONG_SIGNATURE",
             "message": "merkle root is not signed correctly by 0x1245e5b64d785b25057f7438f715f4aa5d965733",
@@ -913,14 +913,14 @@ describe("verify", () => {
 
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedOcspResponderV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "https://ocsp.example.com",
                 "revoked": false,
               },
@@ -959,16 +959,16 @@ describe("verify", () => {
 
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedOcspResponderV3, options);
       expect(res).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
-              "issuance": Object {
+        {
+          "data": {
+            "details": {
+              "issuance": {
                 "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
                 "issued": true,
               },
-              "revocation": Object {
+              "revocation": {
                 "address": "https://ocsp.example.com",
-                "reason": Object {
+                "reason": {
                   "code": 4,
                   "codeString": "SUPERSEDED",
                   "message": "Document 0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40 has been revoked under OCSP Responder: https://ocsp.example.com",
@@ -980,7 +980,7 @@ describe("verify", () => {
             "revokedOnAny": true,
           },
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SUPERSEDED",
             "message": "Document 0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40 has been revoked under OCSP Responder: https://ocsp.example.com",

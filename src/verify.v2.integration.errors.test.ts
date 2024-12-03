@@ -38,37 +38,37 @@ describe("Handling HTTP response errors", () => {
     );
     const results = await verifyHomestead(documentMainnetValid);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"tokenRegistry\\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have \"tokenRegistry\" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\"},\\"latest\\"],\\"id\\":42,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
+        {
+          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "UNEXPECTED_ERROR",
-            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data=\\"0x\\", transaction={\\"to\\":\\"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\",\\"accessList\\":null}, error={\\"reason\\":\\"failed response\\",\\"code\\":\\"SERVER_ERROR\\",\\"requestBody\\":\\"{\\\\\\"method\\\\\\":\\\\\\"eth_call\\\\\\",\\\\\\"params\\\\\\":[{\\\\\\"to\\\\\\":\\\\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\\\\",\\\\\\"data\\\\\\":\\\\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\\\\"},\\\\\\"latest\\\\\\"],\\\\\\"id\\\\\\":42,\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\"}\\",\\"requestMethod\\":\\"POST\\",\\"url\\":\\"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18\\"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
+            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
           },
           "status": "ERROR",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -76,19 +76,19 @@ describe("Handling HTTP response errors", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"documentStore\\\" / \\\"tokenRegistry\\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have \"documentStore\" / \"tokenRegistry\" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -115,37 +115,37 @@ describe("Handling HTTP response errors", () => {
     );
     const results = await verifyHomestead(documentMainnetValid);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"tokenRegistry\\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have \"tokenRegistry\" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"result\\":\\"0xs0meR4nd0mErr0r\\",\\"id\\":2}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\"},\\"latest\\"],\\"id\\":42,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
+        {
+          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"result\\\":\\\"0xs0meR4nd0mErr0r\\\",\\\"id\\\":2}","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "UNEXPECTED_ERROR",
-            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data=\\"0x\\", transaction={\\"to\\":\\"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\",\\"accessList\\":null}, error={\\"reason\\":\\"bad response\\",\\"code\\":\\"SERVER_ERROR\\",\\"status\\":502,\\"headers\\":{\\"x-powered-by\\":\\"msw\\",\\"content-type\\":\\"application/json\\"},\\"body\\":\\"{\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\",\\\\\\"result\\\\\\":\\\\\\"0xs0meR4nd0mErr0r\\\\\\",\\\\\\"id\\\\\\":2}\\",\\"requestBody\\":\\"{\\\\\\"method\\\\\\":\\\\\\"eth_call\\\\\\",\\\\\\"params\\\\\\":[{\\\\\\"to\\\\\\":\\\\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\\\\",\\\\\\"data\\\\\\":\\\\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\\\\"},\\\\\\"latest\\\\\\"],\\\\\\"id\\\\\\":42,\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\"}\\",\\"requestMethod\\":\\"POST\\",\\"url\\":\\"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18\\"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
+            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"result\\\":\\\"0xs0meR4nd0mErr0r\\\",\\\"id\\\":2}","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://mainnet.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
           },
           "status": "ERROR",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -153,19 +153,19 @@ describe("Handling HTTP response errors", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"documentStore\\\" / \\\"tokenRegistry\\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have \"documentStore\" / \"tokenRegistry\" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -193,37 +193,37 @@ describe("Handling HTTP response errors", () => {
     );
     const results = await verifySepolia(documentMainnetValid);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"tokenRegistry\\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have \"tokenRegistry\" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\"},\\"latest\\"],\\"id\\":42,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
+        {
+          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "UNEXPECTED_ERROR",
-            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data=\\"0x\\", transaction={\\"to\\":\\"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\",\\"accessList\\":null}, error={\\"reason\\":\\"failed response\\",\\"code\\":\\"SERVER_ERROR\\",\\"requestBody\\":\\"{\\\\\\"method\\\\\\":\\\\\\"eth_call\\\\\\",\\\\\\"params\\\\\\":[{\\\\\\"to\\\\\\":\\\\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\\\\",\\\\\\"data\\\\\\":\\\\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\\\\"},\\\\\\"latest\\\\\\"],\\\\\\"id\\\\\\":42,\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\"}\\",\\"requestMethod\\":\\"POST\\",\\"url\\":\\"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18\\"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
+            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"failed response","code":"SERVER_ERROR","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
           },
           "status": "ERROR",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -231,19 +231,19 @@ describe("Handling HTTP response errors", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"documentStore\\\" / \\\"tokenRegistry\\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have \"documentStore\" / \"tokenRegistry\" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",
@@ -271,37 +271,37 @@ describe("Handling HTTP response errors", () => {
     );
     const results = await verifySepolia(documentMainnetValid);
     expect(results).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "data": true,
           "name": "OpenAttestationHash",
           "status": "VALID",
           "type": "DOCUMENT_INTEGRITY",
         },
-        Object {
+        {
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 4,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"tokenRegistry\\\" property or TOKEN_REGISTRY method",
+            "message": "Document issuers doesn't have \"tokenRegistry\" property or TOKEN_REGISTRY method",
           },
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
-          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\"jsonrpc\\":\\"2.0\\",\\"result\\":\\"0xs0meR4nd0mErr0r\\",\\"id\\":4}","requestBody":"{\\"method\\":\\"eth_call\\",\\"params\\":[{\\"to\\":\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\"},\\"latest\\"],\\"id\\":42,\\"jsonrpc\\":\\"2.0\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
+        {
+          "data": [Error: missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"result\\\":\\\"0xs0meR4nd0mErr0r\\\",\\\"id\\\":4}","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)],
           "name": "OpenAttestationEthereumDocumentStoreStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "UNEXPECTED_ERROR",
-            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data=\\"0x\\", transaction={\\"to\\":\\"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba\\",\\"data\\":\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\",\\"accessList\\":null}, error={\\"reason\\":\\"bad response\\",\\"code\\":\\"SERVER_ERROR\\",\\"status\\":502,\\"headers\\":{\\"x-powered-by\\":\\"msw\\",\\"content-type\\":\\"application/json\\"},\\"body\\":\\"{\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\",\\\\\\"result\\\\\\":\\\\\\"0xs0meR4nd0mErr0r\\\\\\",\\\\\\"id\\\\\\":4}\\",\\"requestBody\\":\\"{\\\\\\"method\\\\\\":\\\\\\"eth_call\\\\\\",\\\\\\"params\\\\\\":[{\\\\\\"to\\\\\\":\\\\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\\\\",\\\\\\"data\\\\\\":\\\\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\\\\"},\\\\\\"latest\\\\\\"],\\\\\\"id\\\\\\":42,\\\\\\"jsonrpc\\\\\\":\\\\\\"2.0\\\\\\"}\\",\\"requestMethod\\":\\"POST\\",\\"url\\":\\"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18\\"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
+            "message": "missing revert data in call exception; Transaction reverted without a reason string [ See: https://links.ethers.org/v5-errors-CALL_EXCEPTION ] (data="0x", transaction={"to":"0x007d40224F6562461633ccFBaffd359EbB2FC9Ba","data":"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6","accessList":null}, error={"reason":"bad response","code":"SERVER_ERROR","status":502,"headers":{"x-powered-by":"msw","content-type":"application/json"},"body":"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"result\\\":\\\"0xs0meR4nd0mErr0r\\\",\\\"id\\\":4}","requestBody":"{\\\"method\\\":\\\"eth_call\\\",\\\"params\\\":[{\\\"to\\\":\\\"0x007d40224f6562461633ccfbaffd359ebb2fc9ba\\\",\\\"data\\\":\\\"0x163aa6311a040999254caaf7a33cba67ec6a9b862da1dacf8a0d1e3bb76347060fc615d6\\\"},\\\"latest\\\"],\\\"id\\\":42,\\\"jsonrpc\\\":\\\"2.0\\\"}","requestMethod":"POST","url":"https://sepolia.infura.io/v3/bb46da3f80e040e8ab73c0a9ff365d18"}, code=CALL_EXCEPTION, version=providers/5.7.2)",
           },
           "status": "ERROR",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not signed by DID directly",
@@ -309,19 +309,19 @@ describe("Handling HTTP response errors", () => {
           "status": "SKIPPED",
           "type": "DOCUMENT_STATUS",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsTxtIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "SKIPPED",
-            "message": "Document issuers doesn't have \\\"documentStore\\\" / \\\"tokenRegistry\\\" property or doesn't use DNS-TXT type",
+            "message": "Document issuers doesn't have \"documentStore\" / \"tokenRegistry\" property or doesn't use DNS-TXT type",
           },
           "status": "SKIPPED",
           "type": "ISSUER_IDENTITY",
         },
-        Object {
+        {
           "name": "OpenAttestationDnsDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 0,
             "codeString": "SKIPPED",
             "message": "Document was not issued using DNS-DID",

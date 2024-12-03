@@ -166,13 +166,13 @@ describe("verify", () => {
         options
       );
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "minted": false,
-                "reason": Object {
+                "reason": {
                   "code": 1,
                   "codeString": "DOCUMENT_NOT_MINTED",
                   "message": "Token registry is not found",
@@ -182,7 +182,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Token registry is not found",
@@ -213,13 +213,13 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0x0000000000000000000000000000000000000000",
                 "minted": false,
-                "reason": Object {
+                "reason": {
                   "code": 1,
                   "codeString": "DOCUMENT_NOT_MINTED",
                   "message": "Token registry is not found",
@@ -229,7 +229,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Token registry is not found",
@@ -247,13 +247,13 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
                 "minted": false,
-                "reason": Object {
+                "reason": {
                   "code": 1,
                   "codeString": "DOCUMENT_NOT_MINTED",
                   "message": "Document has not been issued under token registry",
@@ -263,7 +263,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Document has not been issued under token registry",
@@ -278,10 +278,10 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumTokenRegistryStatus.verify(documentAstronValidWithToken, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Array [
-              Object {
+        {
+          "data": {
+            "details": [
+              {
                 "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
                 "minted": true,
               },
@@ -310,10 +310,10 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Only one issuer is allowed for tokens],
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "INVALID_ISSUERS",
             "message": "Only one issuer is allowed for tokens",
@@ -328,10 +328,10 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumTokenRegistryStatus.verify(documentMixedIssuance, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Only one issuer is allowed for tokens],
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "INVALID_ISSUERS",
             "message": "Only one issuer is allowed for tokens",
@@ -362,12 +362,12 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
+        {
+          "data": {
+            "details": {
               "address": "0xabcd",
               "minted": false,
-              "reason": Object {
+              "reason": {
                 "code": 1,
                 "codeString": "DOCUMENT_NOT_MINTED",
                 "message": "Invalid token registry address",
@@ -376,7 +376,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Invalid token registry address",
@@ -405,12 +405,12 @@ describe("verify", () => {
       );
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
+        {
+          "data": {
+            "details": {
               "address": "0x0000000000000000000000000000000000000000",
               "minted": false,
-              "reason": Object {
+              "reason": {
                 "code": 1,
                 "codeString": "DOCUMENT_NOT_MINTED",
                 "message": "Token registry is not found",
@@ -419,7 +419,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Token registry is not found",
@@ -434,12 +434,12 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumTokenRegistryStatus.verify(v3TokenRegistryWrapped, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
+        {
+          "data": {
+            "details": {
               "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
               "minted": false,
-              "reason": Object {
+              "reason": {
                 "code": 1,
                 "codeString": "DOCUMENT_NOT_MINTED",
                 "message": "Document has not been issued under token registry",
@@ -448,7 +448,7 @@ describe("verify", () => {
             "mintedOnAll": false,
           },
           "name": "OpenAttestationEthereumTokenRegistryStatus",
-          "reason": Object {
+          "reason": {
             "code": 1,
             "codeString": "DOCUMENT_NOT_MINTED",
             "message": "Document has not been issued under token registry",
@@ -463,9 +463,9 @@ describe("verify", () => {
       const fragment = await openAttestationEthereumTokenRegistryStatus.verify(v3TokenRegistryIssued, options);
 
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
-            "details": Object {
+        {
+          "data": {
+            "details": {
               "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
               "minted": true,
             },
@@ -487,12 +487,12 @@ describe("skip", () => {
       options
     );
     expect(fragment).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationEthereumTokenRegistryStatus",
-        "reason": Object {
+        "reason": {
           "code": 4,
           "codeString": "SKIPPED",
-          "message": "Document issuers doesn't have \\"tokenRegistry\\" property or TOKEN_REGISTRY method",
+          "message": "Document issuers doesn't have "tokenRegistry" property or TOKEN_REGISTRY method",
         },
         "status": "SKIPPED",
         "type": "DOCUMENT_STATUS",

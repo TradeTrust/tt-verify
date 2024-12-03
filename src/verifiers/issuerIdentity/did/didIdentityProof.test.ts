@@ -30,9 +30,9 @@ describe("skip", () => {
   it("should return skip message", async () => {
     const message = await openAttestationDidIdentityProof.skip(undefined as any, undefined as any);
     expect(message).toMatchInlineSnapshot(`
-      Object {
+      {
         "name": "OpenAttestationDidIdentityProof",
-        "reason": Object {
+        "reason": {
           "code": 0,
           "codeString": "SKIPPED",
           "message": "Document is not using DID as top level identifier or has not been wrapped",
@@ -76,9 +76,9 @@ describe("verify", () => {
     it("should pass for documents using `DID` and did signature is correct", async () => {
       const verificationFragment = await openAttestationDidIdentityProof.verify(documentDidSigned, options);
       expect(verificationFragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
               "verified": true,
             },
@@ -92,11 +92,11 @@ describe("verify", () => {
     it("should fail for documents using `DID` and did signature is not correct", async () => {
       const verificationFragment = await openAttestationDidIdentityProof.verify(documentDidWrongSignature, options);
       expect(verificationFragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Array [
-            Object {
+        {
+          "data": [
+            {
               "did": "did:ethr:0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89",
-              "reason": Object {
+              "reason": {
                 "code": 7,
                 "codeString": "WRONG_SIGNATURE",
                 "message": "merkle root is not signed correctly by 0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89",
@@ -105,7 +105,7 @@ describe("verify", () => {
             },
           ],
           "name": "OpenAttestationDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "WRONG_SIGNATURE",
             "message": "merkle root is not signed correctly by 0xE712878f6E8d5d4F9e87E10DA604F9cB564C9a89",
@@ -118,10 +118,10 @@ describe("verify", () => {
     it("should fail for documents with other issuers", async () => {
       const verificationFragment = await openAttestationDidIdentityProof.verify(documentDidMixedTokenRegistry, options);
       expect(verificationFragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Issuer is not using DID identityProof type],
           "name": "OpenAttestationDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 2,
             "codeString": "INVALID_ISSUERS",
             "message": "Issuer is not using DID identityProof type",
@@ -137,8 +137,8 @@ describe("verify", () => {
     it("should return valid fragment for document using `DID` and signature is correct", async () => {
       const fragment = await openAttestationDidIdentityProof.verify(v3DidSigned, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
             "verified": true,
           },
@@ -158,10 +158,10 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDidIdentityProof.verify(documentWithInvalidSignature, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
-          "data": Object {
+        {
+          "data": {
             "did": "did:ethr:0x1245e5B64D785b25057f7438F715f4aA5D965733",
-            "reason": Object {
+            "reason": {
               "code": 7,
               "codeString": "WRONG_SIGNATURE",
               "message": "merkle root is not signed correctly by 0x1245e5B64D785b25057f7438F715f4aA5D965733",
@@ -169,7 +169,7 @@ describe("verify", () => {
             "verified": false,
           },
           "name": "OpenAttestationDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 7,
             "codeString": "WRONG_SIGNATURE",
             "message": "merkle root is not signed correctly by 0x1245e5B64D785b25057f7438F715f4aA5D965733",
@@ -190,10 +190,10 @@ describe("verify", () => {
       };
       const fragment = await openAttestationDidIdentityProof.verify(documentWithInvalidSignature, options);
       expect(fragment).toMatchInlineSnapshot(`
-        Object {
+        {
           "data": [Error: Document is not signed],
           "name": "OpenAttestationDidIdentityProof",
-          "reason": Object {
+          "reason": {
             "code": 5,
             "codeString": "UNSIGNED",
             "message": "Document is not signed",

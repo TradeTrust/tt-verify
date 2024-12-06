@@ -606,18 +606,18 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
       const res = await openAttestationDidSignedDocumentStatus.verify(didSignedRevocationStoreButNoLocationV3, options);
       expect(res).toMatchInlineSnapshot(`
-        {
-          "data": [Error: missing revocation location for an issuer],
-          "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": {
-            "code": 10,
-            "codeString": "REVOCATION_LOCATION_MISSING",
-            "message": "missing revocation location for an issuer",
-          },
-          "status": "ERROR",
-          "type": "DOCUMENT_STATUS",
-        }
-      `);
+          {
+            "data": [Error: missing revocation location for an issuer],
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "reason": {
+              "code": 10,
+              "codeString": "REVOCATION_LOCATION_MISSING",
+              "message": "missing revocation location for an issuer",
+            },
+            "status": "ERROR",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
     });
     it("should pass for documents using `DID` and is correctly signed, and is not revoked on a document store (if specified)", async () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
@@ -716,18 +716,18 @@ describe("verify", () => {
       };
       const res = await openAttestationDidSignedDocumentStatus.verify(docWithoutRevocationBlock as any, options);
       expect(res).toMatchInlineSnapshot(`
-        {
-          "data": [Error: revocation block not found for an issuer],
-          "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": {
-            "code": 2,
-            "codeString": "MISSING_REVOCATION",
-            "message": "revocation block not found for an issuer",
-          },
-          "status": "ERROR",
-          "type": "DOCUMENT_STATUS",
-        }
-      `);
+          {
+            "data": [Error: revocation block not found for an issuer],
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "reason": {
+              "code": 2,
+              "codeString": "MISSING_REVOCATION",
+              "message": "revocation block not found for an issuer",
+            },
+            "status": "ERROR",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
     });
     it("should throw an unrecognized revocation type error when revocation is not set to NONE or REVOCATION_STORE", async () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
@@ -747,18 +747,18 @@ describe("verify", () => {
       };
       const res = await openAttestationDidSignedDocumentStatus.verify(docWithIncorrectRevocation as any, options);
       expect(res).toMatchInlineSnapshot(`
-        {
-          "data": [Error: revocation type not found for an issuer],
-          "name": "OpenAttestationDidSignedDocumentStatus",
-          "reason": {
-            "code": 9,
-            "codeString": "UNRECOGNIZED_REVOCATION_TYPE",
-            "message": "revocation type not found for an issuer",
-          },
-          "status": "ERROR",
-          "type": "DOCUMENT_STATUS",
-        }
-      `);
+          {
+            "data": [Error: revocation type not found for an issuer],
+            "name": "OpenAttestationDidSignedDocumentStatus",
+            "reason": {
+              "code": 9,
+              "codeString": "UNRECOGNIZED_REVOCATION_TYPE",
+              "message": "revocation type not found for an issuer",
+            },
+            "status": "ERROR",
+            "type": "DOCUMENT_STATUS",
+          }
+        `);
     });
     it("should fail for documents using `DID` and is correctly signed, and is revoked on a document store (if specified)", async () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");

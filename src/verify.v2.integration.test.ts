@@ -38,6 +38,8 @@ const v2DnsDidSignedRevocationStoreButRevoked = v2DnsDidSignedRevocationStoreBut
 const verifyHomestead = verify;
 const verifySepolia = verificationBuilder(openAttestationVerifiers, { network: "sepolia" });
 
+jest.setTimeout(300_000); // 300 seconds
+
 describe("verify(integration)", () => {
   let defaultEnvironment: NodeJS.ProcessEnv;
   beforeEach(() => {

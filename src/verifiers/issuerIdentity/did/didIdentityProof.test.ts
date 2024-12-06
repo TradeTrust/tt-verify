@@ -24,6 +24,8 @@ const options = {
   }),
 };
 
+jest.setTimeout(300_000); // 300 seconds
+
 describe("skip", () => {
   it("should return skip message", async () => {
     const message = await openAttestationDidIdentityProof.skip(undefined as any, undefined as any);

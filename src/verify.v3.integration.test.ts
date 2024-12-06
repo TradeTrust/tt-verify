@@ -48,6 +48,8 @@ const verifySepolia = verificationBuilder([...openAttestationVerifiers, openAtte
   network: "sepolia",
 });
 
+jest.setTimeout(300_000); // 300 seconds
+
 describe("verify v3(integration)", () => {
   beforeEach(() => {
     jest.resetModules();

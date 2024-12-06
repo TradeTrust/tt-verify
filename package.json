@@ -25,17 +25,21 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@tradetrust-tt/dnsprove": "^2.13.2",
-    "@tradetrust-tt/document-store": "^2.7.0",
-    "@tradetrust-tt/token-registry": "^4.9.0",
-    "@tradetrust-tt/tradetrust": "^6.9.0",
+    "@tradetrust-tt/dnsprove": "^2.15.0",
+    "@tradetrust-tt/document-store": "^4.1.0",
+    "@tradetrust-tt/token-registry": "^5.1.0",
+    "@tradetrust-tt/tradetrust": "^6.9.7",
+    "axios": "^1.7.2",
     "debug": "^4.3.1",
     "did-resolver": "^3.1.0",
-    "ethers": "^5.4.0",
+    "ethers": "^5.7.2",
     "ethr-did-resolver": "^4.3.3",
     "node-cache": "^5.1.2",
     "runtypes": "^6.3.0",
     "web-did-resolver": "^2.0.4"
+  },
+  "overrides": {
+    "ethers": "^5.7.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -56,10 +60,13 @@
     "jest-watch-typeahead": "^2.2.2",
     "msw": "^2.4.5",
     "prettier": "^2.2.1",
-    "semantic-release": "^22.0.12",
+    "semantic-release": "^19.0.2",
     "snyk": "^1.1293.0",
     "ts-jest": "^29.2.5",
     "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "ethers": "^5.7.2"
   },
   "publishConfig": {
     "access": "public"
@@ -78,6 +85,6 @@
   },
   "snyk": true,
   "engines": {
-    "node": "18.x"
+    "node": ">=18.x"
   }
 }

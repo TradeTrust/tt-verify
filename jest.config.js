@@ -3,4 +3,5 @@ module.exports = {
   testEnvironment: "node",
   watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
   testTimeout: 30000,
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.js"],
 };

@@ -984,20 +984,20 @@ describe("verify v3(integration)", () => {
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(false);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
         expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-            [
-              {
-                "data": false,
-                "name": "OpenAttestationHash",
-                "reason": {
-                  "code": 0,
-                  "codeString": "DOCUMENT_TAMPERED",
-                  "message": "Document has been tampered with",
-                },
-                "status": "INVALID",
-                "type": "DOCUMENT_INTEGRITY",
+          [
+            {
+              "data": false,
+              "name": "OpenAttestationHash",
+              "reason": {
+                "code": 0,
+                "codeString": "DOCUMENT_TAMPERED",
+                "message": "Document has been tampered with",
               },
-            ]
-          `);
+              "status": "INVALID",
+              "type": "DOCUMENT_INTEGRITY",
+            },
+          ]
+        `);
       });
       it("should return invalid fragments for document that has not been issued", async () => {
         const fragments = await verifySepolia(v3DocumentStoreWrapped);
@@ -1005,38 +1005,38 @@ describe("verify v3(integration)", () => {
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
         expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-                  [
-                    {
-                      "data": {
-                        "details": {
-                          "issuance": {
-                            "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            "issued": false,
-                            "reason": {
-                              "code": 1,
-                              "codeString": "DOCUMENT_NOT_ISSUED",
-                              "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            },
-                          },
-                          "revocation": {
-                            "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            "revoked": false,
-                          },
-                        },
-                        "issuedOnAll": false,
-                        "revokedOnAny": false,
-                      },
-                      "name": "OpenAttestationEthereumDocumentStoreStatus",
-                      "reason": {
-                        "code": 1,
-                        "codeString": "DOCUMENT_NOT_ISSUED",
-                        "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                      },
-                      "status": "INVALID",
-                      "type": "DOCUMENT_STATUS",
+          [
+            {
+              "data": {
+                "details": {
+                  "issuance": {
+                    "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+                    "issued": false,
+                    "reason": {
+                      "code": 1,
+                      "codeString": "DOCUMENT_NOT_ISSUED",
+                      "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                     },
-                  ]
-              `);
+                  },
+                  "revocation": {
+                    "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+                    "revoked": false,
+                  },
+                },
+                "issuedOnAll": false,
+                "revokedOnAny": false,
+              },
+              "name": "OpenAttestationEthereumDocumentStoreStatus",
+              "reason": {
+                "code": 1,
+                "codeString": "DOCUMENT_NOT_ISSUED",
+                "message": "Document 0x19988397c756599f8415200eaa2a413e5b60212d7d21dbc22bb365ae115c6b83 has not been issued under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+              },
+              "status": "INVALID",
+              "type": "DOCUMENT_STATUS",
+            },
+          ]
+        `);
       });
       it("should return invalid fragments for document that has been revoked", async () => {
         const fragments = await verifySepolia(v3DocumentStoreRevoked);
@@ -1044,38 +1044,38 @@ describe("verify v3(integration)", () => {
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
         expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-                  [
-                    {
-                      "data": {
-                        "details": {
-                          "issuance": {
-                            "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            "issued": true,
-                          },
-                          "revocation": {
-                            "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            "reason": {
-                              "code": 5,
-                              "codeString": "DOCUMENT_REVOKED",
-                              "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                            },
-                            "revoked": true,
-                          },
-                        },
-                        "issuedOnAll": true,
-                        "revokedOnAny": true,
-                      },
-                      "name": "OpenAttestationEthereumDocumentStoreStatus",
-                      "reason": {
-                        "code": 5,
-                        "codeString": "DOCUMENT_REVOKED",
-                        "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
-                      },
-                      "status": "INVALID",
-                      "type": "DOCUMENT_STATUS",
+          [
+            {
+              "data": {
+                "details": {
+                  "issuance": {
+                    "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+                    "issued": true,
+                  },
+                  "revocation": {
+                    "address": "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+                    "reason": {
+                      "code": 5,
+                      "codeString": "DOCUMENT_REVOKED",
+                      "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
                     },
-                  ]
-              `);
+                    "revoked": true,
+                  },
+                },
+                "issuedOnAll": true,
+                "revokedOnAny": true,
+              },
+              "name": "OpenAttestationEthereumDocumentStoreStatus",
+              "reason": {
+                "code": 5,
+                "codeString": "DOCUMENT_REVOKED",
+                "message": "Document 0x8e9f71e4526782631acd06d6d88cd1debf3be28375a5d122f03640ec71c1e981 has been revoked under contract 0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8",
+              },
+              "status": "INVALID",
+              "type": "DOCUMENT_STATUS",
+            },
+          ]
+        `);
       });
       it("should return invalid fragments for documents that is using invalid DNS but correctly issued", async () => {
         const fragments = await verifySepolia(v3DocumentStoreInvalidIssued);
@@ -1117,20 +1117,20 @@ describe("verify v3(integration)", () => {
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(false);
         expect(isValid(fragments, ["ISSUER_IDENTITY"])).toStrictEqual(true);
         expect(getFailingFragments(fragments)).toMatchInlineSnapshot(`
-            [
-              {
-                "data": false,
-                "name": "OpenAttestationHash",
-                "reason": {
-                  "code": 0,
-                  "codeString": "DOCUMENT_TAMPERED",
-                  "message": "Document has been tampered with",
-                },
-                "status": "INVALID",
-                "type": "DOCUMENT_INTEGRITY",
+          [
+            {
+              "data": false,
+              "name": "OpenAttestationHash",
+              "reason": {
+                "code": 0,
+                "codeString": "DOCUMENT_TAMPERED",
+                "message": "Document has been tampered with",
               },
-            ]
-          `);
+              "status": "INVALID",
+              "type": "DOCUMENT_INTEGRITY",
+            },
+          ]
+        `);
       });
       it("should return invalid fragments for document that has not been issued", async () => {
         const fragments = await verifySepolia(v3TokenRegistryWrapped);

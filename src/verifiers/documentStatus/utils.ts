@@ -8,7 +8,6 @@ import {
 } from "../../types/error";
 import { CodedError } from "../../common/error";
 import { OcspResponderRevocationReason, RevocationStatus } from "./revocation.types";
-import axios from "axios";
 import { ValidOcspResponse, ValidOcspResponseRevoked } from "./didSigned/didSignedDocumentStatus.type";
 
 export const getIntermediateHashes = (targetHash: Hash, proofs: Hash[] = []) => {
@@ -134,13 +133,14 @@ export const isRevokedByOcspResponder = async ({
   const intermediateHashes = getIntermediateHashes(targetHash, proofs);
 
   for (const hash of intermediateHashes) {
-    const { data } = await axios.get(`${location}/${hash}`).catch((e) => {
+    const res = await fetch(`${location}/${hash}`).catch((e) => {
       throw new CodedError(
         `Invalid or unexpected response from OCSP Responder - ${e}`,
         OpenAttestationDidSignedDocumentStatusCode.OCSP_RESPONSE_INVALID,
         "OCSP_RESPONSE_INVALID"
       );
     });
+    const data = await res.json();
 
     if (ValidOcspResponse.guard(data)) {
       continue;

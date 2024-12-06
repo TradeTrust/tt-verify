@@ -74,7 +74,7 @@ describe("test", () => {
           ],
         },
       };
-      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithoutIdentityProof, options);
+      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithoutIdentityProof as any, options);
       expect(toVerify).toBe(false);
     });
 
@@ -116,7 +116,10 @@ describe("test", () => {
           ],
         },
       };
-      const toVerify = await openAttestationDnsTxtIdentityProof.test(documentWithMultipleIssuersWithoutDnsTxt, options);
+      const toVerify = await openAttestationDnsTxtIdentityProof.test(
+        documentWithMultipleIssuersWithoutDnsTxt as any,
+        options
+      );
       expect(toVerify).toBe(false);
     });
   });
@@ -245,7 +248,7 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
         {
           "data": [Error: Document does not match either v2 or v3 formats],
@@ -331,7 +334,7 @@ describe("verify", () => {
           ],
         },
       };
-      const fragment = await openAttestationDnsTxtIdentityProof.verify(document, options);
+      const fragment = await openAttestationDnsTxtIdentityProof.verify(document as any, options);
       expect(fragment).toMatchInlineSnapshot(`
         {
           "data": [Error: Document does not match either v2 or v3 formats],

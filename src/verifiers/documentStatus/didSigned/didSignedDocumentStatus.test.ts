@@ -1,5 +1,5 @@
 import { SignedWrappedDocument, v2, v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
 import { documentDidCustomRevocation } from "../../../../test/fixtures/v2/documentDidCustomRevocation";
 import { documentDidObfuscatedRevocation } from "../../../../test/fixtures/v2/documentDidObfuscatedRevocation";
@@ -468,28 +468,18 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully();
 
       const handlers = [
-        rest.get(
-          "https://ocsp.example.com/0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: false,
-                documentHash: "0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
-              })
-            );
-          }
-        ),
-        rest.get(
-          "https://ocsp.example.com/0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: false,
-                documentHash: "0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
-              })
-            );
-          }
-        ),
+        http.get("https://ocsp.example.com/0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824", () => {
+          return HttpResponse.json({
+            revoked: false,
+            documentHash: "0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
+          });
+        }),
+        http.get("https://ocsp.example.com/0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c", () => {
+          return HttpResponse.json({
+            revoked: false,
+            documentHash: "0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
+          });
+        }),
       ];
 
       const server: SetupServerApi = setupServer(...handlers);
@@ -528,29 +518,19 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully();
 
       const handlers = [
-        rest.get(
-          "https://ocsp.example.com/0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: true,
-                documentHash: "0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
-                reasonCode: 4,
-              })
-            );
-          }
-        ),
-        rest.get(
-          "https://ocsp.example.com/0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: false,
-                documentHash: "0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
-              })
-            );
-          }
-        ),
+        http.get("https://ocsp.example.com/0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824", () => {
+          return HttpResponse.json({
+            revoked: true,
+            documentHash: "0x28b221f6287d8e4f8da09a835bcb750537cc8385e2535ff63591fdf0162be824",
+            reasonCode: 4,
+          });
+        }),
+        http.get("https://ocsp.example.com/0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c", () => {
+          return HttpResponse.json({
+            revoked: false,
+            documentHash: "0x56961854a82feafe9a56eb57acfe3b97f17eda5d497b622c9acc9f03c412618c",
+          });
+        }),
       ];
 
       const server: SetupServerApi = setupServer(...handlers);
@@ -895,17 +875,12 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
 
       const handlers = [
-        rest.get(
-          "https://ocsp.example.com/0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: false,
-                documentHash: "0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
-              })
-            );
-          }
-        ),
+        http.get("https://ocsp.example.com/0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40", () => {
+          return HttpResponse.json({
+            revoked: false,
+            documentHash: "0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
+          });
+        }),
       ];
 
       const server: SetupServerApi = setupServer(...handlers);
@@ -940,18 +915,13 @@ describe("verify", () => {
       whenPublicKeyResolvesSuccessfully("0x1245e5B64D785b25057f7438F715f4aA5D965733");
 
       const handlers = [
-        rest.get(
-          "https://ocsp.example.com/0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
-          (_, res, ctx) => {
-            return res(
-              ctx.json({
-                revoked: true,
-                documentHash: "0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
-                reasonCode: 4,
-              })
-            );
-          }
-        ),
+        http.get("https://ocsp.example.com/0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40", () => {
+          return HttpResponse.json({
+            revoked: true,
+            documentHash: "0x69e1a174ea67e1c3119639f713f8a7348bbda54fdce60903621398cc2fea4d40",
+            reasonCode: 4,
+          });
+        }),
       ];
 
       const server: SetupServerApi = setupServer(...handlers);

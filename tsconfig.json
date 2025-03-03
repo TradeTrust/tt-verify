@@ -2,8 +2,8 @@
   "compilerOptions": {
     "lib": ["es2022"],
     "target": "es6",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "baseUrl": ".",
     "skipLibCheck": true,

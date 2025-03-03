@@ -117,7 +117,9 @@ export const isTokenMintedOnRegistry = async ({
 }): Promise<ValidTokenRegistryStatus | InvalidTokenRegistryStatus> => {
   try {
     const tokenRegistryContract = await TradeTrustToken__factory.connect(tokenRegistry, provider);
-    const minted = await tokenRegistryContract.ownerOf(merkleRoot).then((owner) => !(owner === constants.AddressZero));
+    const minted = await tokenRegistryContract
+      .ownerOf(merkleRoot)
+      .then((owner: string) => !(owner === constants.AddressZero));
     return minted
       ? { minted, address: tokenRegistry }
       : {

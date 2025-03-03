@@ -19,8 +19,16 @@ import { OpenAttestationEthereumTokenRegistryStatusFragment } from "../verifiers
 import { OpenAttestationDidIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/did/didIdentityProof.type";
 import { OpenAttestationDnsDidIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/dnsDid/dnsDidProof.type";
 import { OpenAttestationDnsTxtIdentityProofVerificationFragment } from "../verifiers/issuerIdentity/dnsTxt/openAttestationDnsTxt.type";
+const ethers: any = { ...packedEthers };
 
-const ethers = { ...packedEthers };
+if (ethers?.version?.startsWith("6.")) {
+  (ethers as any).providers = {
+    ...(ethers as any)?.providers,
+    StaticJsonRpcProvider: (ethers as any).JsonRpcProvider,
+    InfuraProvider: (ethers as any).InfuraProvider,
+    AlchemyProvider: (ethers as any).AlchemyProvider,
+  };
+}
 
 export const getDefaultProvider = (options: VerificationBuilderOptionsWithNetwork): providers.Provider => {
   const network = options.network || process.env.PROVIDER_NETWORK || "homestead";
@@ -59,15 +67,6 @@ export const generateProvider = (options?: ProviderDetails): providers.Provider 
     throw new Error(
       "We could not link the apiKey provided to a provider, please state the provider to use in the parameter."
     );
-  }
-
-  if (ethers?.version?.startsWith("6.")) {
-    (ethers as any).providers = {
-      ...(ethers as any)?.providers,
-      JsonRpcProvider: (ethers as any).JsonRpcProvider,
-      InfuraProvider: (ethers as any).InfuraProvider,
-      AlchemyProvider: (ethers as any).AlchemyProvider,
-    };
   }
 
   const network = options?.network || process.env.PROVIDER_NETWORK || "homestead";

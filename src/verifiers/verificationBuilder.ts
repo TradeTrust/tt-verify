@@ -32,6 +32,7 @@ export const verificationBuilder =
     const verifierOptions: VerifierOptions = {
       provider: getProvider(builderOptions),
       resolver: builderOptions.resolver,
+      documentLoader: builderOptions.documentLoader,
     };
     const promises = verifiers.map((verifier) => {
       if (verifier.test(document, verifierOptions)) {

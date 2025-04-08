@@ -11,12 +11,14 @@ export type PromiseCallback = (promises: Promise<VerificationFragment>[]) => voi
 export interface VerificationBuilderOptionsWithProvider {
   provider: providers.Provider;
   resolver?: Resolver;
+  documentLoader?: any;
 }
 
 export interface VerificationBuilderOptionsWithNetwork {
   network: string;
   resolver?: Resolver;
   provider?: never;
+  documentLoader?: any;
 }
 
 export type VerificationBuilderOptions = VerificationBuilderOptionsWithProvider | VerificationBuilderOptionsWithNetwork;
@@ -24,6 +26,7 @@ export type VerificationBuilderOptions = VerificationBuilderOptionsWithProvider 
 export interface VerifierOptions {
   provider: providers.Provider;
   resolver?: Resolver;
+  documentLoader?: any;
 }
 
 /**

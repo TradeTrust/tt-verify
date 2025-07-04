@@ -9,30 +9,30 @@ interface CustomDocument extends v2.OpenAttestationDocument {
 export const documentAstronNotIssuedTokenRegistry: WrappedDocument<CustomDocument> = {
   version: SchemaId.v2,
   data: {
-    id: "afaecf00-c60e-4b2d-8e89-00058291cc64:string:53b75bbe",
+    id: "e5c04ef4-b42f-4251-ad18-6a0254f3495f:string:53b75bbe",
     $template: {
-      name: "9aca2fb8-6c44-44ef-b216-1af29fd17900:string:GOVTECH_DEMO",
-      type: "762eb970-b6f8-48d1-84f4-658ed4d9e4d8:string:EMBEDDED_RENDERER",
-      url: "0a6d97f1-e2c2-4745-9618-43a12d5e5917:string:https://demo-renderer.opencerts.io",
+      name: "6a016890-7e4e-40e4-a533-d74fd0d44408:string:GOVTECH_DEMO",
+      type: "793afd56-4fde-4bbf-a58f-c38f408229c7:string:EMBEDDED_RENDERER",
+      url: "237c9e87-4da6-448e-98b9-9e566cda969b:string:https://demo-renderer.opencerts.io",
     },
     issuers: [
       {
-        name: "f296229f-5787-43f8-b99c-e9a8a4fd83af:string:caict astron",
-        tokenRegistry: "99b518eb-d5bd-43d1-b7bd-c33bb6f659ee:string:0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
+        name: "71caafe0-a9f6-44fe-a94b-cd35ccbedfd8:string:caict astron",
+        tokenRegistry: "ab135a62-6aaa-4278-8bf3-0c762a903ef2:string:0x18bc0127Ae33389cD96593a1a612774fD14c0737",
         identityProof: {
-          type: "2c4ebeeb-3add-4253-859f-a1517c71c321:string:DNS-TXT",
-          location: "617e3f57-06ad-4db4-ae9c-0f486ad8ea9c:string:astronlayer2.bitfactory.cn",
+          type: "b46315f8-9bb9-42a0-8986-8cc2167e7d49:string:DNS-TXT",
+          location: "3ad0c414-174f-416f-b889-f59a72cbf3cf:string:astronlayer2.bitfactory.cn",
         },
       },
     ],
     recipient: {
-      name: "def72d81-06b0-488e-9823-c025ac6cd48d:string:caict",
+      name: "39526f35-2c57-44ac-81b5-a53e3aa4f0ce:string:caict",
     },
   },
   signature: {
     type: "SHA3MerkleProof",
-    targetHash: "636f9fdece5c77d2be5278576819d8f1c36e9a594f2c3675327165356b680ec8",
+    targetHash: "2aa34ea6672556041d802989ca5f39f92694716023bb272610ff68d0f54e4d92",
     proof: [],
-    merkleRoot: "636f9fdece5c77d2be5278576819d8f1c36e9a594f2c3675327165356b680ec8",
+    merkleRoot: "2aa34ea6672556041d802989ca5f39f92694716023bb272610ff68d0f54e4d92",
   },
 };

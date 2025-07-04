@@ -18,7 +18,7 @@ const options = {
   provider: generateProvider({
     network: "astron",
     providerType: "jsonrpc",
-    url: "https://astronlayer2.bitfactory.cn/rpc/",
+    url: "https://astronlayer2.bitfactory.cn/query/",
   }),
 };
 
@@ -251,7 +251,7 @@ describe("verify", () => {
           "data": {
             "details": [
               {
-                "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
+                "address": "0x18bc0127Ae33389cD96593a1a612774fD14c0737",
                 "minted": false,
                 "reason": {
                   "code": 1,
@@ -282,7 +282,7 @@ describe("verify", () => {
           "data": {
             "details": [
               {
-                "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
+                "address": "0x18bc0127Ae33389cD96593a1a612774fD14c0737",
                 "minted": true,
               },
             ],
@@ -437,7 +437,7 @@ describe("verify", () => {
         {
           "data": {
             "details": {
-              "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
+              "address": "0x18bc0127Ae33389cD96593a1a612774fD14c0737",
               "minted": false,
               "reason": {
                 "code": 1,
@@ -466,7 +466,7 @@ describe("verify", () => {
         {
           "data": {
             "details": {
-              "address": "0x0D5da59B93e8AC9b1781CE5694fbcE626586F4c9",
+              "address": "0x18bc0127Ae33389cD96593a1a612774fD14c0737",
               "minted": true,
             },
             "mintedOnAll": true,

@@ -27,7 +27,7 @@
   "dependencies": {
     "@tradetrust-tt/dnsprove": "^2.18.0",
     "@tradetrust-tt/document-store": "^4.1.1",
-    "@tradetrust-tt/token-registry": "^5.4.0",
+    "@tradetrust-tt/token-registry": "^5.5.0",
     "@tradetrust-tt/tradetrust": "^6.10.1",
     "axios": "^1.7.2",
     "debug": "^4.3.1",

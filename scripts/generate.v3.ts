@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function,camelcase */
 import { sign, SUPPORTED_SIGNING_ALGORITHM } from "@tradetrust-tt/tradetrust";
 import { v3, __unsafe__use__it__at__your__own__risks__wrapDocument as wrapDocument } from "@tradetrust-tt/tradetrust";
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 import { writeFileSync } from "fs";
 import { getLogger } from "../src/common/logger";
 import {
@@ -34,6 +34,20 @@ const ethereumDocumentConfig = {
     key: "0x416f14debf10172f04bef09f9b774480561ee3f05ee1a6f75df3c71ec0c60666",
   },
   timeout: 5 * 60 * 1000, // 5 min timeout for contract to execute
+};
+
+// Helper function to execute tradetrust commands securely
+const runTradetrust = (args: string[], timeoutMs?: number) => {
+  const result = spawnSync("tradetrust", args, {
+    timeout: timeoutMs ?? ethereumDocumentConfig.timeout,
+    stdio: "inherit",
+  });
+  if (result.error) {
+    throw result.error;
+  }
+  if (result.status !== 0) {
+    throw new Error(`Command failed with exit code ${result.status}`);
+  }
 };
 
 interface OutLocations {
@@ -106,8 +120,18 @@ const generateRevocationStore = async ({ logMessage, document, outLocations }: G
   writeFileSync(`${mainPath}/${outLocations.notRevoked}`, JSON.stringify(signedAnother, null, 2));
 
   info("Revoking document...");
-  const cmdRevoke = `tradetrust document-store revoke -h 0x${signed.proof.merkleRoot} -a ${ethereumDocumentConfig.documentStore} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdRevoke, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "document-store",
+    "revoke",
+    "-h",
+    `0x${signed.proof.merkleRoot}`,
+    "-a",
+    ethereumDocumentConfig.documentStore,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
 };
 
 const generateDnsDid = async () => {
@@ -221,17 +245,57 @@ const generateDocumentStore = async () => {
     JSON.stringify(invalidDnsDocumentStoreDocument, null, 2)
   );
   info("Issuing document(1/3)...");
-  const cmdIssue1 = `tradetrust document-store issue -h 0x${issuedBaseDocumentStoreDocument.proof.merkleRoot} -a ${ethereumDocumentConfig.documentStore} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdIssue1, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "document-store",
+    "issue",
+    "-h",
+    `0x${issuedBaseDocumentStoreDocument.proof.merkleRoot}`,
+    "-a",
+    ethereumDocumentConfig.documentStore,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
   info("Issuing document(2/3)...");
-  const cmdIssue2 = `tradetrust document-store issue -h 0x${revokedBaseDocumentStoreDocument.proof.merkleRoot} -a ${ethereumDocumentConfig.documentStore} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdIssue2, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "document-store",
+    "issue",
+    "-h",
+    `0x${revokedBaseDocumentStoreDocument.proof.merkleRoot}`,
+    "-a",
+    ethereumDocumentConfig.documentStore,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
   info("Issuing document(3/3)...");
-  const cmdIssue3 = `tradetrust document-store issue -h 0x${invalidDnsDocumentStoreDocument.proof.merkleRoot} -a ${ethereumDocumentConfig.documentStore} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdIssue3, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "document-store",
+    "issue",
+    "-h",
+    `0x${invalidDnsDocumentStoreDocument.proof.merkleRoot}`,
+    "-a",
+    ethereumDocumentConfig.documentStore,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
   info("Revoking document...");
-  const cmdRevoke = `tradetrust document-store revoke -h 0x${revokedBaseDocumentStoreDocument.proof.merkleRoot} -a ${ethereumDocumentConfig.documentStore} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdRevoke, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "document-store",
+    "revoke",
+    "-h",
+    `0x${revokedBaseDocumentStoreDocument.proof.merkleRoot}`,
+    "-a",
+    ethereumDocumentConfig.documentStore,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
 };
 
 const generateTokenRegistry = async () => {
@@ -261,12 +325,36 @@ const generateTokenRegistry = async () => {
     "./test/fixtures/v3/tokenRegistry-invalid-issued.json",
     JSON.stringify(invalidDnsTokenRegistryDocument, null, 2)
   );
-  const cmdIssue1 = `tradetrust token-registry mint -a ${ethereumDocumentConfig.tokenRegistry} --tokenId 0x${issuedBaseTokenRegistryDocument.proof.merkleRoot} --to ${ethereumDocumentConfig.wallet.address} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
   info("Issuing document(1/2)...");
-  execSync(cmdIssue1, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "token-registry",
+    "mint",
+    "-a",
+    ethereumDocumentConfig.tokenRegistry,
+    "--tokenId",
+    `0x${issuedBaseTokenRegistryDocument.proof.merkleRoot}`,
+    "--to",
+    ethereumDocumentConfig.wallet.address,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
   info("Issuing document(2/2)...");
-  const cmdIssue2 = `tradetrust token-registry mint -a ${ethereumDocumentConfig.tokenRegistry} --tokenId 0x${invalidDnsTokenRegistryDocument.proof.merkleRoot} --to ${ethereumDocumentConfig.wallet.address} -k ${ethereumDocumentConfig.wallet.key} -n ${ethereumDocumentConfig.network}`;
-  execSync(cmdIssue2, { timeout: ethereumDocumentConfig.timeout });
+  runTradetrust([
+    "token-registry",
+    "mint",
+    "-a",
+    ethereumDocumentConfig.tokenRegistry,
+    "--tokenId",
+    `0x${invalidDnsTokenRegistryDocument.proof.merkleRoot}`,
+    "--to",
+    ethereumDocumentConfig.wallet.address,
+    "-k",
+    ethereumDocumentConfig.wallet.key,
+    "-n",
+    ethereumDocumentConfig.network,
+  ]);
 };
 
 const run = async () => {

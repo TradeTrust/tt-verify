@@ -45,6 +45,9 @@ const runTradetrust = (args: string[], timeoutMs?: number) => {
   if (result.error) {
     throw result.error;
   }
+  if (result.signal) {
+    throw new Error(`Command terminated by signal ${result.signal}`);
+  }
   if (result.status !== 0) {
     throw new Error(`Command failed with exit code ${result.status}`);
   }

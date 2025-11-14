@@ -1,3 +1,4 @@
+import { INFURA_API_KEY } from "../config";
 import { AllVerificationFragment } from "..";
 import { InvalidVerificationFragment, ProviderDetails } from "../types/core";
 import {
@@ -281,12 +282,12 @@ describe("generateProvider", () => {
     const options = {
       network: "sepolia",
       providerType: "infura",
-      apiKey: "bb46da3f80e040e8ab73c0a9ff365d18",
+      apiKey: INFURA_API_KEY,
     } as ProviderDetails;
     const provider = generateProvider(options) as any;
 
     expect(provider?._network?.name).toEqual("sepolia");
-    expect(provider?.apiKey).toEqual("bb46da3f80e040e8ab73c0a9ff365d18");
+    expect(provider?.apiKey).toEqual(INFURA_API_KEY);
     expect(provider?.connection?.url).toMatch(/(infura)/i);
   });
 

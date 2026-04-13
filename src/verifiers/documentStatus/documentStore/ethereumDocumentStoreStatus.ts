@@ -201,7 +201,13 @@ const verifyV3 = async (
   const merkleRoot = `0x${merkleRootRaw}`;
   const { value: documentStore } = document.openAttestationMetadata.proof;
 
-  const issuance = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider: options.provider });
+  const issuance = await isIssuedOnDocumentStore({
+    documentStore,
+    merkleRoot,
+    targetHash,
+    proofs,
+    provider: options.provider,
+  });
   const revocation = await isRevokedOnDocumentStore({
     documentStore,
     merkleRoot,

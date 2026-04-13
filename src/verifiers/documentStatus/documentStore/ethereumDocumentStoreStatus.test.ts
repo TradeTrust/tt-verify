@@ -515,7 +515,9 @@ describe("isIssuedOnDocumentStore", () => {
   describe("error handling", () => {
     it("should return an invalid fragment when the contract call throws", async () => {
       mockContract.supportsInterface.mockResolvedValue(false);
-      mockContract.isIssued.mockRejectedValue(Object.assign(new Error(), { code: "CALL_EXCEPTION", method: "isIssued(bytes32)" }));
+      mockContract.isIssued.mockRejectedValue(
+        Object.assign(new Error(), { code: "CALL_EXCEPTION", method: "isIssued(bytes32)" })
+      );
 
       const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 

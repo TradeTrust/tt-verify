@@ -392,7 +392,7 @@ describe("isIssuedOnDocumentStore", () => {
   beforeAll(() => {
     mockContract = {
       supportsInterface: jest.fn(),
-      isIssued: jest.fn(),
+      "isIssued(bytes32)": jest.fn(),
       "isIssued(bytes32,bytes32,bytes32[])": jest.fn(),
     };
     connectSpy = jest.spyOn(DocumentStore__factory, "connect").mockReturnValue(mockContract);

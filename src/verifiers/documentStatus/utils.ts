@@ -28,10 +28,11 @@ export const getIntermediateHashes = (targetHash: Hash, proofs: Hash[] = []) => 
 export const decodeError = (error: any) => {
   const reason = error.reason && Array.isArray(error.reason) ? error.reason[0] : error.reason ?? "";
   switch (true) {
-    case (!error.reason && error.method?.toLowerCase() === "isRevoked(bytes32)".toLowerCase()) ||
-      ((error.method?.toLowerCase() === "isIssued(bytes32)".toLowerCase() ||
+    case !error.reason &&
+      (error.method?.toLowerCase() === "isRevoked(bytes32)".toLowerCase() ||
+        error.method?.toLowerCase() === "isIssued(bytes32)".toLowerCase() ||
         error.method?.toLowerCase() === "isIssued(bytes32,bytes32,bytes32[])".toLowerCase()) &&
-        error.code === errors.CALL_EXCEPTION):
+      error.code === errors.CALL_EXCEPTION:
       return "Contract is not found";
     case reason.toLowerCase() === "ENS name not configured".toLowerCase() &&
       error.code === errors.UNSUPPORTED_OPERATION:

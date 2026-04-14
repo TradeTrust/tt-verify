@@ -1,5 +1,5 @@
 import { v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
-import { DocumentStoreFactory } from "@tradetrust-tt/document-store";
+import { DocumentStore__factory } from "@trustvc/document-store";
 import { documentSepoliaRevokedWithDocumentStore } from "../../../../test/fixtures/v2/documentSepoliaRevokedWithDocumentStore";
 import { documentSepoliaValidWithDocumentStore as v2documentSepoliaValidWithDocumentStore } from "../../../../test/fixtures/v2/documentSepoliaValidWithDocumentStore";
 import { documentMixedIssuance } from "../../../../test/fixtures/v2/documentMixedIssuance";
@@ -395,7 +395,7 @@ describe("isIssuedOnDocumentStore", () => {
       isIssued: jest.fn(),
       "isIssued(bytes32,bytes32,bytes32[])": jest.fn(),
     };
-    connectSpy = jest.spyOn(DocumentStoreFactory, "connect").mockReturnValue(mockContract);
+    connectSpy = jest.spyOn(DocumentStore__factory, "connect").mockReturnValue(mockContract);
   });
 
   afterAll(() => {

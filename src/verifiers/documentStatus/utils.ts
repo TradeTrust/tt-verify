@@ -1,5 +1,5 @@
 import { utils } from "@tradetrust-tt/tradetrust";
-import { DocumentStore, DocumentStoreFactory } from "@tradetrust-tt/document-store";
+import { DocumentStore, DocumentStore__factory } from "@trustvc/document-store";
 import { errors, providers } from "ethers";
 import { Hash } from "../../types/core";
 import {
@@ -60,7 +60,7 @@ export const decodeError = (error: any) => {
  * */
 export const isAnyHashRevoked = async (smartContract: DocumentStore, intermediateHashes: Hash[]) => {
   const revokedStatusDeferred = intermediateHashes.map((hash) =>
-    smartContract.isRevoked(hash).then((status) => (status ? hash : undefined))
+    smartContract["isRevoked(bytes32)"](hash).then((status) => (status ? hash : undefined))
   );
   const revokedStatuses = await Promise.all(revokedStatusDeferred);
   return revokedStatuses.find((hash) => hash);
@@ -80,7 +80,7 @@ export const isRevokedOnDocumentStore = async ({
   proofs?: Hash[];
 }): Promise<RevocationStatus> => {
   try {
-    const documentStoreContract = await DocumentStoreFactory.connect(documentStore, provider);
+    const documentStoreContract = DocumentStore__factory.connect(documentStore, provider);
     const intermediateHashes = getIntermediateHashes(targetHash, proofs);
     const revokedHash = await isAnyHashRevoked(documentStoreContract, intermediateHashes);
 

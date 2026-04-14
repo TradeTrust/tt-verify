@@ -1,6 +1,6 @@
 import { getData, utils, v2, v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
 import { providers } from "ethers";
-import { DocumentStoreFactory } from "@tradetrust-tt/document-store";
+import { DocumentStore__factory } from "@trustvc/document-store";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationEthereumDocumentStoreStatusCode, Reason } from "../../../types/error";
 import { CodedError } from "../../../common/error";
@@ -49,14 +49,14 @@ export const isIssuedOnDocumentStore = async ({
   provider: providers.Provider;
 }): Promise<DocumentStoreIssuanceStatus> => {
   try {
-    const documentStoreContract = await DocumentStoreFactory.connect(documentStore, provider);
+    const documentStoreContract = DocumentStore__factory.connect(documentStore, provider);
     const isBatchable = await isBatchableDocumentStore(documentStoreContract);
 
     let issued: boolean;
     if (isBatchable) {
       issued = await documentStoreContract["isIssued(bytes32,bytes32,bytes32[])"](merkleRoot, targetHash, proofs);
     } else {
-      issued = await documentStoreContract.isIssued(merkleRoot);
+      issued = await documentStoreContract["isIssued(bytes32)"](merkleRoot);
     }
     return issued
       ? {

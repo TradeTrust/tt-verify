@@ -412,17 +412,17 @@ describe("isIssuedOnDocumentStore", () => {
     });
 
     it("should call isIssued(bytes32) with merkleRoot only", async () => {
-      mockContract.isIssued.mockResolvedValue(true);
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
 
       await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 
       expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
-      expect(mockContract.isIssued).toHaveBeenCalledWith(merkleRoot);
+      expect(mockContract["isIssued(bytes32)"]).toHaveBeenCalledWith(merkleRoot);
       expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).not.toHaveBeenCalled();
     });
 
     it("should return a valid status when document is issued", async () => {
-      mockContract.isIssued.mockResolvedValue(true);
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
 
       const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 
@@ -430,7 +430,7 @@ describe("isIssuedOnDocumentStore", () => {
     });
 
     it("should return an invalid status when document is not issued", async () => {
-      mockContract.isIssued.mockResolvedValue(false);
+      mockContract["isIssued(bytes32)"].mockResolvedValue(false);
 
       const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 
@@ -458,7 +458,7 @@ describe("isIssuedOnDocumentStore", () => {
 
       expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
       expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, targetHash, proofs);
-      expect(mockContract.isIssued).not.toHaveBeenCalled();
+      expect(mockContract["isIssued(bytes32)"]).not.toHaveBeenCalled();
     });
 
     it("should return a valid status when document is issued via batch check", async () => {
@@ -503,11 +503,11 @@ describe("isIssuedOnDocumentStore", () => {
   describe("fallback when supportsInterface itself throws (pre-ERC165 contract)", () => {
     it("should fall back to non-batchable isIssued when supportsInterface throws", async () => {
       mockContract.supportsInterface.mockRejectedValue(new Error("Call Exception"));
-      mockContract.isIssued.mockResolvedValue(true);
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
 
       const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 
-      expect(mockContract.isIssued).toHaveBeenCalledWith(merkleRoot);
+      expect(mockContract["isIssued(bytes32)"]).toHaveBeenCalledWith(merkleRoot);
       expect(result).toEqual({ issued: true, address: documentStore });
     });
   });
@@ -515,7 +515,7 @@ describe("isIssuedOnDocumentStore", () => {
   describe("error handling", () => {
     it("should return an invalid fragment when the contract call throws", async () => {
       mockContract.supportsInterface.mockResolvedValue(false);
-      mockContract.isIssued.mockRejectedValue(
+      mockContract["isIssued(bytes32)"].mockRejectedValue(
         Object.assign(new Error(), { code: "CALL_EXCEPTION", method: "isIssued(bytes32)" })
       );
 

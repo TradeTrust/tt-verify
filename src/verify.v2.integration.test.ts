@@ -306,7 +306,8 @@ describe("verify(integration)", () => {
     expect(isValid(results, ["DOCUMENT_INTEGRITY"])).toStrictEqual(false);
   });
 
-  it("should be valid for all checks for a document with obfuscated fields", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should be valid for all checks for a document with obfuscated fields", async () => {
     const fragments = await verifySepolia(documentSepoliaObfuscated as any);
     expect(fragments).toMatchInlineSnapshot(`
       [
@@ -727,7 +728,8 @@ describe("verify(integration)", () => {
     expect(isValid(results, ["DOCUMENT_INTEGRITY", "DOCUMENT_STATUS"])).toStrictEqual(false);
   });
 
-  it("should fail for OpenAttestationEthereumDocumentStoreStatus when document was issued then subsequently revoked", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should fail for OpenAttestationEthereumDocumentStoreStatus when document was issued then subsequently revoked", async () => {
     const results = await verifySepolia(documentSepoliaRevokedWithDocumentStore);
     expect(results).toMatchInlineSnapshot(`
       [
@@ -1008,7 +1010,8 @@ describe("verify(integration)", () => {
     expect(isValid(fragments)).toStrictEqual(true);
   });
 
-  it("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof, but not revoked on a document store", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof, but not revoked on a document store", async () => {
     const fragments = await verifySepolia(v2DnsDidSignedRevocationStoreNotRevoked);
     expect(fragments).toMatchInlineSnapshot(`
       [
@@ -1138,7 +1141,8 @@ describe("verify(integration)", () => {
     `);
   });
 
-  it("should return invalid fragments for DID documents, using DNS-DID identity proof that have been revoked", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should return invalid fragments for DID documents, using DNS-DID identity proof that have been revoked", async () => {
     const fragments = await verifySepolia(v2DnsDidSignedRevocationStoreButRevoked);
     expect(isValid(fragments, ["DOCUMENT_STATUS"])).toStrictEqual(false);
     expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
@@ -1182,7 +1186,8 @@ describe("verify(integration)", () => {
     `);
   });
 
-  it("should return the correct fragments even when process.env is used for out of the box verify for document with document store", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should return the correct fragments even when process.env is used for out of the box verify for document with document store", async () => {
     // simulate loading process.env from .env file
     process.env.PROVIDER_NETWORK = "sepolia";
     process.env.PROVIDER_ENDPOINT_TYPE = "infura";
@@ -1268,7 +1273,8 @@ describe("verify(integration)", () => {
     `);
   });
 
-  it("should return the correct fragments when using process.env variables for did resolver", async () => {
+  // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+  it.skip("should return the correct fragments when using process.env variables for did resolver", async () => {
     // simulate loading process.env from .env file
     process.env.PROVIDER_NETWORK = "sepolia";
     process.env.PROVIDER_ENDPOINT_TYPE = "infura";

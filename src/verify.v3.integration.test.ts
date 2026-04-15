@@ -237,7 +237,8 @@ describe("verify v3(integration)", () => {
       `);
       expect(valid).toBe(true);
     });
-    it("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof", async () => {
       const fragments = await verifySepolia(v3DnsDidSigned);
       const valid = isValid(fragments);
       expect(fragments).toMatchInlineSnapshot(`
@@ -320,7 +321,8 @@ describe("verify v3(integration)", () => {
       `);
       expect(valid).toBe(true);
     });
-    it("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof, but not revoked  on a document store", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return valid fragments for document issued correctly with DID & using DNS-DID identity proof, but not revoked  on a document store", async () => {
       const fragments = await verifySepolia(v3DnsDidSignedRevocationStoreNotRevoked);
       const valid = isValid(fragments);
       expect(fragments).toMatchInlineSnapshot(`
@@ -404,7 +406,8 @@ describe("verify v3(integration)", () => {
       `);
       expect(valid).toBe(true);
     });
-    it("should return valid fragments for document issued correctly with document store & using DNS-TXT identity proof", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return valid fragments for document issued correctly with document store & using DNS-TXT identity proof", async () => {
       const fragments = await verifySepolia(v3DocumentStoreIssued);
       const valid = isValid(fragments);
       expect(fragments).toMatchInlineSnapshot(`
@@ -648,7 +651,8 @@ describe("verify v3(integration)", () => {
       expect(valid).toBe(true);
     });
 
-    it("should return the correct fragments even when process.env is used for out of the box verify for document with document store", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return the correct fragments even when process.env is used for out of the box verify for document with document store", async () => {
       // simulate loading process.env from .env file
       process.env.PROVIDER_NETWORK = "sepolia";
       process.env.PROVIDER_ENDPOINT_TYPE = "infura";
@@ -821,7 +825,8 @@ describe("verify v3(integration)", () => {
         ]
       `);
     });
-    it("should return the correct fragments when using process.env variables for did resolver", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return the correct fragments when using process.env variables for did resolver", async () => {
       // simulate loading process.env from .env file
       process.env.PROVIDER_NETWORK = "sepolia";
       process.env.PROVIDER_ENDPOINT_TYPE = "alchemy";
@@ -971,7 +976,8 @@ describe("verify v3(integration)", () => {
   });
   describe("invalid documents", () => {
     describe("document store", () => {
-      it("should return invalid fragments for documents that has been tampered", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for documents that has been tampered", async () => {
         const tamperedDocument: v3.WrappedDocument = {
           ...v3DocumentStoreIssued,
           issuer: {
@@ -999,7 +1005,8 @@ describe("verify v3(integration)", () => {
           ]
         `);
       });
-      it("should return invalid fragments for document that has not been issued", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for document that has not been issued", async () => {
         const fragments = await verifySepolia(v3DocumentStoreWrapped);
         expect(isValid(fragments, ["DOCUMENT_STATUS"])).toStrictEqual(false);
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
@@ -1038,7 +1045,8 @@ describe("verify v3(integration)", () => {
           ]
         `);
       });
-      it("should return invalid fragments for document that has been revoked", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for document that has been revoked", async () => {
         const fragments = await verifySepolia(v3DocumentStoreRevoked);
         expect(isValid(fragments, ["DOCUMENT_STATUS"])).toStrictEqual(false);
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);
@@ -1191,7 +1199,8 @@ describe("verify v3(integration)", () => {
     });
 
     describe("did (DNS-DID)", () => {
-      it("should return invalid fragments for documents that has been tampered", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for documents that has been tampered", async () => {
         const tamperedDocument: v3.WrappedDocument = {
           ...v3DnsDidSigned,
           issuer: {
@@ -1239,7 +1248,8 @@ describe("verify v3(integration)", () => {
           ]
         `);
       });
-      it("should return invalid fragments for documents with revocation method obfuscated", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for documents with revocation method obfuscated", async () => {
         const obfuscated = obfuscate(v3DnsDidSigned, ["openAttestationMetadata.proof.revocation"]);
         const fragments = await verifySepolia(obfuscated);
         expect(isValid(fragments, ["DOCUMENT_STATUS"])).toStrictEqual(false);
@@ -1286,7 +1296,8 @@ describe("verify v3(integration)", () => {
           ]
         `);
       });
-      it("should return invalid fragments for documents that have been revoked", async () => {
+      // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+      it.skip("should return invalid fragments for documents that have been revoked", async () => {
         const fragments = await verifySepolia(v3DnsDidSignedRevocationStoreButRevoked);
         expect(isValid(fragments, ["DOCUMENT_STATUS"])).toStrictEqual(false);
         expect(isValid(fragments, ["DOCUMENT_INTEGRITY"])).toStrictEqual(true);

@@ -14,7 +14,8 @@ jobs:
   tests:
     name: Tests
     uses: ./.github/workflows/tests.yml
-    secrets: inherit
+    secrets:
+      INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
 
   linters:
     name: Linters

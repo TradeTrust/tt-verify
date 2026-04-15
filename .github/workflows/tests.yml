@@ -1,5 +1,8 @@
 on:
   workflow_call:
+    secrets:
+      INFURA_API_KEY:
+        required: false
 
 env:
   NODE_ENV: ci

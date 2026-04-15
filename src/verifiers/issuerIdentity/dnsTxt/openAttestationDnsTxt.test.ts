@@ -141,7 +141,8 @@ describe("test", () => {
 
 describe("verify", () => {
   describe("v2", () => {
-    it("should return a valid fragment when document has valid identity and uses document store", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return a valid fragment when document has valid identity and uses document store", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(documentSepoliaValidWithDocumentStore, options);
       expect(fragment).toMatchInlineSnapshot(`
         {
@@ -404,7 +405,8 @@ describe("verify", () => {
     });
   });
   describe("v3", () => {
-    it("should return valid fragment for valid document using document store with corresponding DNS-TXT", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return valid fragment for valid document using document store with corresponding DNS-TXT", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(v3DocumentStoreIssued, options);
       expect(fragment).toMatchInlineSnapshot(`
         {

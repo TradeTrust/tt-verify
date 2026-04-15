@@ -1,12 +1,13 @@
 import { getData, utils, v2, v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
 import { providers } from "ethers";
-import { DocumentStoreFactory } from "@tradetrust-tt/document-store";
+import { DocumentStore__factory } from "@trustvc/document-store";
 import { VerificationFragmentType, Verifier, VerifierOptions } from "../../../types/core";
 import { OpenAttestationEthereumDocumentStoreStatusCode, Reason } from "../../../types/error";
 import { CodedError } from "../../../common/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
 import { decodeError, isRevokedOnDocumentStore } from "../utils";
 import { InvalidRevocationStatus, RevocationStatus, ValidRevocationStatusArray } from "../revocation.types";
+import { isBatchableDocumentStore } from "../../../common/utils";
 import {
   DocumentStoreIssuanceStatus,
   InvalidDocumentStoreIssuanceStatus,
@@ -37,15 +38,26 @@ export const getIssuersDocumentStores = (document: WrappedDocument<v2.OpenAttest
 export const isIssuedOnDocumentStore = async ({
   documentStore,
   merkleRoot,
+  targetHash,
+  proofs,
   provider,
 }: {
   documentStore: string;
   merkleRoot: string;
+  targetHash: string;
+  proofs: string[];
   provider: providers.Provider;
 }): Promise<DocumentStoreIssuanceStatus> => {
   try {
-    const documentStoreContract = await DocumentStoreFactory.connect(documentStore, provider);
-    const issued = await documentStoreContract.isIssued(merkleRoot);
+    const documentStoreContract = DocumentStore__factory.connect(documentStore, provider);
+    const isBatchable = await isBatchableDocumentStore(documentStoreContract);
+
+    let issued: boolean;
+    if (isBatchable) {
+      issued = await documentStoreContract["isIssued(bytes32,bytes32,bytes32[])"](merkleRoot, targetHash, proofs);
+    } else {
+      issued = await documentStoreContract["isIssued(bytes32)"](merkleRoot);
+    }
     return issued
       ? {
           issued: true,
@@ -115,7 +127,7 @@ const verifyV2 = async (
   const proofs = document.signature.proof || [];
   const issuanceStatuses = await Promise.all(
     documentStores.map((documentStore) =>
-      isIssuedOnDocumentStore({ documentStore, merkleRoot, provider: options.provider })
+      isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider: options.provider })
     )
   );
   const notIssued = issuanceStatuses.find(InvalidDocumentStoreIssuanceStatus.guard);
@@ -189,7 +201,13 @@ const verifyV3 = async (
   const merkleRoot = `0x${merkleRootRaw}`;
   const { value: documentStore } = document.openAttestationMetadata.proof;
 
-  const issuance = await isIssuedOnDocumentStore({ documentStore, merkleRoot, provider: options.provider });
+  const issuance = await isIssuedOnDocumentStore({
+    documentStore,
+    merkleRoot,
+    targetHash,
+    proofs,
+    provider: options.provider,
+  });
   const revocation = await isRevokedOnDocumentStore({
     documentStore,
     merkleRoot,

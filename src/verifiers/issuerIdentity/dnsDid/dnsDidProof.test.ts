@@ -72,7 +72,8 @@ describe("test", () => {
 
 describe("verify", () => {
   describe("v2", () => {
-    it("should verify a document with dns binding to did", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should verify a document with dns binding to did", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(documentDnsDidSigned, options);
       expect(fragment).toMatchInlineSnapshot(`
         {
@@ -129,7 +130,8 @@ describe("verify", () => {
     });
   });
   describe("v3", () => {
-    it("should return valid fragment for document with dns binding to did", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return valid fragment for document with dns binding to did", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(v3DnsDidSigned, options);
       expect(fragment).toMatchInlineSnapshot(`
         {

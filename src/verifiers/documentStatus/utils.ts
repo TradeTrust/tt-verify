@@ -1,5 +1,5 @@
 import { utils } from "@tradetrust-tt/tradetrust";
-import { DocumentStore, DocumentStoreFactory } from "@tradetrust-tt/document-store";
+import { DocumentStore, DocumentStore__factory } from "@trustvc/document-store";
 import { errors, providers } from "ethers";
 import { Hash } from "../../types/core";
 import {
@@ -7,6 +7,7 @@ import {
   OpenAttestationDidSignedDocumentStatusCode,
 } from "../../types/error";
 import { CodedError } from "../../common/error";
+import { isBatchableDocumentStore } from "../../common/utils";
 import { OcspResponderRevocationReason, RevocationStatus } from "./revocation.types";
 import { ValidOcspResponse, ValidOcspResponseRevoked } from "./didSigned/didSignedDocumentStatus.type";
 
@@ -30,8 +31,10 @@ export const decodeError = (error: any) => {
   switch (true) {
     case !error.reason &&
       (error.method?.toLowerCase() === "isRevoked(bytes32)".toLowerCase() ||
-        error.method?.toLowerCase() === "isIssued(bytes32)".toLowerCase()) &&
+        error.method?.toLowerCase() === "isIssued(bytes32)".toLowerCase() ||
+        error.method?.toLowerCase() === "isIssued(bytes32,bytes32,bytes32[])".toLowerCase()) &&
       error.code === errors.CALL_EXCEPTION:
+    case error.code === "BAD_DATA" && error.value === "0x":
       return "Contract is not found";
     case reason.toLowerCase() === "ENS name not configured".toLowerCase() &&
       error.code === errors.UNSUPPORTED_OPERATION:
@@ -60,10 +63,10 @@ export const decodeError = (error: any) => {
  * */
 export const isAnyHashRevoked = async (smartContract: DocumentStore, intermediateHashes: Hash[]) => {
   const revokedStatusDeferred = intermediateHashes.map((hash) =>
-    smartContract.isRevoked(hash).then((status) => (status ? hash : undefined))
+    smartContract["isRevoked(bytes32)"](hash).then((status) => status)
   );
   const revokedStatuses = await Promise.all(revokedStatusDeferred);
-  return revokedStatuses.find((hash) => hash);
+  return !revokedStatuses.every((status) => !status);
 };
 
 export const isRevokedOnDocumentStore = async ({
@@ -77,14 +80,24 @@ export const isRevokedOnDocumentStore = async ({
   merkleRoot: string;
   provider: providers.Provider;
   targetHash: Hash;
-  proofs?: Hash[];
+  proofs: Hash[];
 }): Promise<RevocationStatus> => {
   try {
-    const documentStoreContract = await DocumentStoreFactory.connect(documentStore, provider);
-    const intermediateHashes = getIntermediateHashes(targetHash, proofs);
-    const revokedHash = await isAnyHashRevoked(documentStoreContract, intermediateHashes);
+    const documentStoreContract = DocumentStore__factory.connect(documentStore, provider);
+    const isBatchable = await isBatchableDocumentStore(documentStoreContract);
+    let revoked: boolean;
+    if (isBatchable) {
+      revoked = (await documentStoreContract["isRevoked(bytes32,bytes32,bytes32[])"](
+        merkleRoot,
+        targetHash,
+        proofs
+      )) as boolean;
+    } else {
+      const intermediateHashes = getIntermediateHashes(targetHash, proofs);
+      revoked = await isAnyHashRevoked(documentStoreContract, intermediateHashes);
+    }
 
-    return revokedHash
+    return revoked
       ? {
           revoked: true,
           address: documentStore,

@@ -1,10 +1,11 @@
 import { v3, WrappedDocument } from "@tradetrust-tt/tradetrust";
+import { DocumentStore__factory } from "@trustvc/document-store";
 import { documentSepoliaRevokedWithDocumentStore } from "../../../../test/fixtures/v2/documentSepoliaRevokedWithDocumentStore";
 import { documentSepoliaValidWithDocumentStore as v2documentSepoliaValidWithDocumentStore } from "../../../../test/fixtures/v2/documentSepoliaValidWithDocumentStore";
 import { documentMixedIssuance } from "../../../../test/fixtures/v2/documentMixedIssuance";
 import { documentNotIssuedWithTokenRegistry } from "../../../../test/fixtures/v2/documentNotIssuedWithTokenRegistry";
 import { getProvider } from "../../../common/utils";
-import { openAttestationEthereumDocumentStoreStatus } from "./ethereumDocumentStoreStatus";
+import { isIssuedOnDocumentStore, openAttestationEthereumDocumentStoreStatus } from "./ethereumDocumentStoreStatus";
 
 // v3 documents
 import v3DidSignedRaw from "../../../../test/fixtures/v3/did-signed.json";
@@ -375,5 +376,160 @@ describe("skip", () => {
         "type": "DOCUMENT_STATUS",
       }
     `);
+  });
+});
+
+describe("isIssuedOnDocumentStore", () => {
+  const provider = getProvider({ network: "sepolia" });
+  const documentStore = "0xe943C95f456DA8e17c6d1a915eCF1a6ef0a182a8";
+  const merkleRoot = "0x105d3543d5f7575081a231e822d9e24284656d5d8894b52478edf8f0b3ab3435";
+  const targetHash = "105d3543d5f7575081a231e822d9e24284656d5d8894b52478edf8f0b3ab3435";
+  const proofs: string[] = [];
+
+  let mockContract: any;
+  let connectSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    mockContract = {
+      supportsInterface: jest.fn(),
+      "isIssued(bytes32)": jest.fn(),
+      "isIssued(bytes32,bytes32,bytes32[])": jest.fn(),
+    };
+    connectSpy = jest.spyOn(DocumentStore__factory, "connect").mockReturnValue(mockContract);
+  });
+
+  afterAll(() => {
+    connectSpy.mockRestore();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe("non-batchable document store (v3 and below)", () => {
+    beforeEach(() => {
+      mockContract.supportsInterface.mockResolvedValue(false);
+    });
+
+    it("should call isIssued(bytes32) with merkleRoot only", async () => {
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
+
+      await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
+      expect(mockContract["isIssued(bytes32)"]).toHaveBeenCalledWith(merkleRoot);
+      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).not.toHaveBeenCalled();
+    });
+
+    it("should return a valid status when document is issued", async () => {
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(result).toEqual({ issued: true, address: documentStore });
+    });
+
+    it("should return an invalid status when document is not issued", async () => {
+      mockContract["isIssued(bytes32)"].mockResolvedValue(false);
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(result).toMatchObject({
+        issued: false,
+        address: documentStore,
+        reason: {
+          code: 1,
+          codeString: "DOCUMENT_NOT_ISSUED",
+          message: `Document ${merkleRoot} has not been issued under contract ${documentStore}`,
+        },
+      });
+    });
+  });
+
+  describe("batchable document store (v4)", () => {
+    beforeEach(() => {
+      mockContract.supportsInterface.mockResolvedValue(true);
+    });
+
+    it("should call isIssued(bytes32,bytes32,bytes32[]) with merkleRoot, targetHash, proofs", async () => {
+      mockContract["isIssued(bytes32,bytes32,bytes32[])"].mockResolvedValue(true);
+
+      await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
+      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, targetHash, proofs);
+      expect(mockContract["isIssued(bytes32)"]).not.toHaveBeenCalled();
+    });
+
+    it("should return a valid status when document is issued via batch check", async () => {
+      mockContract["isIssued(bytes32,bytes32,bytes32[])"].mockResolvedValue(true);
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(result).toEqual({ issued: true, address: documentStore });
+    });
+
+    it("should return an invalid status when document is not issued via batch check", async () => {
+      mockContract["isIssued(bytes32,bytes32,bytes32[])"].mockResolvedValue(false);
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(result).toMatchObject({
+        issued: false,
+        address: documentStore,
+        reason: {
+          code: 1,
+          codeString: "DOCUMENT_NOT_ISSUED",
+        },
+      });
+    });
+
+    it("should pass targetHash and proof list correctly to the batchable overload", async () => {
+      const proofList = ["aabbcc", "ddeeff"];
+      mockContract["isIssued(bytes32,bytes32,bytes32[])"].mockResolvedValue(true);
+
+      await isIssuedOnDocumentStore({
+        documentStore,
+        merkleRoot,
+        targetHash: "112233",
+        proofs: proofList,
+        provider,
+      });
+
+      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, "112233", proofList);
+    });
+  });
+
+  describe("fallback when supportsInterface itself throws (pre-ERC165 contract)", () => {
+    it("should fall back to non-batchable isIssued when supportsInterface throws", async () => {
+      mockContract.supportsInterface.mockRejectedValue(new Error("Call Exception"));
+      mockContract["isIssued(bytes32)"].mockResolvedValue(true);
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(mockContract["isIssued(bytes32)"]).toHaveBeenCalledWith(merkleRoot);
+      expect(result).toEqual({ issued: true, address: documentStore });
+    });
+  });
+
+  describe("error handling", () => {
+    it("should return an invalid fragment when the contract call throws", async () => {
+      mockContract.supportsInterface.mockResolvedValue(false);
+      mockContract["isIssued(bytes32)"].mockRejectedValue(
+        Object.assign(new Error(), { code: "CALL_EXCEPTION", method: "isIssued(bytes32)" })
+      );
+
+      const result = await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
+
+      expect(result).toMatchObject({
+        issued: false,
+        address: documentStore,
+        reason: {
+          code: 1,
+          codeString: "DOCUMENT_NOT_ISSUED",
+          message: "Contract is not found",
+        },
+      });
+    });
   });
 });

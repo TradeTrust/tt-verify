@@ -1,5 +1,8 @@
 on:
   workflow_call:
+    secrets:
+      INFURA_API_KEY:
+        required: false
 
 env:
   NODE_ENV: ci
@@ -20,6 +23,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run test:ci
+        env:
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
 
   test-build:
     name: Test Build

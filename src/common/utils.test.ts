@@ -18,10 +18,12 @@ import {
   getOpenAttestationEthereumTokenRegistryStatusFragment,
   getOpenAttestationHashFragment,
   invalidArgument,
+  isBatchableDocumentStore,
   isDocumentStoreAddressOrTokenRegistryAddressInvalid,
   serverError,
   unhandledError,
 } from "./utils";
+import { DocumentStore } from "@trustvc/document-store";
 
 const fragments: AllVerificationFragment[] = [
   {
@@ -766,5 +768,47 @@ describe("unhandledError", () => {
       },
     };
     expect(unhandledError([verificationFragment])).toStrictEqual(false);
+  });
+});
+
+describe("isBatchableDocumentStore", () => {
+  let mockContract: DocumentStore;
+
+  beforeEach(() => {
+    mockContract = {
+      supportsInterface: jest.fn(),
+    } as unknown as DocumentStore;
+  });
+
+  it("should call supportsInterface with the DocumentStoreBatchable interface id", async () => {
+    (mockContract.supportsInterface as unknown as jest.Mock).mockResolvedValue(true);
+
+    await isBatchableDocumentStore(mockContract);
+
+    expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
+  });
+
+  it("should return true when contract supports the batchable interface", async () => {
+    (mockContract.supportsInterface as unknown as jest.Mock).mockResolvedValue(true);
+
+    const result = await isBatchableDocumentStore(mockContract);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return false when contract does not support the batchable interface", async () => {
+    (mockContract.supportsInterface as unknown as jest.Mock).mockResolvedValue(false);
+
+    const result = await isBatchableDocumentStore(mockContract);
+
+    expect(result).toBe(false);
+  });
+
+  it("should return false when supportsInterface throws (legacy contract without ERC-165)", async () => {
+    (mockContract.supportsInterface as unknown as jest.Mock).mockRejectedValue(new Error("Call Exception"));
+
+    const result = await isBatchableDocumentStore(mockContract);
+
+    expect(result).toBe(false);
   });
 });

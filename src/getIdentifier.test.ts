@@ -124,14 +124,16 @@ describe("getIdentifier", () => {
   });
 
   describe("v3", () => {
-    it("should return a DNS identity proof if issuer fragment is of type OpenAttestationDnsTxtIdentityProof", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return a DNS identity proof if issuer fragment is of type OpenAttestationDnsTxtIdentityProof", async () => {
       const fragment = await openAttestationDnsTxtIdentityProof.verify(v3DocumentStoreIssued, options);
       expect(getIdentifier([verificationFragment1, fragment])).toStrictEqual({
         identifier: "example.openattestation.com",
         type: "DNS",
       });
     });
-    it("should return a DNS-DID identity proof if issuer fragment is of type OpenAttestationDnsDidIdentityProof", async () => {
+    // eslint-disable-next-line jest/no-disabled-tests -- *.openattestation.com DNS-TXT records no longer exist
+    it.skip("should return a DNS-DID identity proof if issuer fragment is of type OpenAttestationDnsDidIdentityProof", async () => {
       const fragment = await openAttestationDnsDidIdentityProof.verify(v3DnsDidSigned, options);
       expect(getIdentifier([verificationFragment1, fragment])).toStrictEqual({
         identifier: "demo-tradetrust.openattestation.com",

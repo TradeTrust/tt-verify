@@ -33,6 +33,7 @@ export const decodeError = (error: any) => {
         error.method?.toLowerCase() === "isIssued(bytes32)".toLowerCase() ||
         error.method?.toLowerCase() === "isIssued(bytes32,bytes32,bytes32[])".toLowerCase()) &&
       error.code === errors.CALL_EXCEPTION:
+    case error.code === "BAD_DATA" && error.value === "0x":
       return "Contract is not found";
     case reason.toLowerCase() === "ENS name not configured".toLowerCase() &&
       error.code === errors.UNSUPPORTED_OPERATION:

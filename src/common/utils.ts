@@ -83,15 +83,14 @@ export const generateProvider = (options?: ProviderDetails): providers.Provider 
     case "infura":
       return apiKey ? new providers.InfuraProvider(network, apiKey) : new providers.InfuraProvider(network);
 
-    case "alchemy":
-      if (apiKey) {
-        return network === "sepolia"
-          ? new providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/${apiKey}`, network)
-          : new providers.AlchemyProvider(network, apiKey);
-      }
-      return network === "sepolia"
-        ? new providers.JsonRpcProvider(`https://eth-sepolia.g.alchemy.com/v2/`, network)
-        : new providers.AlchemyProvider(network);
+    case "alchemy": {
+      // Let ethers' AlchemyProvider resolve the key (uses provided apiKey, or its built-in demo key when none given).
+      // We then construct the URL manually with the live `g.alchemy.com` host, since AlchemyProvider's mainnet URL
+      // still points at the deprecated `eth-mainnet.alchemyapi.io` domain.
+      const urlNetwork = network === "homestead" ? "mainnet" : network;
+      const resolvedKey = (new providers.AlchemyProvider(network, apiKey || undefined) as any).apiKey;
+      return new providers.JsonRpcProvider(`https://eth-${urlNetwork}.g.alchemy.com/v2/${resolvedKey}`, network);
+    }
 
     case "jsonrpc":
       return new providers.JsonRpcProvider(url);

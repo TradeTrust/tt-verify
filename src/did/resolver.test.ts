@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { INFURA_API_KEY } from "../config";
 import { openAttestationDidIdentityProof } from "../verifiers/issuerIdentity/did/didIdentityProof";
 import { verificationBuilder } from "../verifiers/verificationBuilder";
-import { createResolver, EthrResolverConfig, getProviderConfig, resolve } from "./resolver";
+import { createResolver, EthrResolverConfig, getFallbackConfig, getProviderConfig, resolve } from "./resolver";
 
 const didDoc = {
   "@context": [
@@ -146,6 +146,73 @@ describe("getProviderConfig", () => {
   it("should set defaults when no connection url and network is found in provider parameter object", () => {
     expect(getProviderConfig()).toEqual({
       networks: [{ name: "mainnet", rpcUrl: "https://mainnet.infura.io/v3/84842078b09946638c03157f83405213" }],
+    });
+  });
+});
+
+describe("getFallbackConfig", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = {
+      PROVIDER_NETWORK: "",
+      PROVIDER_API_KEY: "",
+      PROVIDER_ENDPOINT_TYPE: "",
+      PROVIDER_ENDPOINT_URL: "",
+      INFURA_API_KEY: "",
+      ALCHEMY_API_KEY: "",
+    };
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.spyOn(console, "warn").mockRestore();
+  });
+
+  it("should fall back to Alchemy when primary defaults to Infura", () => {
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "mainnet", rpcUrl: "https://eth-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }],
+    });
+  });
+
+  it("should fall back to Infura when primary is Alchemy", () => {
+    process.env.PROVIDER_ENDPOINT_TYPE = "alchemy";
+
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "mainnet", rpcUrl: "https://mainnet.infura.io/v3/84842078b09946638c03157f83405213" }],
+    });
+  });
+
+  it("should fall back to Alchemy when primary is jsonrpc", () => {
+    process.env.PROVIDER_ENDPOINT_TYPE = "jsonrpc";
+
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "mainnet", rpcUrl: "https://eth-mainnet.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }],
+    });
+  });
+
+  it("should honor PROVIDER_NETWORK when building Alchemy fallback", () => {
+    process.env.PROVIDER_NETWORK = "goerli";
+
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "goerli", rpcUrl: "https://eth-goerli.g.alchemy.com/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC" }],
+    });
+  });
+
+  it("should use ALCHEMY_API_KEY env var when set", () => {
+    process.env.ALCHEMY_API_KEY = "my-alchemy-key";
+
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "mainnet", rpcUrl: "https://eth-mainnet.g.alchemy.com/v2/my-alchemy-key" }],
+    });
+  });
+
+  it("should use INFURA_API_KEY env var when set and primary is Alchemy", () => {
+    process.env.PROVIDER_ENDPOINT_TYPE = "alchemy";
+    process.env.INFURA_API_KEY = "my-infura-key";
+
+    expect(getFallbackConfig()).toEqual({
+      networks: [{ name: "mainnet", rpcUrl: "https://mainnet.infura.io/v3/my-infura-key" }],
     });
   });
 });

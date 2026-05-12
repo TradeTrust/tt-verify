@@ -4,6 +4,7 @@ import { getResolver as webGetResolver } from "web-did-resolver";
 import NodeCache from "node-cache";
 import { INFURA_API_KEY } from "../config";
 import { generateProvider } from "../common/utils";
+import { providerType } from "../types/core";
 
 export interface EthrResolverConfig {
   networks: Array<{
@@ -13,24 +14,43 @@ export interface EthrResolverConfig {
   }>;
 }
 
-export const getProviderConfig = () => {
-  const provider = generateProvider() as any;
+const buildConfigFromProvider = (provider: any): EthrResolverConfig | undefined => {
   const rpcUrl = provider?.connection?.url || "";
-  const networkName = provider?._network?.name === "homestead" ? "mainnet" : provider?._network?.name || "";
+  const rawName = provider?._network?.name;
+  const networkName = rawName === "homestead" ? "mainnet" : rawName || "";
+  if (!rpcUrl || !networkName) return undefined;
+  return { networks: [{ name: networkName, rpcUrl }] };
+};
 
-  if (!rpcUrl || !networkName) {
-    return { networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/${INFURA_API_KEY}` }] };
-  }
+export const getProviderConfig = (): EthrResolverConfig => {
+  return (
+    buildConfigFromProvider(generateProvider()) ?? {
+      networks: [{ name: "mainnet", rpcUrl: `https://mainnet.infura.io/v3/${INFURA_API_KEY}` }],
+    }
+  );
+};
 
-  return {
-    networks: [{ name: networkName, rpcUrl: rpcUrl }],
-  };
+export const getFallbackConfig = (): EthrResolverConfig => {
+  const primary = (process.env.PROVIDER_ENDPOINT_TYPE as providerType) || "infura";
+  const fallbackType: providerType = primary === "alchemy" ? "infura" : "alchemy";
+  const network = process.env.PROVIDER_NETWORK || "homestead";
+  const apiKey = fallbackType === "infura" ? process.env.INFURA_API_KEY || "" : process.env.ALCHEMY_API_KEY || "";
+
+  const provider = generateProvider({ providerType: fallbackType, network, apiKey });
+  const config = buildConfigFromProvider(provider);
+  if (!config) throw new Error(`Unable to build fallback resolver config for provider type "${fallbackType}"`);
+  return config;
 };
 
 const didResolutionCache = new NodeCache({ stdTTL: 5 * 60 }); // 5 min
 
 const defaultResolver = new Resolver({
   ...(ethrGetResolver(getProviderConfig()) as ResolverRegistry),
+  ...(webGetResolver() as ResolverRegistry),
+});
+
+const fallbackResolver = new Resolver({
+  ...(ethrGetResolver(getFallbackConfig()) as ResolverRegistry),
   ...(webGetResolver() as ResolverRegistry),
 });
 
@@ -45,7 +65,16 @@ export const createResolver = ({ ethrResolverConfig }: { ethrResolverConfig?: Et
 export const resolve = async (didUrl: string, resolver?: Resolver): Promise<DIDDocument | undefined> => {
   const cachedResult = didResolutionCache.get<DIDDocument>(didUrl);
   if (cachedResult) return cachedResult;
-  const didResolutionResult = resolver ? await resolver.resolve(didUrl) : await defaultResolver.resolve(didUrl);
+
+  const primary = resolver ?? defaultResolver;
+  let didResolutionResult;
+  try {
+    didResolutionResult = await primary.resolve(didUrl);
+    if (!didResolutionResult.didDocument) throw new Error("Empty didDocument from primary resolver");
+  } catch {
+    didResolutionResult = await fallbackResolver.resolve(didUrl);
+  }
+
   const did = didResolutionResult.didDocument || undefined;
   didResolutionCache.set(didUrl, did);
   return did;

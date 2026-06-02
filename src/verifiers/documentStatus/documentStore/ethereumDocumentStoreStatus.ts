@@ -7,7 +7,7 @@ import { CodedError } from "../../../common/error";
 import { withCodedErrorHandler } from "../../../common/errorHandler";
 import { decodeError, isRevokedOnDocumentStore } from "../utils";
 import { InvalidRevocationStatus, RevocationStatus, ValidRevocationStatusArray } from "../revocation.types";
-import { isBatchableDocumentStore } from "../../../common/utils";
+import { ensureHexPrefix, isBatchableDocumentStore } from "../../../common/utils";
 import {
   DocumentStoreIssuanceStatus,
   InvalidDocumentStoreIssuanceStatus,
@@ -54,7 +54,11 @@ export const isIssuedOnDocumentStore = async ({
 
     let issued: boolean;
     if (isBatchable) {
-      issued = await documentStoreContract["isIssued(bytes32,bytes32,bytes32[])"](merkleRoot, targetHash, proofs);
+      issued = await documentStoreContract["isIssued(bytes32,bytes32,bytes32[])"](
+        merkleRoot,
+        ensureHexPrefix(targetHash),
+        (proofs || []).map(ensureHexPrefix)
+      );
     } else {
       issued = await documentStoreContract["isIssued(bytes32)"](merkleRoot);
     }

@@ -457,7 +457,13 @@ describe("isIssuedOnDocumentStore", () => {
       await isIssuedOnDocumentStore({ documentStore, merkleRoot, targetHash, proofs, provider });
 
       expect(mockContract.supportsInterface).toHaveBeenCalledWith("0xdcfd0745");
-      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, targetHash, proofs);
+      // targetHash and proofs are 0x-prefixed by the verifier before being sent to the contract,
+      // because @trustvc/document-store's ethers v6 typechain strictly validates bytes32 inputs.
+      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(
+        merkleRoot,
+        `0x${targetHash}`,
+        proofs.map((p) => `0x${p}`)
+      );
       expect(mockContract["isIssued(bytes32)"]).not.toHaveBeenCalled();
     });
 
@@ -496,7 +502,10 @@ describe("isIssuedOnDocumentStore", () => {
         provider,
       });
 
-      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, "112233", proofList);
+      expect(mockContract["isIssued(bytes32,bytes32,bytes32[])"]).toHaveBeenCalledWith(merkleRoot, "0x112233", [
+        "0xaabbcc",
+        "0xddeeff",
+      ]);
     });
   });
 

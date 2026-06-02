@@ -252,3 +252,9 @@ export const isBatchableDocumentStore = async (contract: DocumentStore): Promise
     return false;
   }
 };
+
+// OpenAttestation stores targetHash, merkleRoot, and proofs as unprefixed lowercase hex.
+// The new @trustvc/document-store typechain uses ethers v6, which strictly validates bytes32
+// inputs and rejects unprefixed hex with INVALID_ARGUMENT. Normalize before contract calls.
+export const ensureHexPrefix = (hash: string): string =>
+  typeof hash === "string" && hash.startsWith("0x") ? hash : `0x${hash}`;

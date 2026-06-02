@@ -7,7 +7,7 @@ import {
   OpenAttestationDidSignedDocumentStatusCode,
 } from "../../types/error";
 import { CodedError } from "../../common/error";
-import { isBatchableDocumentStore } from "../../common/utils";
+import { ensureHexPrefix, isBatchableDocumentStore } from "../../common/utils";
 import { OcspResponderRevocationReason, RevocationStatus } from "./revocation.types";
 import { ValidOcspResponse, ValidOcspResponseRevoked } from "./didSigned/didSignedDocumentStatus.type";
 
@@ -89,8 +89,8 @@ export const isRevokedOnDocumentStore = async ({
     if (isBatchable) {
       revoked = (await documentStoreContract["isRevoked(bytes32,bytes32,bytes32[])"](
         merkleRoot,
-        targetHash,
-        proofs
+        ensureHexPrefix(targetHash),
+        (proofs || []).map(ensureHexPrefix)
       )) as boolean;
     } else {
       const intermediateHashes = getIntermediateHashes(targetHash, proofs);

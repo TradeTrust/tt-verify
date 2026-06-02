@@ -257,4 +257,4 @@ export const isBatchableDocumentStore = async (contract: DocumentStore): Promise
 // The new @trustvc/document-store typechain uses ethers v6, which strictly validates bytes32
 // inputs and rejects unprefixed hex with INVALID_ARGUMENT. Normalize before contract calls.
 export const ensureHexPrefix = (hash: string): string =>
-  typeof hash === "string" && hash.startsWith("0x") ? hash : `0x${hash}`;
+  typeof hash === "string" && hash.slice(0, 2).toLowerCase() === "0x" ? `0x${hash.slice(2)}` : `0x${hash}`;

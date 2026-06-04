@@ -30,8 +30,8 @@ if (ethers?.version?.startsWith("6.")) {
     AlchemyProvider: (ethers as any).AlchemyProvider,
   };
 }
-// to handle any case we send network to pol
-const normalizeNetworkName = (network: string): string => (network === "pol" ? "matic" : network);
+// Normalize "pol" (case-insensitive) to "matic" for Polygon network compatibility
+const normalizeNetworkName = (network: string): string => (network.toLowerCase() === "pol" ? "matic" : network);
 
 export const getDefaultProvider = (options: VerificationBuilderOptionsWithNetwork): providers.Provider => {
   const network = normalizeNetworkName(options.network || process.env.PROVIDER_NETWORK || "homestead");

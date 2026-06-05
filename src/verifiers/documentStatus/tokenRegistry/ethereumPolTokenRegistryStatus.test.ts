@@ -35,10 +35,7 @@ describe("Polygon (POL) — network support", () => {
 
   describe("documentPolValidWithToken fixture", () => {
     it("should be recognised as a token registry document", () => {
-      const shouldVerify = openAttestationEthereumTokenRegistryStatus.test(
-        documentPolValidWithToken,
-        options
-      );
+      const shouldVerify = openAttestationEthereumTokenRegistryStatus.test(documentPolValidWithToken, options);
       expect(shouldVerify).toBe(true);
     });
 

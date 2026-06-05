@@ -21,8 +21,7 @@ export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
         tokenRegistry: "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
         identityProof: {
           type: "257c33ed-995b-42d3-bf3f-13719086fd3f:string:DNS-TXT",
-          location:
-            "4c51ebaf-5f21-4ece-b01a-5d08c5ef81ff:string:example.tradetrust.io",
+          location: "4c51ebaf-5f21-4ece-b01a-5d08c5ef81ff:string:example.tradetrust.io",
         },
       },
     ],

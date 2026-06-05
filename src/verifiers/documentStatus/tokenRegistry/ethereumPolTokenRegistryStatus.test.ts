@@ -33,10 +33,12 @@ describe("Polygon (POL) — network support", () => {
   });
 
   describe("verificationBuilder with network: 'pol'", () => {
-    it("should create a verifier without throwing", () => {
-      expect(() =>
-        verificationBuilder(openAttestationVerifiers, { network: "pol" })
-      ).not.toThrow();
+    it("should invoke the verifier and return fragments (exercises provider init for pol)", async () => {
+      const verifier = verificationBuilder(openAttestationVerifiers, { network: "pol" });
+      const fragments = await verifier(documentPolValidWithToken);
+      // Hash check is pure computation — valid regardless of RPC availability.
+      const hashFragment = fragments.find((f) => f.name === "OpenAttestationHash");
+      expect(hashFragment?.status).toBe("VALID");
     });
   });
 

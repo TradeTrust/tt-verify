@@ -14,8 +14,7 @@ interface CustomDocument extends v2.OpenAttestationDocument {
 export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
   version: SchemaId.v2,
   data: {
-    version:
-      "eec1ca24-ed2b-4602-b133-5d0e6cb2096a:string:https://schema.openattestation.com/2.0/schema.json",
+    version: "eec1ca24-ed2b-4602-b133-5d0e6cb2096a:string:https://schema.openattestation.com/2.0/schema.json",
     issuers: [
       {
         name: "84f99ede-66c9-4c9f-a69f-91ddc7bc80fa:string:TrustVC POL Issuer",

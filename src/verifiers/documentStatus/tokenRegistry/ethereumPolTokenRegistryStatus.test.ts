@@ -29,9 +29,7 @@ describe("Polygon (POL) — network support", () => {
 
   describe("verificationBuilder with network: 'pol'", () => {
     it("should create a verifier without throwing", () => {
-      expect(() =>
-        verificationBuilder(openAttestationVerifiers, { network: "pol" })
-      ).not.toThrow();
+      expect(() => verificationBuilder(openAttestationVerifiers, { network: "pol" })).not.toThrow();
     });
   });
 

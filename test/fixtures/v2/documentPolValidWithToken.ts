@@ -18,8 +18,7 @@ export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
     issuers: [
       {
         name: "84f99ede-66c9-4c9f-a69f-91ddc7bc80fa:string:TrustVC POL Issuer",
-        tokenRegistry:
-          "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
+        tokenRegistry: "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
         identityProof: {
           type: "257c33ed-995b-42d3-bf3f-13719086fd3f:string:DNS-TXT",
           location:

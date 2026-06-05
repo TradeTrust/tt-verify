@@ -38,7 +38,6 @@ export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
     type: "SHA3MerkleProof",
     targetHash: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
     proof: [],
-    merkleRoot:
-      "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
+    merkleRoot: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
   },
 };

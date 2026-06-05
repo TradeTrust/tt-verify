@@ -14,17 +14,14 @@ interface CustomDocument extends v2.OpenAttestationDocument {
 export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
   version: SchemaId.v2,
   data: {
-    version:
-      "eec1ca24-ed2b-4602-b133-5d0e6cb2096a:string:https://schema.openattestation.com/2.0/schema.json",
+    version: "eec1ca24-ed2b-4602-b133-5d0e6cb2096a:string:https://schema.openattestation.com/2.0/schema.json",
     issuers: [
       {
         name: "84f99ede-66c9-4c9f-a69f-91ddc7bc80fa:string:TrustVC POL Issuer",
-        tokenRegistry:
-          "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
+        tokenRegistry: "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
         identityProof: {
           type: "257c33ed-995b-42d3-bf3f-13719086fd3f:string:DNS-TXT",
-          location:
-            "4c51ebaf-5f21-4ece-b01a-5d08c5ef81ff:string:example.tradetrust.io",
+          location: "4c51ebaf-5f21-4ece-b01a-5d08c5ef81ff:string:example.tradetrust.io",
         },
       },
     ],
@@ -39,10 +36,8 @@ export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
   },
   signature: {
     type: "SHA3MerkleProof",
-    targetHash:
-      "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
+    targetHash: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
     proof: [],
-    merkleRoot:
-      "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
+    merkleRoot: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
   },
 };

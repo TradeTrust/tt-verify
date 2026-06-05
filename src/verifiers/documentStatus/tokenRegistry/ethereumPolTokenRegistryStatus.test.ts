@@ -4,8 +4,7 @@ import { generateProvider, getDefaultProvider } from "../../../common/utils";
 import { verificationBuilder, openAttestationVerifiers, isValid } from "../../../index";
 
 // Polygon mainnet public RPC — no API key required for read-only calls.
-const POL_RPC_URL =
-  process.env.POL_RPC || "https://polygon-rpc.com";
+const POL_RPC_URL = process.env.POL_RPC || "https://polygon-rpc.com";
 
 const options = {
   provider: generateProvider({

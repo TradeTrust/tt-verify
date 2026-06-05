@@ -40,10 +40,7 @@ describe("Polygon (POL) — network support", () => {
     });
 
     it("should have valid document hash (DOCUMENT_INTEGRITY passes offline)", async () => {
-      const verifyHash = verificationBuilder(
-        openAttestationVerifiers,
-        { provider: options.provider }
-      );
+      const verifyHash = verificationBuilder(openAttestationVerifiers, { provider: options.provider });
       const fragments = await verifyHash(documentPolValidWithToken);
       const hashFragment = fragments.find((f) => f.name === "OpenAttestationHash");
       expect(hashFragment?.status).toBe("VALID");

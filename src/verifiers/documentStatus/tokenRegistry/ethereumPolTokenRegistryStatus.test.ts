@@ -19,9 +19,7 @@ jest.setTimeout(300_000);
 describe("Polygon (POL) — network support", () => {
   describe("generateProvider with network: 'pol'", () => {
     it("should create a provider without throwing", () => {
-      expect(() =>
-        generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL })
-      ).not.toThrow();
+      expect(() => generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL })).not.toThrow();
     });
 
     it("should create an infura provider for 'pol' (normalised to matic internally)", () => {

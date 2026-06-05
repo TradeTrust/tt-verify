@@ -23,9 +23,7 @@ describe("Polygon (POL) — network support", () => {
     });
 
     it("should create an infura provider for 'pol' (normalised to matic internally)", () => {
-      expect(() =>
-        getDefaultProvider({ network: "pol" })
-      ).not.toThrow();
+      expect(() => getDefaultProvider({ network: "pol" })).not.toThrow();
     });
   });
 

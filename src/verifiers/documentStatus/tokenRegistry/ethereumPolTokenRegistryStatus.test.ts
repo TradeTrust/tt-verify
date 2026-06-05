@@ -60,9 +60,7 @@ describe("Polygon (POL) — network support", () => {
       // placeholder tokenRegistry) doesn't implement the ERC721/token-registry interface.
       // Both are expected for this test fixture — what matters is that a fragment was returned
       // (i.e. the RPC connection to Polygon mainnet, chain 137, succeeded).
-      const statusFragment = fragments.find(
-        (f) => f.name === "OpenAttestationEthereumTokenRegistryStatus"
-      );
+      const statusFragment = fragments.find((f) => f.name === "OpenAttestationEthereumTokenRegistryStatus");
       expect(statusFragment).toBeDefined();
     });
   });

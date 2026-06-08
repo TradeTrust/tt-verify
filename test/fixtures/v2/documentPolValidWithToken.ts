@@ -6,38 +6,42 @@ interface CustomDocument extends v2.OpenAttestationDocument {
   };
 }
 
-// Wrapped OA v2 document referencing a token registry on Polygon mainnet (chain ID 137).
-// tokenRegistry: TitleEscrowFactory address on Polygon from @tradetrust-tt/token-registry-v5 constants.
-// identity proof location: example.tradetrust.io (DNS-TXT with netId=137).
-// DOCUMENT_INTEGRITY (hash check) passes offline; DOCUMENT_STATUS requires the token to be
-// minted on-chain at 0xF94f95014304dC45B097439765A4D321bbE165c7 on Polygon mainnet.
+// OA v2 wrapped document — Polygon mainnet (chain ID 137).
+// TOKEN TO MINT:
+//   Token registry : update `tokenRegistry` below with your deployed TradeTrustToken address
+//   Token ID       : 0x5382d7c3c19d4b5730537a234b01b2084fdd71c3196dd0f5df00b23d9756d8d0 (= 0x + merkleRoot)
+//   Call           : tokenRegistry.mint(beneficiary, holder, "0xcd1b76...")  or equivalent
+// Once minted, verify() should return a VALID fragment on Polygon mainnet.
 export const documentPolValidWithToken: WrappedDocument<CustomDocument> = {
   version: SchemaId.v2,
   data: {
-    version: "eec1ca24-ed2b-4602-b133-5d0e6cb2096a:string:https://schema.openattestation.com/2.0/schema.json",
+    $template: {
+      name: "d08b56ed-9f91-44d8-8748-4ef17c10084e:string:GOVTECH_DEMO",
+      type: "17fbeec8-9712-4e3a-bf17-dd74ba348644:string:EMBEDDED_RENDERER",
+      url: "a1061e20-318c-4bde-89d5-1ec42ef1eea9:string:https://demo-renderer.opencerts.io",
+    },
     issuers: [
       {
-        name: "84f99ede-66c9-4c9f-a69f-91ddc7bc80fa:string:TrustVC POL Issuer",
-        tokenRegistry: "3e52e205-1051-4616-9311-1cda1cc1f513:string:0xF94f95014304dC45B097439765A4D321bbE165c7",
+        name: "7c8c3632-df92-492d-84fa-bb59363c9cf0:string:TrustVC POL Issuer",
+        tokenRegistry: "0a0be8f4-c4af-4ec2-8bd8-ef787f72ea0a:string:0x0961d9C2dA9a7105fDFC9DC4ec45951C024F88B0",
         identityProof: {
-          type: "257c33ed-995b-42d3-bf3f-13719086fd3f:string:DNS-TXT",
-          location: "4c51ebaf-5f21-4ece-b01a-5d08c5ef81ff:string:example.tradetrust.io",
+          type: "21a24a77-34fc-4d8a-9cd4-7678304ce11d:string:DNS-TXT",
+          location: "e201feac-f6cc-466c-98ae-3cc35dd03891:string:example.tradetrust.io",
         },
       },
     ],
-    $template: {
-      name: "9ecdbb0d-657d-4ac1-b0e0-e88c66144eab:string:GOVTECH_DEMO",
-      type: "c07f15e2-1e1d-4fb3-816a-91afc0b164bd:string:EMBEDDED_RENDERER",
-      url: "7aa99880-1704-4df8-9282-18473956297d:string:https://demo-renderer.opencerts.io",
-    },
     recipient: {
-      name: "ee691a7d-1d26-4e40-93a6-e19191041ae6:string:TrustVC POL Test",
+      name: "9847a1cf-8151-42d7-b240-607d7a0f2fb7:string:TrustVC POL Test",
+    },
+    network: {
+      chain: "da056415-f675-49d8-942b-6c4c76bf664e:string:POL",
+      chainId: "39922aa7-aaa1-49b8-a77c-d230eae018fb:string:137",
     },
   },
   signature: {
     type: "SHA3MerkleProof",
-    targetHash: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
+    targetHash: "5382d7c3c19d4b5730537a234b01b2084fdd71c3196dd0f5df00b23d9756d8d0",
     proof: [],
-    merkleRoot: "cd1b76426bbbe027f1c0201da96ee910bec9982667123f81b8e559f718f5479b",
+    merkleRoot: "5382d7c3c19d4b5730537a234b01b2084fdd71c3196dd0f5df00b23d9756d8d0",
   },
 };

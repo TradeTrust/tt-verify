@@ -17,12 +17,6 @@ const options = {
   provider: getDefaultProvider({ network: "pol" }),
 };
 
-// ─── Network / provider bootstrap ────────────────────────────────────────────
-
-describe("Polygon (POL) — network support", () => {
-  jest.setTimeout(300_000);
-  describe("generateProvider with network: 'pol'", () => {
-
 // ─── POL-specific provider bootstrap ─────────────────────────────────────────
 
 describe("Polygon (POL) — network support", () => {

@@ -30,7 +30,6 @@ if (ethers?.version?.startsWith("6.")) {
     AlchemyProvider: (ethers as any).AlchemyProvider,
   };
 }
-// Normalize "pol" (case-insensitive) to "matic" for Polygon network compatibility
 
 export const getDefaultProvider = (options: VerificationBuilderOptionsWithNetwork): providers.Provider => {
   const network = options.network || process.env.PROVIDER_NETWORK || "homestead";

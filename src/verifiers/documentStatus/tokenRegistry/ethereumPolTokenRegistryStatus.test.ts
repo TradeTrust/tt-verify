@@ -9,7 +9,7 @@ import { generateProvider } from "../../../common/utils";
 import { verificationBuilder, openAttestationVerifiers, isValid } from "../../../index";
 
 // Polygon mainnet public RPC — no auth required.
-const POL_RPC_URL = process.env.POL_RPC || "https://rpc.ankr.com/polygon";
+const POL_RPC_URL = process.env.POL_RPC || "https://polygon-bor-rpc.publicnode.com";
 
 const options = {
   provider: generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL }),

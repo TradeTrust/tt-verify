@@ -31,10 +31,9 @@ if (ethers?.version?.startsWith("6.")) {
   };
 }
 // Normalize "pol" (case-insensitive) to "matic" for Polygon network compatibility
-const normalizeNetworkName = (network: string): string => (network.toLowerCase() === "pol" ? "matic" : network);
 
 export const getDefaultProvider = (options: VerificationBuilderOptionsWithNetwork): providers.Provider => {
-  const network = normalizeNetworkName(options.network || process.env.PROVIDER_NETWORK || "homestead");
+  const network = options.network || process.env.PROVIDER_NETWORK || "homestead";
   const providerType = (process.env.PROVIDER_ENDPOINT_TYPE as providerType) || "infura";
   const apiKey = process.env.PROVIDER_API_KEY || (providerType === "infura" && INFURA_API_KEY) || "";
   // create infura provider to get connection information
@@ -72,7 +71,7 @@ export const generateProvider = (options?: ProviderDetails): providers.Provider 
     );
   }
 
-  const network = normalizeNetworkName(options?.network || process.env.PROVIDER_NETWORK || "homestead");
+  const network = options?.network || process.env.PROVIDER_NETWORK || "homestead";
   const provider = options?.providerType || process.env.PROVIDER_ENDPOINT_TYPE || "infura";
   const url = options?.url || process.env.PROVIDER_ENDPOINT_URL || "";
   const apiKey =

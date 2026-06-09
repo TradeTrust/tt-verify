@@ -6,3 +6,6 @@ dist/
 .DS_Store
 coverage
 .env
+# yalc configuration for help build and test local environment
+.yalc/
+yalc.lock

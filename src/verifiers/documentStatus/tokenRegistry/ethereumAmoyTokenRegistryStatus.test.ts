@@ -28,9 +28,8 @@ describe("Polygon Amoy — network support", () => {
     it("should invoke the verifier and return fragments for an Amoy document", async () => {
       const verifier = verificationBuilder(openAttestationVerifiers, { provider: options.provider });
       const fragments = await verifier(documentAmoyValidWithToken);
-      // Hash fragment exists (placeholder fixture has zeros so hash is INVALID until real wrap)
       const hashFragment = fragments.find((f) => f.name === "OpenAttestationHash");
-      expect(hashFragment).toBeDefined();
+      expect(hashFragment?.status).toBe("VALID");
     });
 
     it("should return a DOCUMENT_STATUS fragment for the Amoy document", async () => {

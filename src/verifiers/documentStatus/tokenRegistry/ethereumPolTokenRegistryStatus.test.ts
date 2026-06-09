@@ -5,16 +5,14 @@ import { documentPolNotIssuedTokenRegistry } from "../../../../test/fixtures/v2/
 import { documentMixedIssuance } from "../../../../test/fixtures/v2/documentMixedIssuance";
 import { documentNotIssuedWithDocumentStore } from "../../../../test/fixtures/v2/documentNotIssuedWithDocumentStore";
 import { openAttestationEthereumTokenRegistryStatus } from "./ethereumTokenRegistryStatus";
-import { generateProvider, getDefaultProvider } from "../../../common/utils";
+import { generateProvider } from "../../../common/utils";
 import { verificationBuilder, openAttestationVerifiers, isValid } from "../../../index";
 
-// Polygon mainnet public RPC — used only to exercise generateProvider() in bootstrap tests.
+// Polygon mainnet public RPC — no auth required.
 const POL_RPC_URL = process.env.POL_RPC || "https://rpc.ankr.com/polygon";
 
-// getDefaultProvider normalises "pol" → "matic" and returns a StaticJsonRpcProvider backed by Infura,
-// avoiding the eth_chainId auto-detection that JsonRpcProvider performs and which fails on public RPCs.
 const options = {
-  provider: getDefaultProvider({ network: "pol" }),
+  provider: generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL }),
 };
 
 // ─── POL-specific provider bootstrap ─────────────────────────────────────────
@@ -25,14 +23,14 @@ describe("Polygon (POL) — network support", () => {
       expect(() => generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL })).not.toThrow();
     });
 
-    it("should create an infura provider for 'pol' (normalised to matic internally)", () => {
-      expect(() => getDefaultProvider({ network: "pol" })).not.toThrow();
+    it("should create a jsonrpc provider for 'pol' using an explicit RPC URL", () => {
+      expect(() => generateProvider({ network: "pol", providerType: "jsonrpc", url: POL_RPC_URL })).not.toThrow();
     });
   });
 
   describe("verificationBuilder with network: 'pol'", () => {
     it("should invoke the verifier and return fragments (exercises provider init for pol)", async () => {
-      const verifier = verificationBuilder(openAttestationVerifiers, { network: "pol" });
+      const verifier = verificationBuilder(openAttestationVerifiers, { provider: options.provider });
       const fragments = await verifier(documentPolValidWithToken);
       // Hash check is pure computation — valid regardless of RPC availability.
       const hashFragment = fragments.find((f) => f.name === "OpenAttestationHash");

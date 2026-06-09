@@ -1,4 +1,5 @@
-import { SchemaId, v2, WrappedDocument } from "@tradetrust-tt/tradetrust";
+import { v2, WrappedDocument } from "@tradetrust-tt/tradetrust";
+import rawDoc from "./documentAmoyValidWithToken.json";
 
 interface CustomDocument extends v2.OpenAttestationDocument {
   recipient: {
@@ -9,36 +10,5 @@ interface CustomDocument extends v2.OpenAttestationDocument {
 // OA v2 wrapped document — Polygon Amoy testnet (chain ID 80002).
 // Token registry : 0xa5f9a7106a599E4caAFacE6872da097aa802Cc64 (Amoy)
 // Token ID (minted): 0x8d4ddb4f0252c1d61f0b72ad585573317c2d3f9268ebbd6d785699e12ebbb077
-export const documentAmoyValidWithToken: WrappedDocument<CustomDocument> = {
-  version: SchemaId.v2,
-  data: {
-    $template: {
-      name: "c1fe588b-da05-45af-afee-3680a9414b39:string:GOVTECH_DEMO",
-      type: "f2779150-a9f7-48be-a4f4-7685ca9b6f33:string:EMBEDDED_RENDERER",
-      url: "c3b6972d-e54a-43cf-83c4-11d2063207a6:string:https://demo-renderer.opencerts.io",
-    },
-    issuers: [
-      {
-        name: "14003050-4b55-47d2-9cc5-24e17b05275d:string:TrustVC Amoy Issuer",
-        tokenRegistry: "ab2394fd-f6b9-4094-8f3c-37da1515abe7:string:0xa5f9a7106a599E4caAFacE6872da097aa802Cc64",
-        identityProof: {
-          type: "ef0308c9-0a7f-4fae-a38f-7d1f3797712b:string:DNS-TXT",
-          location: "c8155f34-c97a-4745-a576-7e52eee1f5f0:string:example.tradetrust.io",
-        },
-      },
-    ],
-    recipient: {
-      name: "0f987694-19cf-4b29-a5ab-3aa7cde13246:string:TrustVC Amoy Test",
-    },
-    network: {
-      chain: "f999cdb8-445e-4e0e-92b1-5d554bc3c852:string:POL",
-      chainId: "a5a27920-e63b-49a9-b4df-2f2af37a8c24:string:80002",
-    },
-  },
-  signature: {
-    type: "SHA3MerkleProof",
-    targetHash: "8d4ddb4f0252c1d61f0b72ad585573317c2d3f9268ebbd6d785699e12ebbb077",
-    proof: [],
-    merkleRoot: "8d4ddb4f0252c1d61f0b72ad585573317c2d3f9268ebbd6d785699e12ebbb077",
-  },
-};
+// data.version is stored in JSON to prevent the linter from stripping it.
+export const documentAmoyValidWithToken = rawDoc as unknown as WrappedDocument<CustomDocument>;

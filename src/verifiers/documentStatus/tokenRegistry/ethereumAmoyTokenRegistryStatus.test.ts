@@ -9,7 +9,7 @@ import { generateProvider } from "../../../common/utils";
 import { verificationBuilder, openAttestationVerifiers } from "../../../index";
 
 // Polygon Amoy public RPC — no auth required.
-const AMOY_RPC_URL = process.env.AMOY_RPC || "https://rpc-amoy.polygon.technology/";
+const AMOY_RPC_URL = process.env.AMOY_RPC || "https://polygon-amoy.drpc.org";
 
 const options = {
   provider: generateProvider({ network: "amoy", providerType: "jsonrpc", url: AMOY_RPC_URL }),
